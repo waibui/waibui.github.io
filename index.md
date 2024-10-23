@@ -21,7 +21,7 @@ layout: default
 >
 > Music: `Lofi Chill`, `Remix`, `Not Rap`
 >
-> Other: **watch movies, code things i like, like girls**
+> Other: **watch movies, code things i like, like girls.**
 >
 
 ### Programing Languages:
@@ -36,9 +36,8 @@ layout: default
 ### Experience:
 *   2.5 years of experience at Vietnam - Korea University
 *   More experience in [mention the experience or skills]
-
+***
 ### Project
-
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
 | Chess game              | TCP, `Python`                      | [ChessGame](https://github.com/waibui/Chess)                  |
