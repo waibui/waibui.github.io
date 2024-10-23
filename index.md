@@ -36,8 +36,11 @@ layout: default
 ### Experience:
 *   2.5 years of experience at Vietnam - Korea University
 *   More experience in [mention the experience or skills]
+
 ***
+
 ### Project
+
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
 | Chess game              | TCP, `Python`                      | [ChessGame](https://github.com/waibui/Chess)                  |
