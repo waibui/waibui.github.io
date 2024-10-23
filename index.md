@@ -37,12 +37,12 @@ layout: default
 *   More experience in [mention the experience or skills]
 
 ### Project
-| Name         | Description       | Link  |
-|:-------------|:------------------|:------|
-| Chess game   | TCP, `Python` | [ChessGame](https://github.com/waibui/Chess)  |
-| Keylogger | Telegram Bot, `Python`   | [Keylogger](https://github.com/waibui/Keyloger)  |
-| Virus           | `Python`      | [Virus](https://github.com/waibui/virus)   |
-| Browser           | `Python` | [Browser](https://github.com/waibui/Brower)  |
+| Name                    | Description                        | Link                                                          |
+|:------------------------|:-----------------------------------|:--------------------------------------------------------------|
+| Chess game              | TCP, `Python`                      | [ChessGame](https://github.com/waibui/Chess)                  |
+| Keylogger               | Telegram Bot, `Python`             | [Keylogger](https://github.com/waibui/Keyloger)               |
+| Virus                   | `Python`                           | [Virus](https://github.com/waibui/virus)                      |
+| Browser                 | `Python`                           | [Browser](https://github.com/waibui/Brower)                   |
 
 
 ### :
