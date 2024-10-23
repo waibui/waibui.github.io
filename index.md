@@ -21,7 +21,7 @@ layout: default
 >
 > Music: `Lofi Chill`, `Remix`, `Not Rap`
 >
-> Other:...
+> Other: **watch movies, code things i like, like girls**
 >
 
 ### Programing Languages:
