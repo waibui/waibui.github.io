@@ -13,4 +13,4 @@ layout: default
 | Test                    | Test the blog                      | [Test](./test.html)                         |
 
 ## Other
-* Blog: [Blog](./pages/blogs)
+* Blog: [Blog](/pages/blogs)
