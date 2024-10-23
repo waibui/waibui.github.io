@@ -3,16 +3,14 @@ layout: default
 ---
 
 ## Blog
-* * *
 
-###### Detail
+#### Content
+
+* * *
 
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
-| Chess game              | TCP, `Python`                      | [ChessGame](https://github.com/waibui/Chess)                  |
-| Keylogger               | Telegram Bot, `Python`             | [Keylogger](https://github.com/waibui/Keyloger)               |
-| Virus                   | `Python`                           | [Virus](https://github.com/waibui/virus)                      |
-| Browser                 | `Python`                           | [Browser](https://github.com/waibui/Brower)                   |
+| Test                    | Test the blog                      | [ChessGame](./pages/blogs/test.index)                         |
 
 ## Other
 * Blog: [Blog](./pages/blogs)
