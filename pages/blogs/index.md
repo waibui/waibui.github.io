@@ -2,44 +2,10 @@
 layout: default
 ---
 
-## About me
+## Blog
 * * *
-<dl>
-<dt>Name: <dd>BuiVanY</dd> </dt>
 
-<dt>Birthday: <dd>09-09-2004</dd> </dt>
-
-<dt>Birthplace: <dd>VietNam</dd> </dt>
-
-<dt>Occupation: <dd>HackerLor</dd> </dt>
-</dl>
-
-### Favorite:
-> Game: `Arena Of Valor`
->
-> Anime: `One Piece`, `Naruto`
->
-> Music: `Lofi Chill`, `Remix`, `Not Rap`
->
-> Other: **watch movies, code things i like, like girls.**
->
-
-### Programing Languages:
-*   Python
-*   Bash Shell
-
-### Technologies:
-*   MySql
-*   Firebase
-*   Other
-
-### Experience:
-*   2.5 years of experience at Vietnam - Korea University
-*   More experience in [mention the experience or skills]
-
-***
-
-###### Project
+###### Detail
 
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
