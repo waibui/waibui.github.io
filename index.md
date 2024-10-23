@@ -30,6 +30,7 @@ layout: default
 
 ### Technologies:
 *   MySql
+*   Firebase
 *   Other
 
 ### Experience:
@@ -37,6 +38,7 @@ layout: default
 *   More experience in [mention the experience or skills]
 
 ###### Project
+
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
 | Chess game              | TCP, `Python`                      | [ChessGame](https://github.com/waibui/Chess)                  |
