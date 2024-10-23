@@ -2,13 +2,14 @@
 layout: default
 ---
 
-Text can be **bold**, _italic_, ~~strikethrough~~ or `keyword`.
-
-[Link to another page](./pages/blogs/test.html).
-
-There should be whitespace between paragraphs.
-
-There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
+<dl>
+<dt>Name</dt>
+<dd>Bui Van Y</dd>
+<dt>Born</dt>
+<dd>2004</dd>
+<dt>Birthplace</dt>
+<dd>VietNam</dd>
+</dl>
 
 # Header 1
 
