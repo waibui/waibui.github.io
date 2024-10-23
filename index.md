@@ -2,6 +2,8 @@
 layout: default
 ---
 
+## About me:
+* * *
 <dl>
 <dt>Name: <dd>BuiVanY</dd> </dt>
 
@@ -9,6 +11,19 @@ layout: default
 
 <dt>Birthplace: <dd>VietNam</dd> </dt>
 </dl>
+
+#### Favorite:
+> Game: `Arena Of Valor`
+> Anime: `One Piece`, `Naruto`
+> Music: `Lofi Chill`, `Remix`, `Not Rap`
+> Language: `Python`, `Bash Shell` 
+
+### Here is an unordered list:
+
+*   Item foo
+*   Item bar
+*   Item baz
+*   Item zip
 
 # Header 1
 
