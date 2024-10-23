@@ -13,10 +13,10 @@ layout: default
 </dl>
 
 #### Favorite:
-> Game: `Arena Of Valor`
-> Anime: `One Piece`, `Naruto`
-> Music: `Lofi Chill`, `Remix`, `Not Rap`
-> Language: `Python`, `Bash Shell` 
+> Game: `Arena Of Valor`.
+> Anime: `One Piece`, `Naruto`.
+> Music: `Lofi Chill`, `Remix`, `Not Rap`.
+> Language: `Python`, `Bash Shell` .
 
 ### Here is an unordered list:
 
