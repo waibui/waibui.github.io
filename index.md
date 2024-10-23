@@ -3,12 +3,11 @@ layout: default
 ---
 
 <dl>
-<dt>Name</dt>
-<dd>Bui Van Y</dd>
-<dt>Born</dt>
-<dd>2004</dd>
-<dt>Birthplace</dt>
-<dd>VietNam</dd>
+<dt>Name: <dd>BuiVanY</dd> </dt>
+
+<dt>Birthday: <dd>09-09-2004</dd> </dt>
+
+<dt>Birthplace: <dd>VietNam</dd> </dt>
 </dl>
 
 # Header 1
