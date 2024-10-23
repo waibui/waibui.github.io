@@ -10,6 +10,8 @@ layout: default
 <dt>Birthday: <dd>09-09-2004</dd> </dt>
 
 <dt>Birthplace: <dd>VietNam</dd> </dt>
+
+<dt>Occupation: <dd>HackerLor</dd> </dt>
 </dl>
 
 ### Favorite:
@@ -19,9 +21,18 @@ layout: default
 >
 > Music: `Lofi Chill`, `Remix`, `Not Rap`
 >
-> Language: `Python`, `Bash Shell` .
+> Other:...
+>
 
-### Here is an unordered list:
+### Programing Language:
+*   Python
+*   Bash Shell
+
+### Experience:
+*   2.5 years of experience at Vietnam - Korea University
+*
+
+### :
 
 *   Item foo
 *   Item bar
