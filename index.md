@@ -37,24 +37,14 @@ layout: default
 *   2.5 years of experience at Vietnam - Korea University
 *   More experience in [mention the experience or skills]
 
-###### Project
+### Project
 
-| Name       | Description            | Link                                                   |
-|:-----------|:-----------------------|:-------------------------------------------------------|
-| Chess game | TCP, `Python`         | [ChessGame](https://github.com/waibui/Chess)          |
-| Keylogger  | Telegram Bot, `Python`| [Keylogger](https://github.com/waibui/Keyloger)       |
-| Virus      | `Python`              | [Virus](https://github.com/waibui/virus)              |
-| Browser    | `Python`              | [Browser](https://github.com/waibui/Brower)           |
-
-###### Header 6
-
-| head1        | head two          | three |
-|:-------------|:------------------|:------|
-| ok           | good swedish fish | nice  |
-| out of stock | good and plenty   | nice  |
-| ok           | good `oreos`      | hmm   |
-| ok           | good `zoute` drop | yumm  |
-
+| Name                    | Description                        | Link                                                          |
+|:------------------------|:-----------------------------------|:--------------------------------------------------------------|
+| Chess game              | TCP, `Python`                      | [ChessGame](https://github.com/waibui/Chess)                  |
+| Keylogger               | Telegram Bot, `Python`             | [Keylogger](https://github.com/waibui/Keyloger)               |
+| Virus                   | `Python`                           | [Virus](https://github.com/waibui/virus)                      |
+| Browser                 | `Python`                           | [Browser](https://github.com/waibui/Brower)                   |
 
 ### :
 
