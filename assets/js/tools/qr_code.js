@@ -1,5 +1,5 @@
 /* Qr Code */
-const btnGenerateQrCode = document.getElementById('btn-genarate-qr-code')
+const btnGenerateQrCode = document.getElementById('btn-genarate-qr-code');
 const btnCopyQrCode = document.getElementById('btn-copy-qr-code');
 const btnDownloadQrCode = document.getElementById('btn-download-qr-code');
 const inputQrCode = document.getElementById('qr-code-input');
@@ -8,12 +8,16 @@ const qrCodeImg = document.getElementById('qr-code-img');
 btnGenerateQrCode.addEventListener('click', () => {
     const input = inputQrCode.value;
     if (input.trim()) {
-        generalQRCode(input.trim())
+        generalQRCode(input.trim());
     }
 });
 
-btnCopyQrCode.addEventListener('click', () =>{
-    copyQrCodeToClipBoard()
+btnCopyQrCode.addEventListener('click', () => {
+    copyQrCodeToClipBoard();
+});
+
+btnDownloadQrCode.addEventListener('click', () => {
+    downloadQrCode();
 });
 
 /**
@@ -22,8 +26,7 @@ btnCopyQrCode.addEventListener('click', () =>{
  */
 function generalQRCode(text) {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1024x1024&data=${encodeURIComponent(text)}`;
-    const img = document.getElementById('qr-code-img');
-    img.src = qrCodeUrl;
+    qrCodeImg.src = qrCodeUrl;
 }
 
 /**
@@ -31,7 +34,7 @@ function generalQRCode(text) {
  */
 async function copyQrCodeToClipBoard() {
     try {
-        const img = document.getElementById('qr-code-img').src;
+        const img = qrCodeImg.src;
         const response = await fetch(img);
         const blob = await response.blob();
         const clipboardItem = new ClipboardItem({ [blob.type]: blob });
@@ -39,4 +42,17 @@ async function copyQrCodeToClipBoard() {
     } catch (err) {
         console.error(err.name, err.message);
     }
+}
+
+/**
+ * Downloads the QR code as an image.
+ */
+function downloadQrCode() {
+    const img = qrCodeImg.src;
+    const link = document.createElement('a');
+    link.href = img;
+    link.download = 'qr-code.png';  
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 }
