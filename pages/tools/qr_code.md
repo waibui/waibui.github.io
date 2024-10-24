@@ -31,6 +31,8 @@ layout: tool
     <button class="btn" id="btn-copy-text-qr-code">Copy</button>
 </div>
 
+***
+
 ### Camera Scan:
 <div>
     <button class="btn" id="btn-scan-camera">Scan QR Code with Camera</button>
