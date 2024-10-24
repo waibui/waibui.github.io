@@ -23,4 +23,7 @@ layout: tool
   </p>
 </blockquote>
 
+<script src="/assets/js/tools/qr_code.js"></script>
+
+
 

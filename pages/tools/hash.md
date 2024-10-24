@@ -28,4 +28,4 @@ layout: tool
   <p>RIPEMD-160: <span class="limited-text-width copy" id="ripemd160"></span></p>
 </blockquote>
 
-
+<script src="/assets/js/tools/hash.js"></script>
