@@ -17,21 +17,21 @@ btnGenerate.addEventListener('click', () => {
         hashElements.sha256.textContent = CryptoJS.SHA256(hash).toString();
         hashElements.sha512.textContent = CryptoJS.SHA512(hash).toString();
         hashElements.ripemd160.textContent = CryptoJS.RIPEMD160(hash).toString();
-    } else {
-        console.error("Hash error!")
     }
 });
 
-Object.keys(hashElements).forEach(key => {
-    hashElements[key].addEventListener('click', () => {
-        const text = hashElements[key].textContent;
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        document.body.appendChild(textarea);
-        textarea.select();
-        document.execCommand('copy');
-        document.body.removeChild(textarea);
+function copyToClipboard(text) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    alert('Copied: ' + text);
+}
+
+document.querySelectorAll('.limited-text-width').forEach(span => {
+    span.addEventListener('click', () => {
+        copyToClipboard(span.innerText);
     });
-    console.log("ok");
-    
 });
