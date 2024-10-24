@@ -47,7 +47,3 @@ layout: default
 | Keylogger               | Telegram Bot, `Python`             | [Keylogger](https://github.com/waibui/Keyloger)               |
 | Virus                   | `Python`                           | [Virus](https://github.com/waibui/virus)                      |
 | Browser                 | `Python`                           | [Browser](https://github.com/waibui/Brower)                   |
-
-## Other
-* Blog: [Blog](./pages/blogs)
-* My Github: [Github](https://github.com/waibui)

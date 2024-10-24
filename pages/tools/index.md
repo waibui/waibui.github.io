@@ -2,7 +2,7 @@
 layout: default
 ---
 
-## Blog
+## Tool
 
 #### Content
 
