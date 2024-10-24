@@ -87,14 +87,14 @@ function readQrCode(file){
     .then(response => response.json())
     .then(data => {
         if (data && data[0].symbol[0].data) {
-            const text = 'Nội dung mã QR Code: ' + data[0].symbol[0].data;
-            console.log(text);
+            const text = 'Content: ' + data[0].symbol[0].data;
+            dropZone.textContent = text;
         } else {
-            console.error('Khong tim thay');
+            dropZone.textContent = "Please, select the Qr Code!";
         }
     })
     .catch(error => {
-        console.error('Lỗi:', error);
+        console.error(error);
     });
 }
 
@@ -106,6 +106,24 @@ qrCodeFileInput.addEventListener('change', (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
         readQrCode(selectedFile)
+    }
+});
+
+dropZone.addEventListener('dragover', (event) => {
+    event.preventDefault();
+    dropZone.classList.add('drag-over'); 
+});
+
+dropZone.addEventListener('dragleave', () => {
+    dropZone.classList.remove('drag-over'); 
+});
+
+dropZone.addEventListener('drop', (event) => {
+    event.preventDefault(); 
+    dropZone.classList.remove('drag-over'); 
+    const files = event.dataTransfer.files;
+    if (files.length > 0) {
+        readQrCode(files[0]);
     }
 });
 
