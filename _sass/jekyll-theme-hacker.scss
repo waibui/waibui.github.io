@@ -361,3 +361,14 @@ a {
   color: #b5e853 !important;
 }
 
+#qr-code-img {
+  max-width: 1024px;
+  width: 100%;
+}
+
+@media (max-width: 768px) {
+  #qr-code-img {
+    max-width: 80%;
+  }
+}
+
