@@ -17,7 +17,7 @@ layout: tool
 ### Genarated:
 <blockquote>
   <p>
-    <img src="/icon.jpeg" alt="Qr Code">
+    <img style="max-width: 60%" src="/icon.jpeg" alt="Qr Code">
   </p>
 </blockquote>
 
