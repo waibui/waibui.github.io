@@ -1,7 +1,6 @@
 ---
 layout: tool
 ---
-<script src="/assets/js/tool.js"></script>
 
 ## Qr Code
 
