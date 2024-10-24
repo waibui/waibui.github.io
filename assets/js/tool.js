@@ -29,7 +29,7 @@ function copyToClipboard(text) {
     document.body.removeChild(textArea);
 }
 
-document.querySelectorAll('.limited-text-width').forEach(span => {
+document.querySelectorAll('.copy').forEach(span => {
     span.addEventListener('click', () => {
         copyToClipboard(span.innerText);
         span.classList.add('copied'); 
