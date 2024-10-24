@@ -319,7 +319,7 @@ a {
 
 .custom-field.one input {
   background: none;
-  border: 2px solid #ddd;
+  border: 2px solid #b5e853;
   transition: border-color 0.3s ease;
 }
 
@@ -331,7 +331,7 @@ a {
 .custom-field.one input.dirty,
 .custom-field.one input:not(:placeholder-shown),
 .custom-field.one input:focus {
-  border-color: #222;
+  border-color: #b5e853;
   transition-delay: 0.1s
 }
 
@@ -340,7 +340,7 @@ a {
 .custom-field.one input:focus + .placeholder {
   top: 0;
   font-size: 10px;
-  color: #222;
-  background: #fff;
+  color: #FFF;
+  background: transparent;
   width: auto
 }
