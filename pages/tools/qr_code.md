@@ -19,7 +19,8 @@ layout: tool
 <button class="btn" id="btn-copy-qr-code">Copy</button>
 <button class="btn" id="btn-download-qr-code">Download</button>
 
+***
+### Read:
+
+
 <script src="/assets/js/tools/qr_code.js"></script>
-
-
-
