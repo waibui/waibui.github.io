@@ -369,13 +369,14 @@ a {
 #qr-code-img {
   display: flex;
   justify-self: center;
+  padding: 5px;
   width: 300px;
   border: 1px solid #b5e853;
 }
 
 @media (max-width: 768px) {
   #qr-code-img {
-    max-width: 100%;
+    width: 100%;
   }
 }
 
