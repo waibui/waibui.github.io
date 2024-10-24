@@ -387,3 +387,14 @@ a {
   text-align: center;
   cursor: pointer;
 }
+
+#drop-zone {
+  border: 2px dashed #ccc;
+  padding: 20px;
+  text-align: center;
+}
+
+#drop-zone.drag-over {
+  border-color: #000; 
+  background-color: #f0f0f0;
+}
