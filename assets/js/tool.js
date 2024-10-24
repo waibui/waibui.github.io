@@ -27,11 +27,14 @@ function copyToClipboard(text) {
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
-    alert('Copied: ' + text);
 }
 
 document.querySelectorAll('.limited-text-width').forEach(span => {
     span.addEventListener('click', () => {
         copyToClipboard(span.innerText);
+        span.classList.add('copied'); 
+        setTimeout(() => {
+            span.classList.remove('copied'); 
+        }, 2000);
     });
 });
