@@ -10,4 +10,4 @@ layout: tool
 
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
-| Qr Code                 | Genarate Qr Code                   | [Qr Code](./test.html)                                        |
+| Qr Code                 | Genarate Qr Code                   | [Qr Code](./qr_code.html)                                        |
