@@ -13,6 +13,15 @@ btnGenerateQrCode.addEventListener('click', () => {
     }
 });
 
+inputQrCode.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        const input = inputQrCode.value;
+        if (input.trim()) {
+            generalQRCode(input.trim());
+        }
+    }
+});
+
 btnCopyQrCode.addEventListener('click', () => {
     copyQrCodeToClipBoard();
 });
@@ -79,8 +88,7 @@ function readQrCode(file){
     .then(data => {
         if (data && data[0].symbol[0].data) {
             const text = 'Nội dung mã QR Code: ' + data[0].symbol[0].data;
-            console.log('tim thay');
-            
+            console.log(text);
         } else {
             console.error('Khong tim thay');
         }
@@ -99,5 +107,4 @@ qrCodeFileInput.addEventListener('change', (event) => {
     if (selectedFile) {
         readQrCode(selectedFile)
     }
-    console.log('Change');
 });
