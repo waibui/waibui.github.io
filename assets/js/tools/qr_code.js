@@ -78,38 +78,26 @@ const qrCodeFileInput = document.getElementById('qr-code-file-input');
 const btnCopyTextQrCode = document.getElementById('btn-copy-text-qr-code');
 let innerTextDrop = "";
 
-function readQrCode(file) {
-    const reader = new FileReader();
-    
-    reader.onload = function(event) {
-        const img = new Image();
-        img.src = event.target.result;
-
-        img.onload = function() {
-            // Tạo canvas để vẽ hình ảnh
-            const canvas = document.createElement('canvas');
-            const context = canvas.getContext('2d');
-
-            // Đặt kích thước canvas bằng kích thước hình ảnh
-            canvas.width = img.width;
-            canvas.height = img.height;
-            context.drawImage(img, 0, 0);
-
-            // Lấy dữ liệu pixel từ canvas
-            const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, canvas.width, canvas.height); // Đọc mã QR
-
-            if (code) {
-                innerTextDrop = code.data; // Lưu dữ liệu
-                const text = 'Content: ' + innerTextDrop;
-                dropZone.textContent = text; // Hiển thị dữ liệu
-            } else {
-                dropZone.textContent = "No QR code found!";
-            }
-        };
-    };
-
-    reader.readAsDataURL(file); // Đọc tệp hình ảnh
+function readQrCode(file){
+    const formData = new FormData()
+    formData.append('file', file)
+    fetch('https://api.qrserver.com/v1/read-qr-code/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data[0].symbol[0].data) {
+            innerTextDrop = data[0].symbol[0].data;
+            const text = 'Content: ' + innerTextDrop;
+            dropZone.textContent = text;
+        } else {
+            dropZone.textContent = "Please, select the Qr Code!";
+        }
+    })
+    .catch(error => {
+        console.error(error);
+    });
 }
 
 dropZone.addEventListener('click', () => {
@@ -119,7 +107,7 @@ dropZone.addEventListener('click', () => {
 qrCodeFileInput.addEventListener('change', (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-        readQrCode(selectedFile);
+        readQrCode(selectedFile)
     }
 });
 
@@ -141,11 +129,10 @@ dropZone.addEventListener('drop', (event) => {
     }
 });
 
-// Thêm sự kiện dán vào drop zone
 dropZone.addEventListener('paste', (event) => {
-    const items = event.clipboardData.items;
+    const items = event.clipboardData.items; 
     for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file') {
+        if (items[i].kind === 'file') { 
             const file = items[i].getAsFile();
             if (file) {
                 readQrCode(file);
