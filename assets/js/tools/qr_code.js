@@ -48,11 +48,16 @@ async function copyQrCodeToClipBoard() {
  * Downloads the QR code as an image.
  */
 function downloadQrCode() {
-    const img = qrCodeImg.src;
-    const link = document.createElement('a');
-    link.href = img;
-    link.download = 'qr-code.png';  
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    const qrImg = document.getElementById('qr-code-img');
+    const imgSrc = qrImg.src;
+
+    fetch(imgSrc)
+        .then(response => response.blob())
+        .then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'qr-code.png';
+        link.click();
+    })
+    .catch(err => console.error('Lỗi khi tải ảnh QR:', err));
 }
