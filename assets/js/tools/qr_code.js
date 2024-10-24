@@ -1,5 +1,5 @@
 /* Qr Code */
-// Generate
+// Genarate
 const btnGenerateQrCode = document.getElementById('btn-genarate-qr-code');
 const btnCopyQrCode = document.getElementById('btn-copy-qr-code');
 const btnDownloadQrCode = document.getElementById('btn-download-qr-code');
@@ -9,7 +9,7 @@ const qrCodeImg = document.getElementById('qr-code-img');
 btnGenerateQrCode.addEventListener('click', () => {
     const input = inputQrCode.value;
     if (input.trim()) {
-        generateQRCode(input.trim());
+        generalQRCode(input.trim());
     }
 });
 
@@ -17,7 +17,7 @@ inputQrCode.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         const input = inputQrCode.value;
         if (input.trim()) {
-            generateQRCode(input.trim());
+            generalQRCode(input.trim());
         }
     }
 });
@@ -30,42 +30,13 @@ btnDownloadQrCode.addEventListener('click', () => {
     downloadQrCode();
 });
 
-function generateQRCode(text) {
-    qrCodeImg.innerHTML = ''; 
-    new QRCode(qrCodeImg, {
-        text: text,
-        width: 1024,
-        height: 1024,
-    });
-}
-
-async function copyQrCodeToClipBoard() {
-    try {
-        const canvas = document.querySelector('#qr-code-img canvas');
-        if (!canvas) {
-            throw new Error('No QR code generated');
-        }
-        canvas.toBlob(async (blob) => {
-            const clipboardItem = new ClipboardItem({ [blob.type]: blob });
-            await navigator.clipboard.write([clipboardItem]);
-        });
-    } catch (err) {
-        console.error(err.name, err.message);
-    }
-}
-
-function downloadQrCode() {
-    const canvas = document.querySelector('#qr-code-img canvas');
-    if (canvas) {
-        canvas.toBlob(blob => {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'qr-code.png';
-            link.click();
-        });
-    } else {
-        console.error('No QR code to download');
-    }
+/**
+ * Generates a QR code.
+ * @param {string} text - The text to encode into the QR code.
+ */
+function generalQRCode(text) {
+    const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1024x1024&data=${encodeURIComponent(text)}`;
+    qrCodeImg.src = qrCodeUrl;
 }
 
 /**
@@ -73,14 +44,11 @@ function downloadQrCode() {
  */
 async function copyQrCodeToClipBoard() {
     try {
-        const canvas = document.querySelector('#qr-code-img canvas');
-        if (!canvas) {
-            throw new Error('No QR code generated');
-        }
-        canvas.toBlob(async (blob) => {
-            const clipboardItem = new ClipboardItem({ [blob.type]: blob });
-            await navigator.clipboard.write([clipboardItem]);
-        });
+        const img = qrCodeImg.src;
+        const response = await fetch(img);
+        const blob = await response.blob();
+        const clipboardItem = new ClipboardItem({ [blob.type]: blob });
+        await navigator.clipboard.write([clipboardItem]);
     } catch (err) {
         console.error(err.name, err.message);
     }
@@ -90,17 +58,18 @@ async function copyQrCodeToClipBoard() {
  * Downloads the QR code as an image.
  */
 function downloadQrCode() {
-    const canvas = document.querySelector('#qr-code-img canvas');
-    if (canvas) {
-        canvas.toBlob(blob => {
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'qr-code.png';
-            link.click();
-        });
-    } else {
-        console.error('No QR code to download');
-    }
+    const qrImg = document.getElementById('qr-code-img');
+    const imgSrc = qrImg.src;
+
+    fetch(imgSrc)
+        .then(response => response.blob())
+        .then(blob => {
+        const link = document.createElement('a');
+        link.href = URL.createObjectURL(blob);
+        link.download = 'qr-code.png';
+        link.click();
+    })
+    .catch(err => console.error('Lỗi khi tải ảnh QR:', err));
 }
 
 // Read
@@ -117,27 +86,30 @@ function readQrCode(file) {
         img.src = event.target.result;
 
         img.onload = function() {
+            // Tạo canvas để vẽ hình ảnh
             const canvas = document.createElement('canvas');
             const context = canvas.getContext('2d');
 
+            // Đặt kích thước canvas bằng kích thước hình ảnh
             canvas.width = img.width;
             canvas.height = img.height;
             context.drawImage(img, 0, 0);
 
+            // Lấy dữ liệu pixel từ canvas
             const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-            const code = jsQR(imageData.data, canvas.width, canvas.height); 
+            const code = jsQR(imageData.data, canvas.width, canvas.height); // Đọc mã QR
 
             if (code) {
-                innerTextDrop = code.data; 
+                innerTextDrop = code.data; // Lưu dữ liệu
                 const text = 'Content: ' + innerTextDrop;
-                dropZone.textContent = text; 
+                dropZone.textContent = text; // Hiển thị dữ liệu
             } else {
                 dropZone.textContent = "No QR code found!";
             }
         };
     };
 
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); // Đọc tệp hình ảnh
 }
 
 dropZone.addEventListener('click', () => {
@@ -169,6 +141,7 @@ dropZone.addEventListener('drop', (event) => {
     }
 });
 
+// Thêm sự kiện dán vào drop zone
 dropZone.addEventListener('paste', (event) => {
     const items = event.clipboardData.items;
     for (let i = 0; i < items.length; i++) {
