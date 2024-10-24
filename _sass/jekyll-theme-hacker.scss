@@ -367,7 +367,10 @@ a {
 }
 
 #qr-code-img {
+  display: flex;
+  justify-self: center;
   width: 300px;
+  border: 1px solid #b5e853;
 }
 
 @media (max-width: 768px) {
