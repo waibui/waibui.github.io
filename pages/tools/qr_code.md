@@ -17,7 +17,10 @@ layout: tool
 ### Genarated:
 <blockquote>
   <p>
-    <img style="max-width: 60%" src="/icon.jpeg" alt="Qr Code">
+    <img src="/icon.jpeg" alt="Qr Code">
+  </p>
+  <p>
+    <button class="btn" id="btn-copy" style="float: right; margin: 5px;">Copy</button>
   </p>
 </blockquote>
 
