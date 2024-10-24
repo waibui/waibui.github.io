@@ -30,17 +30,42 @@ btnDownloadQrCode.addEventListener('click', () => {
     downloadQrCode();
 });
 
-/**
- * Generates a QR code.
- * @param {string} text - The text to encode into the QR code.
- */
 function generateQRCode(text) {
-    $('#qr-code-img').empty();
-    $('#qr-code-img').qrcode({
+    qrCodeImg.innerHTML = ''; 
+    const qrcode = new QRCode(qrCodeImg, {
         text: text,
         width: 1024,
-        height: 1024
+        height: 1024,
     });
+}
+
+async function copyQrCodeToClipBoard() {
+    try {
+        const canvas = document.querySelector('#qr-code-img canvas');
+        if (!canvas) {
+            throw new Error('No QR code generated');
+        }
+        canvas.toBlob(async (blob) => {
+            const clipboardItem = new ClipboardItem({ [blob.type]: blob });
+            await navigator.clipboard.write([clipboardItem]);
+        });
+    } catch (err) {
+        console.error(err.name, err.message);
+    }
+}
+
+function downloadQrCode() {
+    const canvas = document.querySelector('#qr-code-img canvas');
+    if (canvas) {
+        canvas.toBlob(blob => {
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = 'qr-code.png';
+            link.click();
+        });
+    } else {
+        console.error('No QR code to download');
+    }
 }
 
 /**
