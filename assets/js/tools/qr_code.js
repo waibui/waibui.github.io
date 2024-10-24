@@ -68,10 +68,33 @@ const dropZone = document.getElementById('drop-zone');
 const qrCodeFileInput = document.getElementById('qr-code-file-input');
 const btnCopyTextQrCode = document.getElementById('btn-copy-text-qr-code');
 
+function readQrCode(file){
+    const formData = new FormData()
+    formData.append('file', file)
+    fetch('https://api.qrserver.com/v1/read-qr-code/', {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data && data[0].symbol[0].data) {
+            const text = 'Nội dung mã QR Code: ' + data[0].symbol[0].data;
+            console.log('tim thay');
+            
+        } else {
+            console.error('Khong tim thay');
+        }
+    })
+}
+
 dropZone.addEventListener('click', () => {
     qrCodeFileInput.click();
 });
 
-qrCodeFileInput.addEventListener('change', () => {
+qrCodeFileInput.addEventListener('change', (event) => {
+    const selectedFile = event.target.files[0];
+    if (selectedFile) {
+        readQrCode(selectedFile)
+    }
     console.log('Change');
 });
