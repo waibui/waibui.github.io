@@ -16,14 +16,15 @@ layout: tool
 
 ### Genarated:
 <blockquote>
-  <p>MD5: <span id="md5">MD5</span> <span id="copy-md5">COPY</span></p>
+  <p>MD5: <span id="md5"></span> <span style="float: right;" id="copy-md5">COPY</span></p>
 
-  <p>SHA-1: <div><span id="sha1">SHA-1</span> <span id="copy-sha1">COPY</span></div></p>
+  <p>SHA-1: <span id="sha1"></span> <span id="copy-sha1">COPY</span></p>
 
-  <p>SHA-256: <div><span id="sha256">SHA-256</span> <span id="copy-sha256">COPY</span></div></p>
+  <p>SHA-256: <span id="sha256"></span> <span id="copy-sha256">COPY</span></p>
 
-  <p>SHA-512: <div><span id="sha512">SHA-512</span> <span id="copy-sha512">COPY</span></div></p>
+  <p>SHA-512: <span id="sha512"></span> <span id="copy-sha512">COPY</span></p>
 
-  <p>RIPEMD-160: <div><span id="ripemd160">RIPEMD-160</span> <span id="copy-ripemd160">COPY</span></div></p>
+  <p>RIPEMD-160: <span id="ripemd160"></span> <span id="copy-ripemd160">COPY</span></p>
 </blockquote>
+
 
