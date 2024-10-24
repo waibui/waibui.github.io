@@ -48,4 +48,4 @@ layout: default
 | Virus                   | `Python`                           | [Virus](https://github.com/waibui/virus)                      |
 | Browser                 | `Python`                           | [Browser](https://github.com/waibui/Brower)                   |
 
-<button type="button" class=".btn">Click Me!</button>
+<button type="button" class="btn">Click Me!</button>
