@@ -15,9 +15,9 @@ layout: tool
 ***
 
 ### Genarated:
-<img id="qr-code-img" style="display: block; max-width: 80%" src="/icon.jpeg" alt="Qr Code">
-<button class="btn" id="btn-copy-qr-code" style="display: inline-block; margin: 5px;">Copy</button>
-<button class="btn" id="btn-download-qr-code" style="display: inline-block; margin: 5px;">Download</button>
+<img id="qr-code-img" style="display: block;" src="/icon.jpeg" alt="Qr Code">
+<button class="btn" id="btn-copy-qr-code">Copy</button>
+<button class="btn" id="btn-download-qr-code">Download</button>
 
 <script src="/assets/js/tools/qr_code.js"></script>
 

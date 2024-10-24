@@ -361,9 +361,13 @@ a {
   color: #b5e853 !important;
 }
 
+#btn-copy-qr-code, #btn-download-qr-code {
+  margin: 5px;
+  float: right;
+}
+
 #qr-code-img {
-  max-width: 1024px;
-  width: 100%;
+  width: 1024px;
 }
 
 @media (max-width: 768px) {
