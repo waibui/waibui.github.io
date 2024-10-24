@@ -9,7 +9,7 @@ const hashElements = {
     ripemd160: document.getElementById('ripemd160')
 };
 
-btnGenerate.addEventListener('click', () => {
+function hash(){
     const hash = hashInput.value.trim();
     if (hash) {
         hashElements.md5.textContent = CryptoJS.MD5(hash).toString();
@@ -17,6 +17,16 @@ btnGenerate.addEventListener('click', () => {
         hashElements.sha256.textContent = CryptoJS.SHA256(hash).toString();
         hashElements.sha512.textContent = CryptoJS.SHA512(hash).toString();
         hashElements.ripemd160.textContent = CryptoJS.RIPEMD160(hash).toString();
+    }
+}
+
+btnGenerate.addEventListener('click', () => {
+    hash()
+});
+
+hashInput.addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') { 
+        hash()
     }
 });
 
