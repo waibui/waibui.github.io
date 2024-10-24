@@ -345,3 +345,10 @@ a {
   background: $body-background url("../images/bkg.png") 0 0;
   width: auto
 }
+
+.limited-text-width {
+  display: inline-block;
+  max-width: 97%;
+  overflow-wrap: break-word; 
+  white-space: normal; 
+}
