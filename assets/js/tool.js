@@ -1,5 +1,6 @@
+/* Hash */
 const hashInput = document.getElementById('hash-input');
-const btnGenerate = document.getElementById('btn-generate');
+const btnGenerate = document.getElementById('btn-hash');
 
 const hashElements = {
     md5: document.getElementById('md5'),
@@ -48,3 +49,5 @@ document.querySelectorAll('.copy').forEach(span => {
         }, 2000);
     });
 });
+
+/* Qr Code */
