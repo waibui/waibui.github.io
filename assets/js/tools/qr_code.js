@@ -32,7 +32,7 @@ btnDownloadQrCode.addEventListener('click', () => {
 
 function generateQRCode(text) {
     qrCodeImg.innerHTML = ''; 
-    const qrcode = new QRCode(qrCodeImg, {
+    new QRCode(qrCodeImg, {
         text: text,
         width: 1024,
         height: 1024,
