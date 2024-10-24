@@ -85,6 +85,9 @@ function readQrCode(file){
             console.error('Khong tim thay');
         }
     })
+    .catch(error => {
+        console.error('Lỗi:', error);
+    });
 }
 
 dropZone.addEventListener('click', () => {
