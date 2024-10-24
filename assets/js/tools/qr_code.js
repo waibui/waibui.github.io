@@ -76,6 +76,7 @@ function downloadQrCode() {
 const dropZone = document.getElementById('drop-zone');
 const qrCodeFileInput = document.getElementById('qr-code-file-input');
 const btnCopyTextQrCode = document.getElementById('btn-copy-text-qr-code');
+const innerTextDrop = "";
 
 function readQrCode(file){
     const formData = new FormData()
@@ -87,7 +88,8 @@ function readQrCode(file){
     .then(response => response.json())
     .then(data => {
         if (data && data[0].symbol[0].data) {
-            const text = 'Content: ' + data[0].symbol[0].data;
+            innerTextDrop = data[0].symbol[0].data;
+            const text = 'Content: ' + innerTextDrop;
             dropZone.textContent = text;
         } else {
             dropZone.textContent = "Please, select the Qr Code!";
@@ -129,7 +131,7 @@ dropZone.addEventListener('drop', (event) => {
 
 btnCopyTextQrCode.addEventListener('click', () => {
     const textArea = document.createElement('textarea');
-    textArea.value = dropZone.innerText;
+    textArea.value = innerTextDrop;
     document.body.appendChild(textArea);
     textArea.select();
     document.execCommand('copy');
