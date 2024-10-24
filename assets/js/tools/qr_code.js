@@ -1,4 +1,5 @@
 /* Qr Code */
+// Genarate
 const btnGenerateQrCode = document.getElementById('btn-genarate-qr-code');
 const btnCopyQrCode = document.getElementById('btn-copy-qr-code');
 const btnDownloadQrCode = document.getElementById('btn-download-qr-code');
@@ -61,3 +62,16 @@ function downloadQrCode() {
     })
     .catch(err => console.error('Lỗi khi tải ảnh QR:', err));
 }
+
+// Read
+const dropZone = document.getElementById('drop-zone');
+const qrCodeFileInput = document.getElementById('qr-code-file-input');
+const btnCopyTextQrCode = document.getElementById('btn-copy-text-qr-code');
+
+dropZone.addEventListener('click', () => {
+    qrCodeFileInput.click();
+});
+
+qrCodeFileInput.addEventListener('change', () => {
+    console.log('Change');
+});
