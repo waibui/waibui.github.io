@@ -15,11 +15,9 @@ layout: tool
 ***
 
 ### Genarated:
-<div>
-    <img id="qr-code-img" src="/icon.png" alt="Qr Code">
-    <button class="btn" id="btn-copy-qr-code">Copy</button>
-    <button class="btn" id="btn-download-qr-code">Download</button>
-</div>
+<img id="qr-code-img" src="/icon.png" alt="Qr Code">
+<button class="btn" id="btn-copy-qr-code">Copy</button>
+<button class="btn" id="btn-download-qr-code">Download</button>
 
 ***
 ### Read:
