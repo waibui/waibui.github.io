@@ -34,8 +34,9 @@ layout: tool
 ### Camera Scan:
 <div>
     <button class="btn" id="btn-scan-camera">Scan QR Code with Camera</button>
-    <video id="video" style="display:none;" width="300" height="200"></video>
-    <div id="camera-drop-zone">Camera Scan Result: <span id="camera-scan-result"></span></div>
+    <div id="qr-reader" style="width: 300px;"></div>
+    <div id="qr-reader-results">Camera Scan Result: <span id="camera-scan-result"></span></div>
 </div>
 
+<script src="https://unpkg.com/html5-qrcode/minified/html5-qrcode.min.js"></script>
 <script src="/assets/js/tools/qr_code.js"></script>

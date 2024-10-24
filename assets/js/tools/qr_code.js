@@ -100,72 +100,33 @@ qrCodeFileInput.addEventListener('change', (event) => {
     }
 });
 
-// Camera QR Code Scanner
+// Camera QR Code Scanner using HTML5-QRCode
 const btnScanCamera = document.getElementById('btn-scan-camera');
-const video = document.getElementById('video');
 const cameraDropZone = document.getElementById('camera-scan-result');
-let scanning = false;
+const qrReaderDiv = document.getElementById('qr-reader');
 
-btnScanCamera.addEventListener('click', async () => {
-    if (scanning) {
-        stopCamera();
-    } else {
-        await startCamera();
-    }
+btnScanCamera.addEventListener('click', () => {
+    startCameraScanner();
 });
 
-async function startCamera() {
-    try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        video.srcObject = stream;
-        video.setAttribute("playsinline", true);
-        video.style.display = 'block';
-        video.play();
-        scanning = true;
-        scanQRCodeFromCamera();
-    } catch (err) {
-        console.error("Error accessing camera: ", err);
-    }
-}
+function startCameraScanner() {
+    const html5QrCode = new Html5Qrcode("qr-reader");
 
-function stopCamera() {
-    const stream = video.srcObject;
-    if (stream) {
-        const tracks = stream.getTracks();
-        tracks.forEach(track => track.stop());
-    }
-    video.srcObject = null;
-    video.style.display = 'none';
-    scanning = false;
-}
-
-function scanQRCodeFromCamera() {
-    if (!scanning) return;
-
-    const canvas = document.createElement('canvas');
-    const context = canvas.getContext('2d');
-
-    const scanFrame = () => {
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
-        const decoded = jsQR(imageData.data, canvas.width, canvas.height);
-
-        if (decoded) {
-            cameraDropZone.textContent = 'Content: ' + decoded.data;
-            stopCamera();
-        } else {
-            requestAnimationFrame(scanFrame);
-        }
+    const qrCodeSuccessCallback = (decodedText, decodedResult) => {
+        cameraDropZone.textContent = 'Content: ' + decodedText;
+        html5QrCode.stop().then(() => {
+            console.log("QR code scanning stopped.");
+        }).catch(err => {
+            console.error("Unable to stop scanning: ", err);
+        });
     };
 
-    requestAnimationFrame(scanFrame);
-}
-
-// Dynamically include jsQR library
-if (!window.jsQR) {
-    const script = document.createElement('script');
-    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.js';
-    document.head.appendChild(script);
+    const config = { fps: 10, qrbox: { width: 250, height: 250 } };
+    html5QrCode.start(
+        { facingMode: "environment" }, 
+        config, 
+        qrCodeSuccessCallback
+    ).catch(err => {
+        console.error("Error starting QR code scanning: ", err);
+    });
 }
