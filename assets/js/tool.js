@@ -32,4 +32,6 @@ Object.keys(hashElements).forEach(key => {
         document.execCommand('copy');
         document.body.removeChild(textarea);
     });
+    console.log("ok");
+    
 });
