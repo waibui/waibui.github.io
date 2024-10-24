@@ -17,7 +17,7 @@ layout: tool
 
 ### Genarated:
 <blockquote>
-  <p>MD5: <span id="md5"></span> <i style="float: right;" class="fa-regular fa-copy" id="copy-md5"></i></p>
+  <p>MD5: <span style="max-width: 90%; overflow-wrap: break-word; white-space: normal;" id="md5"></span> <i style="float: right;" class="fa-regular fa-copy" id="copy-md5"></i></p>
 
   <p>SHA-1: <span id="sha1"></span> <span id="copy-sha1">COPY</span></p>
 
