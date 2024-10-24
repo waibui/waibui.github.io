@@ -9,14 +9,6 @@ const hashElements = {
     ripemd160: document.getElementById('ripemd160')
 };
 
-const copyButtons = {
-    md5: document.getElementById('btn-copy-md5'),
-    sha1: document.getElementById('btn-copy-sha1'),
-    sha256: document.getElementById('btn-copy-sha256'),
-    sha512: document.getElementById('btn-copy-sha512'),
-    ripemd160: document.getElementById('btn-copy-ripemd160')
-};
-
 btnGenerate.addEventListener('click', () => {
     const hash = hashInput.value.trim();
     if (hash) {
@@ -28,4 +20,16 @@ btnGenerate.addEventListener('click', () => {
     } else {
         console.error("Hash error!")
     }
+});
+
+Object.keys(hashElements).forEach(key => {
+    hashElements[key].addEventListener('click', () => {
+        const text = hashElements[key].textContent;
+        const textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    });
 });
