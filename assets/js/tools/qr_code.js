@@ -76,7 +76,7 @@ function downloadQrCode() {
 const dropZone = document.getElementById('drop-zone');
 const qrCodeFileInput = document.getElementById('qr-code-file-input');
 const btnCopyTextQrCode = document.getElementById('btn-copy-text-qr-code');
-const innerTextDrop = "";
+let innerTextDrop = "";
 
 function readQrCode(file){
     const formData = new FormData()
@@ -126,6 +126,18 @@ dropZone.addEventListener('drop', (event) => {
     const files = event.dataTransfer.files;
     if (files.length > 0) {
         readQrCode(files[0]);
+    }
+});
+
+dropZone.addEventListener('paste', (event) => {
+    const items = event.clipboardData.items; 
+    for (let i = 0; i < items.length; i++) {
+        if (items[i].kind === 'file') { 
+            const file = items[i].getAsFile();
+            if (file) {
+                readQrCode(file);
+            }
+        }
     }
 });
 
