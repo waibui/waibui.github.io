@@ -272,7 +272,7 @@ a {
   position: relative;
   font-size: 14px;
   border-top: 20px solid transparent;
-  border-bottom: 1px dashed #b5e853;
+  border: 1px dashed #b5e853;
   margin-bottom: 5px;
   display: inline-block;
   --field-padding: 12px;
@@ -280,6 +280,7 @@ a {
 
 .custom-field input {
   border: none;
+  color: white;
   -webkit-appearance: none;
   -ms-appearance: none;
   -moz-appearance: none;
@@ -294,6 +295,7 @@ a {
 
 .custom-field .placeholder {
   position: absolute;
+  color: white;
   left: var(--field-padding);
   width: calc(100% - (var(--field-padding) * 2));
   overflow: hidden;
@@ -315,14 +317,14 @@ a {
   font-size: 10px;
 }
 
-.custom-field.three {
+.custom-field.input {
   --draw-duration: 0.1s;
   --draw-color: #222;
   --draw-line-width: 2px;
   --draw-easing: linear;
 }
 
-.custom-field.three .border {
+.custom-field.input .border {
   width: 100%;
   height: 100%;
   position: absolute;
