@@ -15,15 +15,19 @@ layout: tool
 ***
 
 ### Genarated:
-<img id="qr-code-img" src="/icon.png" alt="Qr Code">
-<button class="btn" id="btn-copy-qr-code">Copy</button>
-<button class="btn" id="btn-download-qr-code">Download</button>
+<div>
+    <img id="qr-code-img" src="/icon.png" alt="Qr Code">
+    <button class="btn" id="btn-copy-qr-code">Copy</button>
+    <button class="btn" id="btn-download-qr-code">Download</button>
+</div>
 
 ***
 ### Read:
-<div id="drop-zone">
-  Drop image here or paste from clipboard
+<div>
+    <div id="drop-zone">
+    Drop image here or paste from clipboard
+    </div>
+    <button class="btn" id="btn-copy-text-qr-code">Copy</button>
 </div>
-<button class="btn" id="btn-read-qr-code">Read QR Code</button>
 
 <script src="/assets/js/tools/qr_code.js"></script>
