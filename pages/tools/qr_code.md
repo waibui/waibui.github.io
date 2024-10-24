@@ -1,6 +1,7 @@
 ---
 layout: tool
 ---
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsqr.min.js"></script>
 
 ## Qr Code
 
