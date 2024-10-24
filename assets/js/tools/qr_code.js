@@ -1,5 +1,5 @@
-/* Qr Code */
-// Genarate
+/* QR Code Generation and File Scanning */
+// Generate QR Code
 const btnGenerateQrCode = document.getElementById('btn-genarate-qr-code');
 const btnCopyQrCode = document.getElementById('btn-copy-qr-code');
 const btnDownloadQrCode = document.getElementById('btn-download-qr-code');
@@ -9,7 +9,7 @@ const qrCodeImg = document.getElementById('qr-code-img');
 btnGenerateQrCode.addEventListener('click', () => {
     const input = inputQrCode.value;
     if (input.trim()) {
-        generalQRCode(input.trim());
+        generateQRCode(input.trim());
     }
 });
 
@@ -17,32 +17,25 @@ inputQrCode.addEventListener('keydown', (event) => {
     if (event.key === 'Enter') {
         const input = inputQrCode.value;
         if (input.trim()) {
-            generalQRCode(input.trim());
+            generateQRCode(input.trim());
         }
     }
 });
 
 btnCopyQrCode.addEventListener('click', () => {
-    copyQrCodeToClipBoard();
+    copyQrCodeToClipboard();
 });
 
 btnDownloadQrCode.addEventListener('click', () => {
     downloadQrCode();
 });
 
-/**
- * Generates a QR code.
- * @param {string} text - The text to encode into the QR code.
- */
-function generalQRCode(text) {
+function generateQRCode(text) {
     const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=1024x1024&data=${encodeURIComponent(text)}`;
     qrCodeImg.src = qrCodeUrl;
 }
 
-/**
- * Copies image to clipboard.
- */
-async function copyQrCodeToClipBoard() {
+async function copyQrCodeToClipboard() {
     try {
         const img = qrCodeImg.src;
         const response = await fetch(img);
@@ -54,9 +47,6 @@ async function copyQrCodeToClipBoard() {
     }
 }
 
-/**
- * Downloads the QR code as an image.
- */
 function downloadQrCode() {
     const qrImg = document.getElementById('qr-code-img');
     const imgSrc = qrImg.src;
@@ -69,18 +59,18 @@ function downloadQrCode() {
         link.download = 'qr-code.png';
         link.click();
     })
-    .catch(err => console.error('Lỗi khi tải ảnh QR:', err));
+    .catch(err => console.error('Error downloading QR code:', err));
 }
 
-// Read
+// File QR Code Scanner
 const dropZone = document.getElementById('drop-zone');
 const qrCodeFileInput = document.getElementById('qr-code-file-input');
 const btnCopyTextQrCode = document.getElementById('btn-copy-text-qr-code');
 let innerTextDrop = "";
 
-function readQrCode(file){
-    const formData = new FormData()
-    formData.append('file', file)
+function readQrCode(file) {
+    const formData = new FormData();
+    formData.append('file', file);
     fetch('https://api.qrserver.com/v1/read-qr-code/', {
         method: 'POST',
         body: formData
@@ -89,10 +79,9 @@ function readQrCode(file){
     .then(data => {
         if (data && data[0].symbol[0].data) {
             innerTextDrop = data[0].symbol[0].data;
-            const text = 'Content: ' + innerTextDrop;
-            dropZone.textContent = text;
+            dropZone.textContent = 'Content: ' + innerTextDrop;
         } else {
-            dropZone.textContent = "Please, select the Qr Code!";
+            dropZone.textContent = "Please select a valid QR code!";
         }
     })
     .catch(error => {
@@ -107,45 +96,76 @@ dropZone.addEventListener('click', () => {
 qrCodeFileInput.addEventListener('change', (event) => {
     const selectedFile = event.target.files[0];
     if (selectedFile) {
-        readQrCode(selectedFile)
+        readQrCode(selectedFile);
     }
 });
 
-dropZone.addEventListener('dragover', (event) => {
-    event.preventDefault();
-    dropZone.classList.add('drag-over'); 
-});
+// Camera QR Code Scanner
+const btnScanCamera = document.getElementById('btn-scan-camera');
+const video = document.getElementById('video');
+const cameraDropZone = document.getElementById('camera-scan-result');
+let scanning = false;
 
-dropZone.addEventListener('dragleave', () => {
-    dropZone.classList.remove('drag-over'); 
-});
-
-dropZone.addEventListener('drop', (event) => {
-    event.preventDefault(); 
-    dropZone.classList.remove('drag-over'); 
-    const files = event.dataTransfer.files;
-    if (files.length > 0) {
-        readQrCode(files[0]);
+btnScanCamera.addEventListener('click', async () => {
+    if (scanning) {
+        stopCamera();
+    } else {
+        await startCamera();
     }
 });
 
-dropZone.addEventListener('paste', (event) => {
-    const items = event.clipboardData.items; 
-    for (let i = 0; i < items.length; i++) {
-        if (items[i].kind === 'file') { 
-            const file = items[i].getAsFile();
-            if (file) {
-                readQrCode(file);
-            }
+async function startCamera() {
+    try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        video.srcObject = stream;
+        video.setAttribute("playsinline", true);
+        video.style.display = 'block';
+        video.play();
+        scanning = true;
+        scanQRCodeFromCamera();
+    } catch (err) {
+        console.error("Error accessing camera: ", err);
+    }
+}
+
+function stopCamera() {
+    const stream = video.srcObject;
+    if (stream) {
+        const tracks = stream.getTracks();
+        tracks.forEach(track => track.stop());
+    }
+    video.srcObject = null;
+    video.style.display = 'none';
+    scanning = false;
+}
+
+function scanQRCodeFromCamera() {
+    if (!scanning) return;
+
+    const canvas = document.createElement('canvas');
+    const context = canvas.getContext('2d');
+
+    const scanFrame = () => {
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+        const decoded = jsQR(imageData.data, canvas.width, canvas.height);
+
+        if (decoded) {
+            cameraDropZone.textContent = 'Content: ' + decoded.data;
+            stopCamera();
+        } else {
+            requestAnimationFrame(scanFrame);
         }
-    }
-});
+    };
 
-btnCopyTextQrCode.addEventListener('click', () => {
-    const textArea = document.createElement('textarea');
-    textArea.value = innerTextDrop;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-});
+    requestAnimationFrame(scanFrame);
+}
+
+// Dynamically include jsQR library
+if (!window.jsQR) {
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.js';
+    document.head.appendChild(script);
+}
