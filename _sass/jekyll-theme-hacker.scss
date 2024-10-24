@@ -367,12 +367,12 @@ a {
 }
 
 #qr-code-img {
-  width: 1024px;
+  width: 300px;
 }
 
 @media (max-width: 768px) {
   #qr-code-img {
-    max-width: 80%;
+    max-width: 100%;
   }
 }
 
