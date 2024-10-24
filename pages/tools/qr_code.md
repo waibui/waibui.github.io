@@ -6,10 +6,10 @@ layout: tool
 
 <div>
   <label class="custom-field one">
-    <input type="text" id="hash-input" placeholder=" "/>
+    <input type="text" id="qr-code-input" placeholder=" "/>
     <span class="placeholder">Enter Text</span>
   </label>
-  <button class="btn" id="btn-hash" style="float: right; margin-top: 5px;">Genarate</button>
+  <button class="btn" id="btn-genarate-qr-code" style="float: right; margin-top: 5px;">Genarate</button>
 </div>
 
 ***
@@ -17,10 +17,9 @@ layout: tool
 ### Genarated:
 <blockquote>
   <p>
-    <img src="/icon.jpeg" alt="Qr Code">
-  </p>
-  <p>
-    <button class="btn" id="btn-copy" style="float: right; margin: 5px;">Copy</button>
+    <img id="qr-code-img" style="max-width: 80%" src="/icon.jpeg" alt="Qr Code">
+    <button class="btn" id="btn-copy-qr-code" style="float: right; margin: 5px;">Copy</button>
+    <button class="btn" id="btn-download-qr-code" style="float: right; margin: 5px;">Download</button>
   </p>
 </blockquote>
 
