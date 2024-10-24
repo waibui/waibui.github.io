@@ -4,9 +4,8 @@ layout: tool
 
 ## Tool
 
-<label class="custom-field input">
-  <input type="text" placeholder="&nbsp;"/>
-  <span class="placeholder">Enter</span>
-  <span class="border"></span>
+<label class="custom-field one">
+  <input type="text" placeholder=" "/>
+  <span class="placeholder">Enter Text</span>
 </label>
 
