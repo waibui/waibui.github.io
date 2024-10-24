@@ -23,7 +23,7 @@ layout: tool
 ### Read:
 <div>
     <div id="drop-zone">
-    Drop image here or paste from clipboard
+    Drag & Drop or Browse
     </div>
     <input type="file" id="qr-code-file-input" style="display: none;" accept="image/*">
     <button class="btn" id="btn-copy-text-qr-code">Copy</button>
