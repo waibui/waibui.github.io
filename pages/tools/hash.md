@@ -10,7 +10,7 @@ layout: tool
     <input type="text" id="hash-input" placeholder=" "/>
     <span class="placeholder">Enter Text</span>
   </label>
-  <button class="btn" id="btn-generate" style="float: right; margin-top: 5px;">Hash</button>
+  <button class="btn" id="btn-hash">Hash</button>
 </div>
 
 ***

@@ -361,7 +361,7 @@ a {
   color: #b5e853 !important;
 }
 
-#btn-copy-qr-code, #btn-download-qr-code, #btn-copy-text-qr-code {
+#btn-hash, #btn-copy-qr-code, #btn-download-qr-code, #btn-copy-text-qr-code {
   margin: 5px;
   float: right;
 }
@@ -385,4 +385,5 @@ a {
   border: 2px dashed greenyellow; 
   padding: 20px; 
   text-align: center;
+  cursor: pointer;
 }
