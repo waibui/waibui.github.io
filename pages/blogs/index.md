@@ -4,7 +4,7 @@ layout: default
 
 ## Blog
 
-#### Content
+### Content:
 
 * * *
 

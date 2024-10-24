@@ -4,7 +4,7 @@ layout: default
 
 ## Tool
 
-#### Content
+### Content:
 
 * * *
 
