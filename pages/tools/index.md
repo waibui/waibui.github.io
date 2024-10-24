@@ -10,4 +10,4 @@ layout: tool
 
 | Name                    | Description                        | Link                                                          |
 |:------------------------|:-----------------------------------|:--------------------------------------------------------------|
-| Test                    | Test the blog                      | [Test](./test.html)                         |
+| Qr Code                 | Genarate Qr Code                   | [Qr Code](./test.html)                                        |
