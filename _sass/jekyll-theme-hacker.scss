@@ -1,0 +1,399 @@
+@import "rouge-base16-dark";
+@import "default_colors";
+
+$body-background: $cod-grey !default;
+$body-foreground: $gallery !default;
+$header: $conifer !default;
+$blockquote-color: $silver-chalice !default;
+$blockquote-border: $dove-grey !default;
+$container-max-width: 1000px;
+
+@mixin media-max-width($max-width) {
+  @media (max-width: $max-width) {
+      @content;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background: $body-background url("../images/bkg.png") 0 0;
+  color: $body-foreground;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+}
+
+/* General & 'Reset' Stuff */
+
+.container {
+  width: 90%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+}
+
+section {
+  display: block;
+  margin: 0 0 20px 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: 0 0 20px;
+}
+
+li {
+  line-height: 1.4 ;
+}
+
+/* Header, <header>
+   header   - container
+   h1       - project name
+   h2       - project description
+*/
+
+header {
+  background: rgba(0, 0, 0, 0.1);
+  width: 100%;
+  border-bottom: 1px dashed $conifer; //header;
+  padding: 20px 0;
+  margin: 0 0 40px 0;
+}
+
+header h1 {
+  font-size: 30px;
+  line-height: 1.5;
+  margin: 0 0 0 -40px;
+  font-weight: bold;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  color: $conifer;//$header;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+               0 0 5px rgba(181, 232, 83, 0.1),
+               0 0 10px rgba(181, 232, 83, 0.1);
+  letter-spacing: -1px;
+  -webkit-font-smoothing: antialiased;
+  @include media-max-width($container-max-width) {
+    margin-left: 0;
+  }
+}
+
+
+header h1:before {
+  content: "./ ";
+  font-size: 24px;
+}
+
+header h2 {
+  font-size: 18px;
+  font-weight: 300;
+  color: #666;
+}
+
+#downloads .btn {
+  display: inline-block;
+  text-align: center;
+  margin: 0;
+}
+
+/* Main Content
+*/
+
+#main_content {
+  width: 100%;
+  -webkit-font-smoothing: antialiased;
+}
+section img {
+  max-width: 100%
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: normal;
+  font-family: Monaco, "Bitstream Vera Sans Mono", "Lucida Console", Terminal, monospace;
+  color: $header;
+  letter-spacing: -0.03em;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1),
+               0 0 5px rgba(181, 232, 83, 0.1),
+               0 0 10px rgba(181, 232, 83, 0.1);
+}
+
+#main_content h1 {
+  font-size: 30px;
+}
+
+#main_content h2 {
+  font-size: 24px;
+}
+
+#main_content h3 {
+  font-size: 18px;
+}
+
+#main_content h4 {
+  font-size: 14px;
+}
+
+#main_content h5 {
+  font-size: 12px;
+  text-transform: uppercase;
+  margin: 0 0 5px 0;
+}
+
+#main_content h6 {
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #999;
+  margin: 0 0 5px 0;
+}
+
+dt {
+  font-style: italic;
+  font-weight: bold;
+}
+
+ul li {
+  list-style-image:url('../images/bullet.png');
+}
+
+blockquote {
+  color: $blockquote-color;
+  padding-left: 10px;
+  border-left: 1px dotted $blockquote-border;
+}
+
+pre {
+  background: rgba(0, 0, 0, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 10px;
+  font-size: 16px;
+  color: #b5e853;
+  border-radius: 2px;
+  word-wrap: normal;
+  overflow: auto;
+  overflow-y: hidden;
+}
+
+code.highlighter-rouge {
+  background: rgba(0,0,0,0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0px 3px;
+  margin: 0px -3px;
+  color: #aa759f;
+  border-radius: 2px;
+}
+
+table {
+  width: 100%;
+  margin: 0 0 20px 0;
+}
+
+th {
+  text-align: left;
+  border-bottom: 1px dashed #b5e853;
+  padding: 5px 10px;
+}
+
+td {
+  padding: 5px 10px;
+}
+
+hr {
+  height: 0;
+  border: 0;
+  border-bottom: 1px dashed #b5e853;
+  color: #b5e853;
+}
+
+/* Buttons
+*/
+
+.btn {
+  display: inline-block;
+  background: -webkit-linear-gradient(top, rgba(40, 40, 40, 0.3), rgba(35, 35, 35, 0.3) 50%, rgba(10, 10, 10, 0.3) 50%, rgba(0, 0, 0, 0.3));
+  padding: 8px 18px;
+  border-radius: 50px;
+  border: 2px solid rgba(0, 0, 0, 0.7);
+  border-bottom: 2px solid rgba(0, 0, 0, 0.7);
+  border-top: 2px solid rgba(0, 0, 0, 1);
+  color: rgba(255, 255, 255, 0.8);
+  font-family: Helvetica, Arial, sans-serif;
+  font-weight: bold;
+  font-size: 13px;
+  text-decoration: none;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.75);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.btn:hover {
+  background: -webkit-linear-gradient(top, rgba(40, 40, 40, 0.6), rgba(35, 35, 35, 0.6) 50%, rgba(10, 10, 10, 0.8) 50%, rgba(0, 0, 0, 0.8));
+  color: #b5e853;
+}
+
+.btn .icon {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin: 1px 8px 0 0;
+  float: left;
+}
+
+.btn-github .icon {
+  opacity: 0.6;
+  background: url("../images/blacktocat.png") 0 0 no-repeat;
+}
+
+/* Links
+   a, a:hover, a:visited
+*/
+
+a {
+  color: #63c0f5;
+  text-shadow: 0 0 5px rgba(104, 182, 255, 0.5);
+}
+
+/* Clearfix */
+
+.cf:before, .cf:after {
+  content:"";
+  display:table;
+}
+
+.cf:after {
+  clear:both;
+}
+
+.cf {
+  zoom:1;
+}
+
+#a-title {
+  text-decoration: none;
+}
+
+/* Input */
+.custom-field {
+  position: relative;
+  font-size: 14px;
+  border-top: 20px solid transparent;
+  border: 1px #b5e853;
+  margin-bottom: 5px;
+  display: inline-block;
+  --field-padding: 12px;
+}
+
+.custom-field input {
+  border: none;
+  color: white;
+  -webkit-appearance: none;
+  -ms-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  background: transparent;
+  padding: var(--field-padding);
+  border-radius: 3px;
+  width: 250px;
+  outline: none;
+  font-size: 14px;
+}
+
+.custom-field .placeholder {
+  position: absolute;
+  color: white;
+  left: var(--field-padding);
+  width: calc(100% - (var(--field-padding) * 2));
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  top: 22px;
+  line-height: 100%;
+  transform: translateY(-50%);
+  transition: 
+    top 0.3s ease,
+    color 0.3s ease,
+    font-size 0.3s ease;
+}
+
+.custom-field input.dirty + .placeholder,
+.custom-field input:focus + .placeholder,
+.custom-field input:not(:placeholder-shown) + .placeholder {
+  top: -10px;
+  font-size: 10px;
+}
+
+.custom-field.one input {
+  background: none;
+  border: 2px solid #b5e853;
+  transition: border-color 0.3s ease;
+}
+
+.custom-field.one input + .placeholder {
+  left: 8px;
+  padding: 0 5px;
+}
+
+.custom-field.one input.dirty,
+.custom-field.one input:not(:placeholder-shown),
+.custom-field.one input:focus {
+  border-color: #b5e853;
+  transition-delay: 0.1s
+}
+
+.custom-field.one input.dirty + .placeholder,
+.custom-field.one input:not(:placeholder-shown) + .placeholder,
+.custom-field.one input:focus + .placeholder {
+  top: 0;
+  font-size: 10px;
+  color: #FFF;
+  background: $body-background url("../images/bkg.png") 0 0;
+  width: auto
+}
+
+.limited-text-width {
+  display: inline-block;
+  max-width: 97%;
+  overflow-wrap: break-word; 
+  white-space: normal; 
+}
+
+.copy {
+  cursor: pointer;
+}
+
+.copied {
+  color: #b5e853 !important;
+}
+
+#btn-hash, #date-select,#btn-copy-qr-code, #btn-download-qr-code, #btn-copy-text-qr-code, #btn-scan-qr-code {
+  margin: 5px;
+  float: right;
+}
+
+#qr-code-img, #time-passed-img {
+  display: flex;
+  justify-self: center;
+  padding: 5px;
+  width: 300px;
+  border: 1px solid #b5e853;
+}
+
+@media (max-width: 768px) {
+  #qr-code-img, #time-passed-img {
+    width: 100%;
+  }
+}
+
+#time-passed-img {
+  cursor: pointer;
+}
+
+#drop-zone ,#result-time-passed{
+  display: block;
+  border: 2px dashed greenyellow; 
+  padding: 20px; 
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+#drop-zone.drag-over {
+  background-color: #242222;
+  border:2px solid rgb(187, 235, 115);
+}
