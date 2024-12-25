@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'en-US' }}">
+    {% assign fileName = page.name | split: '.' %}
+    <title>{{ page.title | default: fileName[0]}}</title>
+    <head>
+        <meta charset='utf-8'>
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link async rel="stylesheet" href="{{ '/assets/css/style.css?v=' | append: site.github.build_revision | relative_url }}">
+        <link rel="preload" as="style"  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"  onload="this.rel='stylesheet'">
+
+        {% seo %}
+        {% include head-custom.html %}
+    </head>
+  
+    <body>
+        <header>
+        <div class="container">
+            <a id="a-title" href="{{ '/' | relative_url }}">
+            <h1>{{ site.title | default: site.github.repository_name }}</h1>
+            </a>
+            <h2>{{ site.description | default: site.github.project_tagline }}</h2>
+
+            <div class="navbar">
+                <ul>
+                    <li><a class="navbar-menu" href="{{ site.url }}/">/blog</a></li>
+                    <li><a class="navbar-menu" href="{{ site.url }}{% link projects.html %}">/projects</a></li>
+                    <li><a class="navbar-menu" href="{{ site.url }}{% link history.html %}">/history</a></li>
+                    <li><a class="navbar-menu" href="{{ site.url }}{% link about.md %}">/about</a></li>
+                    <!-- {% if page.shortName == 'about'  %} highlight {% endif %} -->
+                </ul>
+            </div>
+      </div>
+    </header>
+
+
+  
