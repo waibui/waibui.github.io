@@ -22,13 +22,15 @@ This tool gives you a basic understanding of Keyloggers and how they work.
 - Send file and zip file to telegram bot
 
 ## Dependencies
-* **pynput**
+**pynput**
 ```bash
 sudo apt install pynput
 ```
+
 ## Configuration
-* **TOKEN**: Your bot token obtained from BotFather.
-* **CHAT_ID**: Your chat ID where the bot will send messages.
+**TOKEN**: Your bot token obtained from BotFather.
+**CHAT_ID**: Your chat ID where the bot will send messages.
+
 
 ## Usage
 ```bash
