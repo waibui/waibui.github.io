@@ -7,7 +7,7 @@ comments: true
 description: The first post
 categories: introduce
 tags: 
-me
+- me
 ---
 
 First of all, I’m waibui (Bui Van Y) in case this is the first time you’ve read my things ;).
