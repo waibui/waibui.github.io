@@ -2,11 +2,12 @@
 author: "WaiBui"
 layout: post
 title:  "Hi there!"
-date: 2023-07-09
+date: 2024-12-25
 comments: true
 description: The first post
 categories: introduce
 tags: 
+introduce
 ---
 
 First of all, I’m waibui (Bui Van Y) in case this is the first time you’ve read my things ;).
@@ -22,4 +23,4 @@ GLHF!
 oh, it seems you have seen this introduction somewhere.
 yes, I took it from teacher manhluat (Luat Nguyen) but did not ask for permission. Thanks!
 
-![alt text](image.png)
+![Hello world](/assets/images/posts/helloworld.png "Hello world")
