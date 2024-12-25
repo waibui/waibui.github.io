@@ -16,3 +16,7 @@ jobs:
         run: script/bootstrap
       - name: test
         run: script/cibuild
+      - name: Configure Git Safe Directory
+      run: |
+        git config --global --add safe.directory /github/workspace
+
