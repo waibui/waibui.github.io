@@ -20,7 +20,7 @@ tags:
 ### Năm 2024 của tôi:
 > 2024 thực sự là năm tồi tệ nhất của mình, 1 năm 12 tháng thuốc, chỉ là bệnh nhẹ nhưng nó kéo dài.
 > 
-> Thành tích học tập đi xuống, không biết là do bệnh hay sao mà mình ngủ rất nhiều, có khi 1 ngày ngủ hết 14 tiếng. Lãng phí thời gian thực sự!!!😴😴😴.
+> Thành tích học tập đi xuống, không biết là do bệnh hay sao mà mình ngủ rất nhiều, có khi 1 ngày ngủ hết 14 tiếng. Lãng phí thời gian thực sự!!!😴.
 >
 > Lúc nào cũng hờ hững với đời, mình thấy mình bị trơ với xã hội, thấy khó tánh vl, tưởng đâu là già rồi.
 > 
