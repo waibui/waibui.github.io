@@ -11,6 +11,13 @@ tags:
 ---
 
 > <img style="width: 100%;" src="/assets/images/posts/happy-new-year.gif" alt="Happy new year">
+>
+> Hi. Chúc mừng năm mới 2025! Mong rằng năm mới sẽ mang đến cho bạn sức khỏe dồi dào, những niềm vui bất tận và thành công trong mọi việc. Hãy luôn giữ vững nụ cười rạng rỡ trên môi và bước qua năm mới với thật nhiều năng lượng tích cực nhé!
+>
+
+
+### Năm 2024 của tôi:
+> 2024 thực sự là năm tồi tệ nhất của mình, 1 năm 12 tháng thuốc, chỉ là bệnh nhẹ nhưng kéo dài.
 
 
 
