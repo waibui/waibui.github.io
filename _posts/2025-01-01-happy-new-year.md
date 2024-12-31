@@ -12,4 +12,4 @@ tags:
 
 > Happy new year
 
-<iframe src="https://giphy.com/embed/MEDT364Ths1Qk" width="480" height="360" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a href="https://giphy.com/gifs/2014-countdown-happy-new-year-MEDT364Ths1Qk">via GIPHY</a></p>
+<iframe src="https://giphy.com/embed/MEDT364Ths1Qk" width="480" height="360" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a></a></p>
