@@ -12,4 +12,4 @@ tags:
 
 > Happy new year
 
-> ![alt text](../assets/images/posts/happy-new-year.gif)
+> <img src="/assets/images/posts/happy-new-year.gif" alt="Happy new year">
