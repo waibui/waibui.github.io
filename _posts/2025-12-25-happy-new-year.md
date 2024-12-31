@@ -2,7 +2,7 @@
 author: "WaiBui"
 layout: post
 title:  "Happy new year 2025!"
-date: 2025-1-1
+date: 2025-25-25
 comments: true
 description: Chúc mừng năm mới - năm Ất Tỵ, chúc ai đọc được post này dồi dào sức khỏe, thành công trong công việc và cuộc sống.
 categories: introduce
