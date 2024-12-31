@@ -16,7 +16,6 @@ tags:
 >
 
 <br>
-<br>
 
 ### Năm 2024 của tôi:
 > 2024 thực sự là năm tồi tệ nhất của mình, 1 năm 12 tháng thuốc, chỉ là bệnh nhẹ nhưng nó kéo dài.
@@ -25,17 +24,17 @@ tags:
 >
 > Lúc nào cũng hờ hững với đời, mình thấy mình bị trơ với xã hội, thấy khó tánh vl, tưởng đâu là già rồi.
 > 
-> Năm nay làm cú đêm, phải 2-3h sáng mới chịu đi ngủ, có khi đến tận 5h. 
+> Tường mình là cú đêm, phải 2-3h sáng mới chịu đi ngủ, có khi đến tận 5h, 2 mắt thì thâm xì, ai cũng chê.🐼 
 >
-> Bị thiếu kỹ luật trầm trọng và chưa cải thiện được tiếng anh của mình, mình cần phái lần lần tìm học.
+> Bị thiếu kỹ luật trầm trọng và chưa cải thiện được vốn tiếng anh của mình.
 >
-> Hay chơi một mình, đi ăn, đi dạo một mình, lâu lâu đi xem phim, đi ăn với bạn. Là mấy đứa bạn từ thời cấp 3, chứ lên đại học chưa có thân với đứa nào cả.
+> Hay chơi một mình, đi ăn, đi dạo một mình, lâu lâu đi xem phim, đi ăn với bạn. Là mấy đứa bạn từ thời cấp 3, chứ lên đại học chưa có chơi thân với đứa nào cả.
 >
 
 <br>
 
 ### Mong muốn năm 2025:
-> Mình hy vọng cậu sẽ tốt hơn mỗi ngày. Tất cả mọi thứ đều tốt hơn năm ngoái! 
+> Mình hy vọng sẽ tốt hơn mỗi ngày. Tất cả mọi thứ đều tốt hơn năm ngoái! 
 >
 >  Mong mình của năm 2025 sống cuộc đời mà mình mong muốn, ăn uống nghỉ ngơi đầy đủ, mở lòng nhiều hơn, đừng lãng phí thời gian cho chuyện không đáng và yêu thương bản thân thật nhiều!
 > 
