@@ -38,7 +38,7 @@ tags:
 >
 >  Mong mình của năm 2025 sống cuộc đời mà mình mong muốn, ăn uống nghỉ ngơi đầy đủ, mở lòng nhiều hơn, đừng lãng phí thời gian cho chuyện không đáng và yêu thương bản thân thật nhiều!
 > 
-> Good luck!
+> Good luck!🍀🍀🍀
 
 
 
