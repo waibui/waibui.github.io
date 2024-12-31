@@ -12,4 +12,4 @@ tags:
 
 > Happy new year
 
-> <img style="width: 100%; "src="/assets/images/posts/happy-new-year.gif" alt="Happy new year">
+> <img style="width: 100%;" src="/assets/images/posts/happy-new-year.gif" alt="Happy new year">
