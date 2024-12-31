@@ -12,4 +12,4 @@ tags:
 
 > Happy new year
 
-<iframe src="https://giphy.com/embed/MEDT364Ths1Qk" width="480" height="360" style="" frameBorder="0" class="giphy-embed" allowFullScreen></iframe><p><a></a></p>
+> ![alt text](../assets/images/posts/happy-new-year.gif)
