@@ -15,9 +15,31 @@ tags:
 > Hi. Chúc mừng năm mới 2025! Mong rằng năm mới sẽ mang đến cho bạn sức khỏe dồi dào, những niềm vui bất tận và thành công trong mọi việc. Hãy luôn giữ vững nụ cười rạng rỡ trên môi và bước qua năm mới với thật nhiều năng lượng tích cực nhé!
 >
 
+<br>
+<br>
 
 ### Năm 2024 của tôi:
-> 2024 thực sự là năm tồi tệ nhất của mình, 1 năm 12 tháng thuốc, chỉ là bệnh nhẹ nhưng kéo dài.
+> 2024 thực sự là năm tồi tệ nhất của mình, 1 năm 12 tháng thuốc, chỉ là bệnh nhẹ nhưng nó kéo dài.
+> 
+> Thành tích học tập đi xuống, không biết là do bệnh hay sao mà mình ngủ rất nhiều, có khi 1 ngày ngủ hết 14 tiếng. Lãng phí thời gian thực sự!!!😴😴😴.
+>
+> Lúc nào cũng hờ hững với đời, mình thấy mình bị trơ với xã hội, thấy khó tánh vl, tưởng đâu là già rồi.
+> 
+> Năm nay làm cú đêm, phải 2-3h sáng mới chịu đi ngủ, có khi đến tận 5h. 
+>
+> Bị thiếu kỹ luật trầm trọng và chưa cải thiện được tiếng anh của mình, mình cần phái lần lần tìm học.
+>
+> Hay chơi một mình, đi ăn, đi dạo một mình, lâu lâu đi xem phim, đi ăn với bạn. Là mấy đứa bạn từ thời cấp 3, chứ lên đại học chưa có thân với đứa nào cả.
+>
+
+<br>
+
+### Mong muốn năm 2025:
+> Mình hy vọng cậu sẽ tốt hơn mỗi ngày. Tất cả mọi thứ đều tốt hơn năm ngoái! 
+>
+>  Mong mình của năm 2025 sống cuộc đời mà mình mong muốn, ăn uống nghỉ ngơi đầy đủ, mở lòng nhiều hơn, đừng lãng phí thời gian cho chuyện không đáng và yêu thương bản thân thật nhiều!
+> 
+> Good luck!
 
 
 
