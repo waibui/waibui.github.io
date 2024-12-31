@@ -24,7 +24,7 @@ tags:
 >
 > Lúc nào cũng hờ hững với đời, mình thấy mình bị trơ với xã hội, thấy khó tánh vl, tưởng đâu là già rồi.
 > 
-> Tường mình là cú đêm, phải 2-3h sáng mới chịu đi ngủ, có khi đến tận 5h, 2 mắt thì thâm xì, ai cũng chê.🐼 
+> Thấy mình giống cú đêm, phải 2-3h sáng mới chịu đi ngủ, có khi đến tận 5h, 2 mắt thì thâm xì, ai cũng chê.🐼 
 >
 > Bị thiếu kỹ luật trầm trọng và chưa cải thiện được vốn tiếng anh của mình.
 >
