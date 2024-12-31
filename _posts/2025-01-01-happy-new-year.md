@@ -1,17 +1,15 @@
 ---
 author: "WaiBui"
 layout: post
-title:  "Hi there!"
+title:  "Happy new year 2025!"
 date: 2024-12-25
 comments: true
-description: The first post
+description: Chúc mừng năm mới - năm Ất Tỵ, chúc ai đọc được post này dồi dào sức khỏe, thành công trong công việc và cuộc sống.
 categories: introduce
 tags: 
 - me
 ---
 
-# Chúc mừng năm mới
 > chúc mừng năm mới
+>
 > chúc mừng năm cũ
-
-![Hello world](/assets/images/posts/helloworld.png "Hello world")
