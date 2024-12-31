@@ -10,6 +10,8 @@ tags:
 - me
 ---
 
+> Happy new year
+
 <video autoplay>
     <source src="/assets/video/happy-new-year-2025.mp4" type="video/mp4">
     Your browser does not support the video tag
