@@ -23,7 +23,7 @@ GLHF!
 oh, it seems you have seen this introduction somewhere.
 yes, I took it from teacher manhluat (Luat Nguyen) but did not ask for permission. Thanks!
 
-![Hello world](/assets/images/posts/helloworld.png "Hello world")
+![Hello world](/assets/images/posts/2024-12-25-hello-world/helloworld.png "Hello world")
 
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
