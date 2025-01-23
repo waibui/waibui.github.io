@@ -1,0 +1,43 @@
+title: waibui
+description: No pain, no gain.
+author: WaiBui
+show_downloads: false
+google_analytics: G-M5FFVQXXYY
+theme: jekyll-theme-hacker
+timezone: Asia/Hanoi
+
+future: true
+
+paginate: 4
+paginate_path: "/blog/page:num/"
+plugins: [jekyll-paginate, jekyll-seo-tag, jekyll-sitemap, jekyll-feed]
+
+jekyll_compose:
+  post_default_front_matter:
+    last_modified_at: 
+    permalink: 
+    description:
+    image:
+    published: true
+    sitemap: true
+    excerpt_separator: <!--more-->
+    categories:
+    tags:
+
+collections:
+  skills:
+    output: true
+    permalink: /skills/:path/
+  projects:
+    output: true
+    permalink: /projects/:path/
+
+social:
+  github: waibui
+  linkedin: 
+  stackoverflow: 
+  credly: 
+
+feed:
+  posts_limit: 5
+  excerpt_only: true
