@@ -10,8 +10,9 @@ shortName: about
 |  Name | WaiBui | in VietNam |
 |---|---|
 | Current work | student in VKU |
-| Programming languages  | python, golang
+| Programming languages  | python, golang, shell
 | Frameworks | no |
+| Tool | Nmap, Amass, FFUF, Burpsuite
 
 
 
