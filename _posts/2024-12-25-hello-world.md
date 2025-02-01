@@ -10,13 +10,11 @@ tags:
 - me
 ---
 
-![Hello world](/assets/images/posts/2024-12-25-hello-world/helloworld.png "Hello world")
+First of all, I’m waibui (Bui Van Y) in case this is the first time you’ve read my things ;).
 
-- Name: Bui Van Y
-- University: VKU
-- Work: Network & Security
-- Language: Golang, shell
-- Tool: nmap, ffuf, burpsuite, amass.
+This blog to share my experiences in life.
+
+![Hello world](/assets/images/posts/2024-12-25-hello-world/helloworld.png "Hello world")
 
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
