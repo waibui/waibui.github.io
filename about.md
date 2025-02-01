@@ -27,9 +27,3 @@ Here, you’ll find content focused on: `technology`, `personal development`, `l
 My goal is to bring you `stories`, `insights`, and `daily inspiration`. I hope this blog becomes a source of value for you.
 
 Thanks!
-
----
-Almost forgot, my hobby is coding things that I feel can serve my life. 
-Especially hate `English`, it's terrible, this About page is written by me based on google translate.
-
-Thanks again!
