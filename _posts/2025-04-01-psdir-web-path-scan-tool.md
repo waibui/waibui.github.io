@@ -125,6 +125,7 @@ deactivate # Exit venv
 {% highlight powershell %}
 # Install Python if you don't have it yet (Download from https://www.python.org/downloads/)
 # Make sure to check "Add Python to PATH" during installation
+# Or go to Microsoft Store to download Python, it help auto config in your enviroment
 
 cd psdir # Go to project directory
 
