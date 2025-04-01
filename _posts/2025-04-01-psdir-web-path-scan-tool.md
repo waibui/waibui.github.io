@@ -13,12 +13,13 @@ tags:
 - web
 ---
 
-# Giới thiệu
+# Introduce
 ---
-Đây là security tool đầu tay của tay mơ waibui, code tuy lỏ nhưng chạy đủ nhanh, option vừa đủ phục vụ cho nhu cầu pentest của tui. Thực ra có rất nhiều tool mạnh mẽ và nhiều chức năng hơn, nhưng dùng cái do mình tự tạo ra cảm thấy thỏa mãn, custom tùy ý, không sợ cái mẹ chi hết...
-Tui tạo cái này do nhu cầu của tui, phân tích riết cũng mệt, code cho vui nhà vui cửa...
+Đây là công cụ bảo mật đầu tiên do waibui phát triển. Dù mã nguồn còn đơn giản, nhưng hiệu suất đủ nhanh và có các tùy chọn phù hợp cho nhu cầu pentest của tôi. Thực ra, có rất nhiều công cụ mạnh mẽ và đa năng hơn, nhưng việc sử dụng một tool do chính mình tạo ra mang lại cảm giác thỏa mãn, có thể tùy chỉnh theo ý muốn.
 
-# Cấu trúc
+Tôi viết nó đơn giản vì nhu cầu cá nhân, sau thời gian dài phân tích cũng thấy mệt, nên code cho vui và để đổi gió một chút.
+
+# Contructure
 ---
 {% highlight bash %}
 psdir
@@ -57,12 +58,12 @@ psdir
 6 directories, 24 files
 {% endhighlight %}
 
-# Tải
+# Installation
 ---
 1. Sử dụng git: `git clone https://github.com/waibui/psdir.git`
 2. Tải zip file: [https://github.com/waibui/psdir.git](https://github.com/waibui/psdir/archive/refs/heads/main.zip)
 
-# Tùy chọn
+# Doccument
 ---
 {% highlight bash %}
 usage: psdir.py [-u|--url] target [options].
