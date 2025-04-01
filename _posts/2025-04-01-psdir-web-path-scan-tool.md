@@ -198,6 +198,22 @@ python psdir.py [-u|--url] example.com [-mc|--match-code] statuscode1,statuscode
 {% endhighlight %}
 Code phải viết liền nhau, không có **space**.
 
+## Cookie
+---
+Cookie cho từng request
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--cookie] key=value,key2=value2,...
+{% endhighlight %}
+Cookie phải viết liền nhau, không có **space**.
+
+## Proxy
+---
+Proxy cho từng request
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--proxie] http://user:pass@proxy.com:8080
+{% endhighlight %}
+
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
