@@ -215,9 +215,9 @@ python psdir.py [-u|--url] example.com [--proxie] http://user:pass@proxy.com:808
 
 ## Allow redirect
 ---
-Proxy cho từng request
+Đây là tham số quan trọng trong chương trình, mặc định mang giá trị **false**. Chỉ cần thêm [--ar|--allow-redirect] mà không cần kèm biến theo sau. Khi truyền vào tham số này, khi request nhận được các status code có ý nghĩa chuyển hướng, chương trình sẽ thực hiện redirect tới đích của request. Không có tham số này, chương trình trả về các status code chưa chuyển hướng.
 {% highlight bash %}
-python psdir.py [-u|--url] example.com [--proxie] http://user:pass@proxy.com:8080
+python psdir.py [-u|--url] example.com [--ar|--allow-redirect]
 {% endhighlight %}
 
 <script src="https://giscus.app/client.js"
