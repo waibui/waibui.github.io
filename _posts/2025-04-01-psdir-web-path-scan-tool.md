@@ -102,11 +102,11 @@ Output Settings:
 See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
-# Recommend
+# Recommended Setup
 ---
 ## Using Virtual Environment (venv)
 ---
-* Linux
+### Linux
 {% highlight bash %}
 sudo apt-get install python3 # Install python if you don't have it yet
 
@@ -116,22 +116,23 @@ cd psdir # Go to project
 
 python3 -m venv name_venv # Create venv
 
-source name_venv/bin/activate # Active venv
+source name_venv/bin/activate # Activate venv
 
 deactivate # Exit venv
 {% endhighlight %}
 
-* Window
-{% highlight bash %}
-sudo apt-get install python3 # Install python if you don't have it yet
+### Windows
+{% highlight powershell %}
+# Install Python if you don't have it yet (Download from https://www.python.org/downloads/)
+# Make sure to check "Add Python to PATH" during installation
 
-sudo apt-get install python3-venv # Get python3-venv package to create venv
+cd psdir # Go to project directory
 
-cd psdir # Go to project
+python -m venv name_venv # Create venv
 
-python3 -m venv name_venv # Create venv
-
-source name_venv/bin/activate # Active venv
+name_venv\Scripts\activate # Activate venv (for cmd)
+# OR
+name_venv\Scripts\Activate.ps1 # Activate venv (for PowerShell)
 
 deactivate # Exit venv
 {% endhighlight %}
