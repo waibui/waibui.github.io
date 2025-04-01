@@ -102,7 +102,10 @@ Output Settings:
 See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
-# Recommended Setup
+# Recommended 
+venv (Virtual Environment) là một công cụ giúp tạo môi trường ảo để quản lý các thư viện và dependencies trong Python.
+Nói rõ ra trong mỗi dự án bạn sử dụng 1 venv riêng, không trùng nhau và cũng không trùng với Python hệ thống. 
+Mọi gói bạn tải đều nằm trong venv không tải trên Python hệ thống, giúp hệ thống của bạn sạch, tránh được xung đột.
 ---
 ## Using Virtual Environment (venv)
 ---
@@ -112,7 +115,7 @@ sudo apt-get install python3 # Install python if you don't have it yet
 
 sudo apt-get install python3-venv # Get python3-venv package to create venv
 
-cd psdir # Go to project
+cd psdir # Go to project directory
 
 python3 -m venv name_venv # Create venv
 
@@ -125,7 +128,7 @@ deactivate # Exit venv
 {% highlight powershell %}
 # Install Python if you don't have it yet (Download from https://www.python.org/downloads/)
 # Make sure to check "Add Python to PATH" during installation
-# Or go to Microsoft Store to download Python, it help auto config in your enviroment
+# Or go to Microsoft Store to download Python, it help auto config in your environment
 
 cd psdir # Go to project directory
 
