@@ -103,10 +103,8 @@ See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
 # Recommended 
-venv (Virtual Environment) là một công cụ giúp tạo môi trường ảo để quản lý các thư viện và dependencies trong Python.
-Nói rõ ra trong mỗi dự án bạn sử dụng 1 venv riêng, không trùng nhau và cũng không trùng với Python hệ thống. 
-Mọi gói bạn tải đều nằm trong venv không tải trên Python hệ thống, giúp hệ thống của bạn sạch, tránh được xung đột.
 ---
+venv (Virtual Environment) là một công cụ giúp tạo môi trường ảo để quản lý các thư viện và dependencies trong Python. Nói rõ ra trong mỗi dự án bạn sử dụng 1 venv riêng, không trùng nhau và cũng không trùng với Python hệ thống. Mọi gói bạn tải đều nằm trong venv không tải trên Python hệ thống, giúp hệ thống của bạn sạch, tránh được xung đột.
 ## Using Virtual Environment (venv)
 ---
 ### Linux
@@ -120,6 +118,8 @@ cd psdir # Go to project directory
 python3 -m venv name_venv # Create venv
 
 source name_venv/bin/activate # Activate venv
+
+pip install package_name # Install package
 
 deactivate # Exit venv
 {% endhighlight %}
@@ -138,9 +138,10 @@ name_venv\Scripts\activate # Activate venv (for cmd)
 # OR
 name_venv\Scripts\Activate.ps1 # Activate venv (for PowerShell)
 
+pip install package_name # Install package
+
 deactivate # Exit venv
 {% endhighlight %}
-
 
 
 <script src="https://giscus.app/client.js"
