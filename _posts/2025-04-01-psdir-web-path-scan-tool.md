@@ -151,9 +151,11 @@ deactivate # Exit venv
 python psdir.py -u example.com 
 {% endhighlight %}
 
-
+<br>
 
 Tham số **[-u|--url]** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**.
+
+## Wordlist
 
 
 
