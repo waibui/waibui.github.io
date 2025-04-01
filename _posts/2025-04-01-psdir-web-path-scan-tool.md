@@ -2,7 +2,7 @@
 author: "waibui"
 layout: post
 title:  "Psdir - My web path scan tool"
-date: 2025-03-27
+date: 2025-04-01
 comments: true
 description: Công cụ quét đường dẫn website dựa trên wordlist của tôi.
 categories: introduce
@@ -15,8 +15,7 @@ tags:
 
 # Giới thiệu
 ---
-Đây là security tool đầu tay của tay mơ waibui, code tuy lỏ nhưng chạy đủ nhanh, option vừa đủ phục vụ cho nhu cầu pentest của tui.
-Thực ra có rất nhiều tool mạnh mẽ và nhiều chức năng hơn, nhưng dùng cái do mình tự tạo ra cảm thấy thỏa mãn, custom tùy ý, không sợ cái mẹ chi hết...
+Đây là security tool đầu tay của tay mơ waibui, code tuy lỏ nhưng chạy đủ nhanh, option vừa đủ phục vụ cho nhu cầu pentest của tui. Thực ra có rất nhiều tool mạnh mẽ và nhiều chức năng hơn, nhưng dùng cái do mình tự tạo ra cảm thấy thỏa mãn, custom tùy ý, không sợ cái mẹ chi hết...
 Tui tạo cái này do nhu cầu của tui, phân tích riết cũng mệt, code cho vui nhà vui cửa...
 
 # Cấu trúc
@@ -101,6 +100,9 @@ Options:
 
 See 'core/setting.py' for the example configuration file
 {% endhighlight %}
+
+# Hoạt động
+
 
 
 <script src="https://giscus.app/client.js"
