@@ -153,7 +153,7 @@ python psdir.py -u example.com
 
 <br>
 
-Tham số **[-u|--url]** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**.
+Tham số **-u|--url** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**.
 
 ## Wordlist
 Nếu không truyền tham số **[-w|--wordlist]**, chương trình sử dụng wordlist mặc định trong **data/wordlist.txt**
