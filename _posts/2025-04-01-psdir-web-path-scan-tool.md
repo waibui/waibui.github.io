@@ -23,35 +23,38 @@ Tui tạo cái này do nhu cầu của tui, phân tích riết cũng mệt, code
 {% highlight bash %}
 psdir
 .
-├── controllers
-│   ├── controller.py
-│   ├── __init__.py
-│   └── scan.py
-├── core
-│   ├── dependencies.py
-│   ├── __init__.py
-│   └── setting.py
-├── models
-│   ├── __init__.py
-│   └── option.py
-├── parse
-│   ├── __init__.py
-│   └── parse_cmd.py
-├── statics
-│   ├── common.txt
-│   ├── user-agent.txt
-│   └── wordlist.txt
-├── views
-│   ├── banner.py
-│   ├── file_logging.py
-│   ├── __init__.py
-│   └── logging.py
-├── __init__.py
-├── LICENSE
+├── config
+│   └── settings.py
+├── controller
+│   └── controller.py
+├── data
+│   ├── common.txt
+│   ├── user-agent.txt
+│   └── wordlist.txt
+├── model
+│   ├── exception.py
+│   ├── result.py
+│   └── scanner.py
 ├── psdir.py
 ├── README.md
 ├── requirements.txt
-└── setup.py
+├── setup.py
+├── utils
+│   ├── arg_parser.py
+│   ├── dependencies.py
+│   ├── file_logger.py
+│   ├── file.py
+│   ├── logger.py
+│   ├── request_handler.py
+│   ├── scrape.py
+│   ├── user_agent.py
+│   └── validators.py
+└── view
+    ├── banner.py
+    ├── config.py
+    └── result.py
+
+6 directories, 24 files
 {% endhighlight %}
 
 # Installation
@@ -62,43 +65,40 @@ psdir
 # Options
 ---
 {% highlight bash %}
-Usage: psdir.py [-u|--url] target [options].
-Choose -h/--help option for more detail.
+usage: psdir.py [-u|--url] target [options].
 
-Options:
-  --version             show program's version number and exit
+psdir - Web Path Scanner
+
+options:
   -h, --help            show this help message and exit
-
-  CORE SETTINGS:
-    -u URL, --url=URL   Target URL, eg: https://example.com,
-                        http://example.com
-    -w WORDLISTS, --wordlists=WORDLISTS
-                        Wordlist files or directories contain wordlists
-    --ua=USER_AGENT, --user-agent=USER_AGENT
-                        User-Agent files or directories contain useragent
-
-  PERFORMENT & REQUEST SETTINGS:
-    -t THREADS, --threads=THREADS
-                        Number of threads (default: 40)
-    --to=TIMEOUT, --timeout=TIMEOUT
+  -u URL, --url URL     Target URL
+  -w WORDLIST, --wordlist WORDLIST
+                        Path to wordlist file(s)
+  -ua USER_AGENT, --user-agent USER_AGENT
+                        Path to user-agent file(s)
+  -c CONCURRENCY, --concurrency CONCURRENCY
+                        Number of threads
+  -t TIMEOUT, --timeout TIMEOUT
                         Connection timeout in seconds
-    -m METHOD, --http-method=METHOD
-                        HTTP method (default: GET)
-    --mc=MATCH_CODE, --match-code=MATCH_CODE
-                        Match HTTP status code
-                        (default:200,204,301,302,307,401,403)
-    --cookie=COOKIE     The cookie of the requests, eg: key:value
-    --proxies=PROXY     PROXY for requests, eg:
-                        https://username:password@proxy.example.com:8080,
-                        https://proxy.example.com:8080
-    --ar=ALLOW_REDIRECT, --allow-redirect=ALLOW_REDIRECT
-                        Accept redirect in request
+  -m HTTP_METHOD, --http-method HTTP_METHOD
+                        HTTP method
+  -mc MATCH_CODE, --match-code MATCH_CODE
+                        Match HTTP status codes
 
-  OUTPUT & LOGGING SETTINGS:
-    -o FILE, --output=FILE
-                        Save output to a file
+HTTP Settings:
+  --cookie COOKIE       Cookies for requests (e.g., 'key=value; key2=value2')
+  --proxies PROXIES     Proxy for requests (e.g., 'http://user:pass@proxy.com:8080')
+  -ar, --allow-redirect
+                        Allow HTTP redirects (true/false)
+  -s, --scrape          Scrape <a> tags and request their URLs
+  -rl RATE_LIMIT, --rate-limit RATE_LIMIT
+                        Limit requests per second (default: unlimited)
 
-See 'core/setting.py' for the example configuration file
+Output Settings:
+  -o OUTPUT, --output OUTPUT
+                        Save output to a file (.txt, .log, .json)
+
+See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
 # Hoạt động
