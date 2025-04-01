@@ -102,6 +102,24 @@ Output Settings:
 See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
+# Recommend
+---
+## Using Virtual Environment (venv)
+---
+* Linux
+{% highlight bash %}
+sudo apt-get install python3 # Install python if you don't have it yet
+
+sudo apt-get install python3-venv # Get python3-venv package to create venv
+
+cd psdir # Go to project
+
+python3 -m venv name_venv # Create venv
+
+source name_venv/bin/activate # Active venv
+
+deactivate # Exit venv
+{% endhighlight %}
 
 
 
