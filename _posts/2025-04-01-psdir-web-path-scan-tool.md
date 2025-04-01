@@ -220,6 +220,13 @@ python psdir.py [-u|--url] example.com [--proxie] http://user:pass@proxy.com:808
 python psdir.py [-u|--url] example.com [--ar|--allow-redirect]
 {% endhighlight %}
 
+## Scrape
+---
+Cào các thẻ <a> có thuộc tính **href** tiếp tục request để lấy thông tin. Không cần kèm theo biến phía sau.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--s|--scrape]
+{% endhighlight %}
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
