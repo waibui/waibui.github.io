@@ -145,13 +145,13 @@ deactivate # Exit venv
 
 # Usage
 ---
+Ở lần chạy đầu tiên, chương trình sẽ tự động tải các gói cần thiết từ `requirements.txt`.
+
 {% highlight bash %}
 python psdir.py -u example.com 
 {% endhighlight %}
 
-Ở lần chạy đầu tiên, chương trình sẽ tự động tải các gói cần thiết từ `requirements.txt`.
-
-
+Tham số **[-u|--url]** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**
 
 
 <script src="https://giscus.app/client.js"
