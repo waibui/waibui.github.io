@@ -155,8 +155,18 @@ python psdir.py -u example.com
 Tham số **[-u|--url]** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**.
 
 ## Wordlist
+---
 Nếu không truyền tham số **[-w|--wordlist]**, chương trình sử dụng wordlist mặc định trong **data/wordlist.txt**
+{% highlight bash %}
+python psdir.py [-u|--url] example.com -w [-w|--wordlist] path_to_wordlist.txt
+{% endhighlight %}
 
+## User-Agent
+---
+Nếu không truyền tham số **[-ua|--user-agent]**, chương trình sử dụng module **fake-useragent** để lấy giá trị User-Agent ngẫu nhiên. Nếu truyền thì phải truyền đường dẫn đến file chứa User-Agent.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com -w [-ua|--user-agent] path_to_user_agent.txt
+{% endhighlight %}
 
 
 <script src="https://giscus.app/client.js"
