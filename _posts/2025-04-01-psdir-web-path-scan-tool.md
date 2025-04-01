@@ -227,6 +227,21 @@ Cào các thẻ <a> có thuộc tính **href** tiếp tục request để lấy 
 python psdir.py [-u|--url] example.com [--s|--scrape]
 {% endhighlight %}
 
+## Rate limit
+---
+Giới hạn số lượng request mỗi giây (default: unlimited, unit: second(s) ).
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--rl|--rate-limit]
+{% endhighlight %}
+
+## Output file
+---
+Log thông tin ra file sau khi quét. Mặc định không thực hiện log.
+Các extension file log hợp lệ: .txt, .log, .json, .csv, .xlsx, .yaml, .yml, .md, .html, .xml
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--o|--output] path_to_log_file.valid_extension
+{% endhighlight %}
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
