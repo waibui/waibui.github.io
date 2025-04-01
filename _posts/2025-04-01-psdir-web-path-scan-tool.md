@@ -57,12 +57,12 @@ psdir
 6 directories, 24 files
 {% endhighlight %}
 
-# Installation
+# Tải
 ---
 1. Sử dụng git: `git clone https://github.com/waibui/psdir.git`
 2. Tải zip file: [https://github.com/waibui/psdir.git](https://github.com/waibui/psdir/archive/refs/heads/main.zip)
 
-# Options
+# Tùy chọn
 ---
 {% highlight bash %}
 usage: psdir.py [-u|--url] target [options].
@@ -101,7 +101,6 @@ Output Settings:
 See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
-# Hoạt động
 
 
 
