@@ -169,23 +169,34 @@ python psdir.py [-u|--url] example.com -w [-ua|--user-agent] path_to_user_agent.
 {% endhighlight %}
 
 ## Concurrency
+---
 Số luồng thực thi request đồng thời của chương trình(default: 50), không được bé hơn 1.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com -c [-c|--concurrency] number_of_concurrency
 {% endhighlight %}
 
 ## Timeout
+---
 Thời gian 1 request tồn tại(default: 10), không được bé hơn 1.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com -c [-c|--concurrency] number_of_concurrency
 {% endhighlight %}
 
 ## HTTP method
+---
 Mặc định sử dụng GET method, nhưng có thể tùy chình với các method hợp lệ: GET, POST, HEAD, PUT, DELETE.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com -c [-m|--http-method] method
 {% endhighlight %}
 Tham só method có thể lowercase hoặc uppercase.
+
+## Match code
+---
+Filter các status code hợp lệ, mặc định: 200, 204, 301, 302, 307, 401, 403, 429.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com -c [-mc|--match-code] statuscode1,statuscode2,...
+{% endhighlight %}
+Code phải viết liền nhau, không có **space**.
 
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
