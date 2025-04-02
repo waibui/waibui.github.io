@@ -26,6 +26,10 @@ Trái ngược với **Windows**, **Linux** hướng tới người dùng nâng 
 
 **Windows** thì khác: nó không chỉ là một kernel mà là một hệ điều hành hoàn chỉnh, với giao diện, ứng dụng, và các dịch vụ đi kèm. Kernel của **Windows** được gọi là **Windows NT Kernel**.
 
+# My Experience with Windows and Linux
+## UI
+---
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
