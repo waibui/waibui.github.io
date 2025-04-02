@@ -41,7 +41,7 @@ Hầu như tôi chỉ dùng **CLI** (Command Line Interface) trên **Linux**, hi
 ## Resources
 ---
 Sau khi sài nhiều bản phân phối, hệ điều hành khác nhau, tôi thấy **Windows** luôn chiếm nhiều **RAM** hơn so với các bản phân phối **Linux** do chạy nhiều tiến trình hơn ngay từ khi khởi động, mặc dù tôi đã tắt các **process** tự khởi động. Do đó khi dùng **laptop** cũng sẽ nóng hơn hết. 
-Trong các điều kiện giống nhau, **Pin** của **Windows** nó nhanh hết hơn của **Linux**, phải gắp 2 lần.
+Trong các điều kiện giống nhau, **Pin** của **Windows** nó nhanh hết hơn của **Linux**, phải gấp 2 lần.
 
 ## Software & Applications
 ---
