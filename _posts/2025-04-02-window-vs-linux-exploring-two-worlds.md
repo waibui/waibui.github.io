@@ -29,10 +29,14 @@ Trái ngược với **Windows**, **Linux** hướng tới người dùng nâng 
 # My Experience with Windows and Linux
 ---
 Ở bài viết này tôi chỉ đánh giá các hệ điều hành mà mình đã sữ dụng, chia sẽ cảm nhận của mình về các hệ điều hành đó.
+
 ## User Interface (UI)
 ---
+Mặc dù **Windows 11** có nhiều người chê nhưng tôi phải công nhận rằng UI của nó đẹp thực sự, không bị khô cứng như các các phiên bản **Windows** trước hay **Linux** nói chung. **Windows** có giao diện trực quan, dễ sử dụng, quen thuộc với đa số người dùng. còn **Linux** có tính tùy chỉnh cao, có nhiều môi trường desktop như GNOME, KDE, XFCE.
 
+Còn khi dùng **Linux**, việc đầu tiên sau tôi khi cài là tùy chỉnh giao diện, đặc biệt trên mỗi trường **GNOME** có cộng đồng hỗ trợ mạnh mẽ, các tùy chỉnh template đẹp, dễ sử dụng. Trên **Kali Linux** nếu không ưa dùng **XFCE**(default), bạn có thể chuyển sang **GNOME** từ bước cài đặt nó hoặc tùy chỉnh thông qua dòng lệnh sau khi chạy.
 
+Hầu như tôi chỉ dùng **CLI** (Command Line Interface) trên **Linux**, hiếm khi sử dụng nó trên **Windows**. **Linux** sử dụng **Terminal** làm giao diện dòng lệnh còn **Windows** sử dụng **CMD** hoặc **Power Shell**. Sử dụng trên **Terminal** thích nhất phím `Ctrl + C`, nó giúp **Terminate** hay dừng chương trình ngay lập tức, còn **Windows** trong một số trường hợp không hỗ trợ, khi code các chương trình vòng lặp được thực thi, chúng ta có thể ngừng ngay lập tức mà không cần phải bắt sự kiện để ngừng.
 
 
 <script src="https://giscus.app/client.js"
