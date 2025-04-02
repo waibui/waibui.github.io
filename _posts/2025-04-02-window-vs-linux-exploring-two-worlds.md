@@ -22,13 +22,18 @@ Trái ngược với **Windows**, **Linux** hướng tới người dùng nâng 
 ---
 ![Opera System Family](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/os-family.png)
 
-**Linux** thực chất là một kernel (hạt nhân), không phải một hệ điều hành hoàn chỉnh. Kernel là phần lõi của hệ điều hành, chịu trách nhiệm giao tiếp giữa phần cứng và phần mềm, quản lý tài nguyên hệ thống như CPU, bộ nhớ, và thiết bị ngoại vi. Các bản phân phối **Linux** (Linux distributions - distros) như **Ubuntu**, **Fedora**, **Arch**, **Debian**… mới thực sự là hệ điều hành.
+**Linux** thực chất là một **kernel** (hạt nhân), không phải một hệ điều hành hoàn chỉnh. **Kernel** là phần lõi của hệ điều hành, chịu trách nhiệm giao tiếp giữa phần cứng và phần mềm, quản lý tài nguyên hệ thống như CPU, bộ nhớ, và thiết bị ngoại vi. Các bản phân phối **Linux** (Linux distributions - distros) như **Ubuntu**, **Fedora**, **Arch**, **Debian**… mới thực sự là hệ điều hành.
 
-**Windows** thì khác: nó không chỉ là một kernel mà là một hệ điều hành hoàn chỉnh, với giao diện, ứng dụng, và các dịch vụ đi kèm. Kernel của **Windows** được gọi là **Windows NT Kernel**.
+**Windows** mà bạn dùng hiện nay dựa trên **Windows NT Kenel**, là **kenel** của các hệ điều hành phổ biến như **Windows 10** và **Windows 11**.
 
 # My Experience with Windows and Linux
-## UI
 ---
+Ở bài viết này tôi chỉ đánh giá các hệ điều hành mà mình đã sữ dụng, chia sẽ cảm nhận của mình về các hệ điều hành đó.
+## User Interface (UI)
+---
+
+
+
 
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
