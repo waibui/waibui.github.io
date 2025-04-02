@@ -45,7 +45,7 @@ Trong các điều kiện giống nhau, **Pin** của **Windows** nó nhanh hế
 
 ![In Ubuntu](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-linux.png)
 
-![In Windows](/_posts/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-windows.png)
+![In Windows](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-windows.png)
 ## Software & Applications
 ---
 Bản phân phối Linux chính mà tôi đang sài là **Ubuntu 22.04.5 LTS** cũng là hệ điều hành chính mà tôi dang sài, dual boot với **Windows 11 Pro**. Tuy vậy, không thể phủ nhận rằng Lib Office lỏ hơn Microsoft Office, nên tôi mới dual boot để sử dụng Office của Microsoft.
