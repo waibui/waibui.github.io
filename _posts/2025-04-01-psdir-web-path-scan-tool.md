@@ -243,6 +243,50 @@ Các extension file log hợp lệ: .txt, .log, .json, .csv, .xlsx, .yaml, .yml,
 python psdir.py [-u|--url] example.com [--o|--output] path_to_log_file.valid_extension
 {% endhighlight %}
 
+# Test
+---
+{% highlight bash %}
+
+    ██████╗ ███████╗██████╗ ██╗██████╗   Author    : waibui
+    ██╔══██╗██╔════╝██╔══██╗██║██╔══██╗  Version   : 1.0.0
+    ██████╔╝███████╗██║  ██║██║██████╔╝  License   : LICECSE
+    ██╔═══╝ ╚════██║██║  ██║██║██╔══██╗  Doccument : https://github.com/waibui/psdir
+    ██║     ███████║██████╔╝██║██║  ██║  OS        : Linux 6.8.0-57-generic
+    ╚═╝     ╚══════╝╚═════╝ ╚═╝╚═╝  ╚═╝  Python    : 3.10.12                                                                         
+    
+------------------------------------------------------------
+- Target URL: https://google.com
+- Threads: 100
+- Timeout: 10 seconds
+- Allow Redirects: No
+- Cookie: None
+- Proxy: None
+- Wordlist: /home/wai/Documents/Projects/psdir/data/wordlist.txt (9674 entries)
+- Target Status Codes: [200, 204, 301, 302, 307, 401, 403, 429]
+------------------------------------------------------------
+[+] 200 - 0.232s - https://google.com/.well-known/assetlinks.json
+[+] 301 - 0.231s - https://google.com/.well-known/security.txt
+[+] 301 - 0.222s - https://google.com/2001
+[+] 301 - 0.193s - https://google.com/2002
+[+] 301 - 0.197s - https://google.com/2001/
+[+] 301 - 0.170s - https://google.com/2002/
+[+] 301 - 0.167s - https://google.com/2003
+[+] 301 - 0.140s - https://google.com/2004
+[+] 301 - 0.143s - https://google.com/2003/
+[+] 301 - 0.117s - https://google.com/2004/
+[+] 301 - 0.272s - https://google.com/2005
+[+] 301 - 0.248s - https://google.com/2005/
+[+] 301 - 0.245s - https://google.com/2006
+...
+[+] 301 - 0.226s - https://google.com/workspace/uploads/
+------------------------------------------------------------
+[+] Scan Completed in 34.53s
+- 200: 2 occurrences
+- 301: 234 occurrences
+- 302: 14 occurrences
+------------------------------------------------------------
+{% endhighlight %}
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
