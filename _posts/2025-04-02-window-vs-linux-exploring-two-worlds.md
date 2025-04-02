@@ -49,6 +49,11 @@ Bản phân phối Linux chính mà tôi đang sài là **Ubuntu 22.04.5 LTS** c
 
 Khả năng gõ tiếng Việt thì **Linux** lỏ thôi rồi, không được tối ưu như Unikey hay EVKey trên **Windows**.
 
+Về phần quản lý gói và cài đặt ứng dụng, dường như **Linux** sử dụng CLI để quản lý, có thể cài trên **Software** cho một số bản phân phối có hỗ trợ GUI như **Ubuntu**. Trên **Windows** có thể cài trên **Microsoft Store** hoặc tải file `.exe` để cài. Phần này thấy sài quen rồi thì cài bằng cách nào cũng được. Như người dùng bình thường thì thấy cài trên **Windows** khỏe hơn.
+
+# Conclusion
+Người dùng bình thường thì nên sài **Windows**, hỗ trợ tốt. **Linux** dùng cho **Dev** hay **System Manager** vì thực hiện giao diện dòng lệnh cho quen, đó là đầu vào chuẩn, có thể sử dụng trên tất cả các thiết bị.
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
