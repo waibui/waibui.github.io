@@ -246,6 +246,7 @@ python psdir.py [-u|--url] example.com [--o|--output] path_to_log_file.valid_ext
 # Test
 ---
 {% highlight bash %}
+(venv) wai@wai:~/Documents/Projects/psdir$ python psdir.py -u google.com -c 100 > a.txt
 
     ██████╗ ███████╗██████╗ ██╗██████╗   Author    : waibui
     ██╔══██╗██╔════╝██╔══██╗██║██╔══██╗  Version   : 1.0.0
