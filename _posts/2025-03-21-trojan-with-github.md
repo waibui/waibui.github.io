@@ -1,7 +1,7 @@
 ---
 author: "waibui"
 layout: post
-title:  "How to create Trojan tool with Github"
+title:  "How To Create Trojan Tool With Github"
 date: 2025-03-21
 comments: true
 description: Cách tạo Trojan tool với Github

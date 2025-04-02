@@ -1,7 +1,7 @@
 ---
 author: "waibui"
 layout: post
-title:  "If 50 year later"
+title:  "If 50 Year Later"
 date: 2025-03-22
 comments: true
 description: Who will be present in their memories

@@ -1,7 +1,7 @@
 ---
 author: "waibui"
 layout: post
-title:  "Hi there!"
+title:  "Hi There!"
 date: 2024-12-25
 comments: true
 description: The first post

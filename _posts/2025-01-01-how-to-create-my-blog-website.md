@@ -1,7 +1,7 @@
 ---
 author: "waibui"
 layout: post
-title:  "How did I create this blog website?"
+title:  "How Did I Create This Blog Website?"
 date: 2025-01-01
 comments: true
 description: Cách tôi tạo ra trang blog này bằng cách sử dụng sử dụng Github pages và Giscus.

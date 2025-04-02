@@ -1,7 +1,7 @@
 ---
 author: "waibui"
 layout: post
-title:  "Packet sniffing on Windows and Linux"
+title:  "Packet Sniffing On Windows And Linux"
 date: 2025-03-18
 comments: true
 description: Packet sniffing trên Windows và Linux
