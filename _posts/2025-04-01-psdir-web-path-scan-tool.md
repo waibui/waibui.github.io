@@ -103,41 +103,145 @@ Output Settings:
 See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
-# Recommend
+# Recommended 
 ---
+venv (Virtual Environment) là một công cụ giúp tạo môi trường ảo để quản lý các thư viện và dependencies trong Python. Nói rõ ra trong mỗi dự án bạn sử dụng 1 venv riêng, không trùng nhau và cũng không trùng với Python hệ thống. Mọi gói bạn tải đều nằm trong venv không tải trên Python hệ thống, giúp hệ thống của bạn sạch, tránh được xung đột.
 ## Using Virtual Environment (venv)
 ---
-* Linux
+### Linux
 {% highlight bash %}
 sudo apt-get install python3 # Install python if you don't have it yet
 
 sudo apt-get install python3-venv # Get python3-venv package to create venv
 
-cd psdir # Go to project
+cd psdir # Go to project directory
 
 python3 -m venv name_venv # Create venv
 
-source name_venv/bin/activate # Active venv
+source name_venv/bin/activate # Activate venv
+
+pip install package_name # Install package
 
 deactivate # Exit venv
 {% endhighlight %}
 
-* Window
+### Windows
+{% highlight powershell %}
+# Install Python if you don't have it yet (Download from https://www.python.org/downloads/)
+# Make sure to check "Add Python to PATH" during installation
+# Or go to Microsoft Store to download Python, it help auto config in your environment
+
+cd psdir # Go to project directory
+
+python -m venv name_venv # Create venv
+
+name_venv\Scripts\activate # Activate venv (for cmd)
+# OR
+name_venv\Scripts\Activate.ps1 # Activate venv (for PowerShell)
+
+pip install package_name # Install package
+
+deactivate # Exit venv
+{% endhighlight %}
+
+# Usage
+---
+Ở lần chạy đầu tiên, chương trình sẽ tự động tải các gói cần thiết từ `requirements.txt`.
+
 {% highlight bash %}
-sudo apt-get install python3 # Install python if you don't have it yet
-
-sudo apt-get install python3-venv # Get python3-venv package to create venv
-
-cd psdir # Go to project
-
-python3 -m venv name_venv # Create venv
-
-source name_venv/bin/activate # Active venv
-
-deactivate # Exit venv
+python psdir.py -u example.com 
 {% endhighlight %}
 
+---
+Tham số **[-u|--url]** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**.
 
+## Wordlist
+---
+Nếu không truyền tham số **[-w|--wordlist]**, chương trình sử dụng wordlist mặc định trong **data/wordlist.txt**
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [-w|--wordlist] path_to_wordlist.txt
+{% endhighlight %}
+
+## User-Agent
+---
+Nếu không truyền tham số **[-ua|--user-agent]**, chương trình sử dụng module **fake-useragent** để lấy giá trị User-Agent ngẫu nhiên. Nếu truyền thì phải truyền đường dẫn đến file chứa User-Agent.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [-ua|--user-agent] path_to_user_agent.txt
+{% endhighlight %}
+
+## Concurrency
+---
+Số luồng thực thi request đồng thời của chương trình(default: 50), không được bé hơn 1.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [-c|--concurrency] number_of_concurrency
+{% endhighlight %}
+
+## Timeout
+---
+Thời gian 1 request tồn tại(default: 10, unit: second(s) ), không được bé hơn 1.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [-t|--time-out] number_of_timeout
+{% endhighlight %}
+
+## HTTP method
+---
+Mặc định sử dụng GET method, nhưng có thể tùy chình với các method hợp lệ: GET, POST, HEAD, PUT, DELETE.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [-m|--http-method] method
+{% endhighlight %}
+Tham só method có thể lowercase hoặc uppercase.
+
+## Match code
+---
+Filter các status code hợp lệ, mặc định: 200, 204, 301, 302, 307, 401, 403, 429.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [-mc|--match-code] statuscode1,statuscode2,...
+{% endhighlight %}
+Code phải viết liền nhau, không có **space**.
+
+## Cookie
+---
+Cookie cho từng request
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--cookie] key=value,key2=value2,...
+{% endhighlight %}
+Cookie phải viết liền nhau, không có **space**.
+
+## Proxy
+---
+Proxy cho từng request
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--proxie] http://user:pass@proxy.com:8080
+{% endhighlight %}
+
+## Allow redirect
+---
+Đây là tham số quan trọng trong chương trình, mặc định mang giá trị **false**. Chỉ cần thêm [--ar|--allow-redirect] mà không cần kèm biến theo sau. Khi truyền vào tham số này, khi request nhận được các status code có ý nghĩa chuyển hướng, chương trình sẽ thực hiện redirect tới đích của request. Không có tham số này, chương trình trả về các status code chưa chuyển hướng.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--ar|--allow-redirect]
+{% endhighlight %}
+
+## Scrape
+---
+Cào các thẻ <a> có thuộc tính **href** tiếp tục request để lấy thông tin. Không cần kèm theo biến phía sau.
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--s|--scrape]
+{% endhighlight %}
+
+## Rate limit
+---
+Giới hạn số lượng request mỗi giây (default: unlimited, unit: second(s) ).
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--rl|--rate-limit]
+{% endhighlight %}
+
+## Output file
+---
+Log thông tin ra file sau khi quét. Mặc định không thực hiện log.
+Các extension file log hợp lệ: .txt, .log, .json, .csv, .xlsx, .yaml, .yml, .md, .html, .xml
+{% highlight bash %}
+python psdir.py [-u|--url] example.com [--o|--output] path_to_log_file.valid_extension
+{% endhighlight %}
 
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
