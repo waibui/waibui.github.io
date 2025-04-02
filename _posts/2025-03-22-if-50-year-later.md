@@ -11,7 +11,7 @@ tags:
 ---
 
 <video width="0%" autoplay loop>
-    <source src="/assets/video/neu_50_nam_sau.mp4" type="video/mp4">
+    <source src="/assets/video/posts/neu_50_nam_sau.mp4" type="video/mp4">
 </video>
 
 > "Nếu 50 năm sau.."
