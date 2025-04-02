@@ -38,8 +38,16 @@ Còn khi dùng **Linux**, việc đầu tiên sau tôi khi cài là tùy chỉnh
 
 Hầu như tôi chỉ dùng **CLI** (Command Line Interface) trên **Linux**, hiếm khi sử dụng nó trên **Windows**. **Linux** sử dụng **Terminal** làm giao diện dòng lệnh còn **Windows** sử dụng **CMD** hoặc **Power Shell**. Sử dụng trên **Terminal** thích nhất phím `Ctrl + C`, nó giúp **Terminate** hay dừng chương trình ngay lập tức, còn **Windows** trong một số trường hợp không hỗ trợ, khi code, các chương trình vòng lặp được thực thi, chúng ta có thể ngừng ngay lập tức mà không cần phải bắt sự kiện để ngừng.
 
-## Perfomance & Resources
+## Resources
 ---
+Sau khi sài nhiều bản phân phối, hệ điều hành khác nhau, tôi thấy **Windows** luôn chiếm nhiều **RAM** hơn so với các bản phân phối **Linux** do chạy nhiều tiến trình hơn ngay từ khi khởi động, mặc dù tôi đã tắt các **process** tự khởi động. Do đó khi dùng **laptop** cũng sẽ nóng hơn hết. 
+Trong các điều kiện giống nhau, **Pin** của **Windows** nó nhanh hết hơn của **Linux**, phải gắp 2 lần.
+
+## Software & Applications
+---
+Bản phân phối Linux chính mà tôi đang sài là **Ubuntu 22.04.5 LTS** cũng là hệ điều hành chính mà tôi dang sài, dual boot với **Windows 11 Pro**. Tuy vậy, không thể phủ nhận rằng Lib Office lỏ hơn Microsoft Office, nên tôi mới dual boot để sử dụng Office của Microsoft.
+
+Khả năng gõ tiếng Việt thì **Linux** lỏ thôi rồi, không được tối ưu như Unikey hay EVKey trên **Windows**.
 
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
