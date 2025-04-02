@@ -43,9 +43,9 @@ Hầu như tôi chỉ dùng **CLI** (Command Line Interface) trên **Linux**, hi
 Sau khi sài nhiều bản phân phối, hệ điều hành khác nhau, tôi thấy **Windows** luôn chiếm nhiều **RAM** hơn so với các bản phân phối **Linux** do chạy nhiều tiến trình hơn ngay từ khi khởi động, mặc dù tôi đã tắt các **process** tự khởi động. Do đó khi dùng **laptop** cũng sẽ nóng hơn hết. 
 Trong các điều kiện giống nhau, **Pin** của **Windows** nó nhanh hết hơn của **Linux**, phải gấp 2 lần.
 
-![In Ubuntu](assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-linux.png)
+![In Ubuntu](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-linux.png)
 
-![In Window](assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-linux.png)
+![In Windows](/_posts/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-windows.png)
 ## Software & Applications
 ---
 Bản phân phối Linux chính mà tôi đang sài là **Ubuntu 22.04.5 LTS** cũng là hệ điều hành chính mà tôi dang sài, dual boot với **Windows 11 Pro**. Tuy vậy, không thể phủ nhận rằng Lib Office lỏ hơn Microsoft Office, nên tôi mới dual boot để sử dụng Office của Microsoft.
