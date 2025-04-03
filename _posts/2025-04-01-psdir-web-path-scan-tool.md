@@ -15,13 +15,12 @@ tags:
 ---
 
 # Introduce
----
 Đây là công cụ bảo mật đầu tiên do waibui phát triển. Dù mã nguồn còn đơn giản, nhưng hiệu suất đủ nhanh và có các tùy chọn phù hợp cho nhu cầu pentest của tôi. Thực ra, có rất nhiều công cụ mạnh mẽ và đa năng hơn, nhưng việc sử dụng một tool do chính mình tạo ra mang lại cảm giác thỏa mãn, có thể tùy chỉnh theo ý muốn.
 
 Tôi viết nó đơn giản vì nhu cầu cá nhân, sau thời gian dài phân tích cũng thấy mệt, nên code cho vui và để đổi gió một chút.
 
-# Contructure
 ---
+# Contructure
 {% highlight bash %}
 psdir
 .
@@ -59,13 +58,13 @@ psdir
 6 directories, 24 files
 {% endhighlight %}
 
-# Installation
 ---
+# Installation
 1. Sử dụng git: `git clone https://github.com/waibui/psdir.git`
 2. Tải zip file: [https://github.com/waibui/psdir.git](https://github.com/waibui/psdir/archive/refs/heads/main.zip)
 
-# Doccument
 ---
+# Doccument
 {% highlight bash %}
 usage: psdir.py [-u|--url] target [options].
 
@@ -103,11 +102,11 @@ Output Settings:
 See 'config/settings.py' for the example configuration file
 {% endhighlight %}
 
+---
 # Recommended 
----
 venv (Virtual Environment) là một công cụ giúp tạo môi trường ảo để quản lý các thư viện và dependencies trong Python. Nói rõ ra trong mỗi dự án bạn sử dụng 1 venv riêng, không trùng nhau và cũng không trùng với Python hệ thống. Mọi gói bạn tải đều nằm trong venv không tải trên Python hệ thống, giúp hệ thống của bạn sạch, tránh được xung đột.
+
 ## Using Virtual Environment (venv)
----
 ### Linux
 {% highlight bash %}
 sudo apt-get install python3 # Install python if you don't have it yet
@@ -144,8 +143,8 @@ pip install package_name # Install package
 deactivate # Exit venv
 {% endhighlight %}
 
-# Usage
 ---
+# Usage
 Ở lần chạy đầu tiên, chương trình sẽ tự động tải các gói cần thiết từ `requirements.txt`.
 
 {% highlight bash %}
@@ -156,35 +155,30 @@ python psdir.py -u example.com
 Tham số **[-u|--url]** là bắt buộc, biến được truyền vào có thể không chỉ định **http** hay **https**(default), nếu không chỉ định thì mặc định sử dụng **https**.
 
 ## Wordlist
----
 Nếu không truyền tham số **[-w|--wordlist]**, chương trình sử dụng wordlist mặc định trong **data/wordlist.txt**
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [-w|--wordlist] path_to_wordlist.txt
 {% endhighlight %}
 
 ## User-Agent
----
 Nếu không truyền tham số **[-ua|--user-agent]**, chương trình sử dụng module **fake-useragent** để lấy giá trị User-Agent ngẫu nhiên. Nếu truyền thì phải truyền đường dẫn đến file chứa User-Agent.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [-ua|--user-agent] path_to_user_agent.txt
 {% endhighlight %}
 
 ## Concurrency
----
 Số luồng thực thi request đồng thời của chương trình(default: 50), không được bé hơn 1.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [-c|--concurrency] number_of_concurrency
 {% endhighlight %}
 
 ## Timeout
----
 Thời gian 1 request tồn tại(default: 10, unit: second(s) ), không được bé hơn 1.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [-t|--time-out] number_of_timeout
 {% endhighlight %}
 
 ## HTTP method
----
 Mặc định sử dụng GET method, nhưng có thể tùy chình với các method hợp lệ: GET, POST, HEAD, PUT, DELETE.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [-m|--http-method] method
@@ -192,7 +186,6 @@ python psdir.py [-u|--url] example.com [-m|--http-method] method
 Tham só method có thể lowercase hoặc uppercase.
 
 ## Match code
----
 Filter các status code hợp lệ, mặc định: 200, 204, 301, 302, 307, 401, 403, 429.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [-mc|--match-code] statuscode1,statuscode2,...
@@ -200,7 +193,6 @@ python psdir.py [-u|--url] example.com [-mc|--match-code] statuscode1,statuscode
 Code phải viết liền nhau, không có **space**.
 
 ## Cookie
----
 Cookie cho từng request
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [--cookie] key=value,key2=value2,...
@@ -208,43 +200,38 @@ python psdir.py [-u|--url] example.com [--cookie] key=value,key2=value2,...
 Cookie phải viết liền nhau, không có **space**.
 
 ## Proxy
----
 Proxy cho từng request
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [--proxie] http://user:pass@proxy.com:8080
 {% endhighlight %}
 
 ## Allow redirect
----
 Đây là tham số quan trọng trong chương trình, mặc định mang giá trị **false**. Chỉ cần thêm [--ar|--allow-redirect] mà không cần kèm biến theo sau. Khi truyền vào tham số này, khi request nhận được các status code có ý nghĩa chuyển hướng, chương trình sẽ thực hiện redirect tới đích của request. Không có tham số này, chương trình trả về các status code chưa chuyển hướng.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [--ar|--allow-redirect]
 {% endhighlight %}
 
 ## Scrape
----
 Cào các thẻ <a> có thuộc tính **href** tiếp tục request để lấy thông tin. Không cần kèm theo biến phía sau.
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [--s|--scrape]
 {% endhighlight %}
 
 ## Rate limit
----
 Giới hạn số lượng request mỗi giây (default: unlimited, unit: second(s) ).
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [--rl|--rate-limit]
 {% endhighlight %}
 
 ## Output file
----
 Log thông tin ra file sau khi quét. Mặc định không thực hiện log.
 Các extension file log hợp lệ: .txt, .log, .json, .csv, .xlsx, .yaml, .yml, .md, .html, .xml
 {% highlight bash %}
 python psdir.py [-u|--url] example.com [--o|--output] path_to_log_file.valid_extension
 {% endhighlight %}
 
-# Test
 ---
+# Test
 {% highlight bash %}
 (venv) wai@wai:~/Documents/Projects/psdir$ python psdir.py -u google.com -c 100 > a.txt
 
