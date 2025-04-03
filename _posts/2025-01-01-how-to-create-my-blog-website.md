@@ -24,8 +24,8 @@ Giscus là một ứng dụng được phát triển để đơn giản hóa và
 Do Github pages dùng để lưu trữ các web tĩnh nên phần cơ sở dữ liệu sẽ không được thêm vào, nếu có thì bạn có thể sử dụng Firebase để làm cơ sở dữ liệu.
 Giscus nó miễn phí, không quảng cáo, cài đặt dễ dàng. 
 
-# Carry Out
 ---
+# Carry Out
 ## Choose Templates
 Đầu tiên mình sẽ sử dụng template của Jekyll, các bạn có thể tham khảo các trang này để chọn.
 [jekyllthemes.org](http://jekyllthemes.org/) - [jekyllthemes.io/free](https://jekyllthemes.io/free)
