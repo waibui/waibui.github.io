@@ -12,14 +12,15 @@ tags:
 - python
 ---
 
-# Giới thiệu
+# Overview
 IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truyền đi trong mạng hay internet. Nó gồm nhiểu trường khác nhau, chứa các thông tin quan trọng để định tuyến và truyền dữ liệu qua mạng. Mỗi gói tin IP bao gồm 2 phần chính:
 * IP Header
 * Payload
 
 ![IP Header](/assets/images/posts/2025-03-18-ip-header-explain/ip_header.png)
 
-# Các thành phần của IP Header
+---
+# Components of IP Header
 ## Version
 * Vị trí: Octec 0 (4 Bit đầu)
 * Chức năng: Chỉ định phiên bản của IP packet.
@@ -33,12 +34,12 @@ IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truy
 | 10-15 | Không hợp lệ | Không được sử dụng chính thức |
 {:.inner-borders}
 
----
 ## IHL (Internet Header Length)
 * Vị trí: Octec 0 (Bit 4 -> Bit 7)
 * Chức năng: Xác định kích thước của phần Header
 
 Vì ở đây là 4 bit nên max value là 15(1111) nhưng min value lại là 5(0101)
+
 ### Công thức tính kích thước Header
 {% highlight bash %}
 length(header) = IHL * 4
@@ -48,14 +49,12 @@ max(length(header)) = 15 * 4 = 60(bytes)
 
 Nếu ở IHL=5 thì chỉ chứa Header IPv4 chuẩn, không có phần Option (giải thích ở dưới). Vì nó chỉ có 20 byte, bắt đầu từ byte 0 đến byte 19, quan sát hình ở trên bạn sẽ thấy rằng phần Option nó xuất hiện từ byte 20.
 
----
 ## TOS(Type of Service)
 TOS (Type of Service) là một trường 8 bit trong IPv4 Header, được sử dụng để xác định ưu tiên và chất lượng dịch vụ của gói tin IP.
 * Vị trí: Octec 1 (Bit 8 -> Bit 15)
 * Chức năng: Được dùng để kiểm soát độ ưu tiên, độ trễ, thông lượng và độ tin cậy của gói tin.
 * Bao gồm 2 thành phần chính: DSCP và ECN
 
----
 ### DSCP (Differentiated Services Code Point)
 DSCP (6 bit) là một phần của trường TOS, được sử dụng để phân loại mức độ ưu tiên của gói tin trong mạng.
 * Vị trí: 6 bit đầu tiên của byte thứ 2 trong IPv4 header (Bit 8 -> Bit 13).
@@ -76,7 +75,6 @@ DSCP (6 bit) là một phần của trường TOS, được sử dụng để ph
 | CS7 (Reserved)          | 56                   | 111000  | Dự trữ |
 {:.inner-borders}
 
----
 ###  ECN (Explicit Congestion Notification) 
 ECN là một cơ chế giúp phát hiện và kiểm soát tắc nghẽn mạng mà không cần drop (hủy bỏ) gói tin.
 * Vị trí: ECN là 2 bit cuối cùng của byte DSCP/ECN trong IP Header (Bit 14 -> Bit 15).
@@ -89,7 +87,6 @@ ECN là một cơ chế giúp phát hiện và kiểm soát tắc nghẽn mạng
 | 10        | 10     | ECT(0) (ECN-Capable Transport 0) – Hỗ trợ ECN |
 | 11        | 11     | CE (Congestion Experienced) – Xác nhận tắc nghẽn |
 
----
 ## Total Length
 Total Length là một trường 16-bit trong IP Header.
 * Vị trí: Thuộc byte 2 và 3 (Bit 16 -> Bit 31).
@@ -111,18 +108,15 @@ Nếu Total Length > MTU (Maximum Transmission Unit), gói tin sẽ bị chia nh
 | > 65,535         | Không hợp lệ trong IPv4. |
 {:.inner-borders}
 
----
 ## Identification
 Identification (ID) là một trường 16-bit trong IP Header.
 * Vị trí: Thuộc byte 4 và 5 (Bit 31 -> Bit 47).
 * Úng dụng: Dùng để xác định từng gói tin IP riêng lẻ. Khi một gói tin bị phân mảnh, tất cả các mảnh sẽ có cùng ID để bộ thu có thể ghép lại đúng thứ tự.
 
----
 ## Flags (3) + Fragment Offset (13)
 Flags + Fragment Offset là một trường 16-bit trong IP Header.
 * Vị trí: Nằm ở byte 6 và 7.
 
----
 ### Flag
 * Vị trí: 3 bit đầu của byte 6 (Bit 48 -> Bit 50).
 * Ứng dụng: Flags giúp xác định xem gói tin có bị phân mảnh hay không.
@@ -134,7 +128,6 @@ Flags + Fragment Offset là một trường 16-bit trong IP Header.
 | Bit 2 | MF (More Fragments) | 1 = Còn nhiều mảnh phía sau.<br>0 = Đây là mảnh cuối cùng. |
 {:.inner-borders}
 
----
 ### Fragment Offset
 * Vị trí: 13 bit sau của byte 6 (Bit 51 -> Bit 63)
 * Úng dụng: Xác định vị trí của mảnh hiện tại trong gói tin gốc.
@@ -157,12 +150,9 @@ TTL là một trường 8-bit, nằm ở Byte 8 trong IP Header.
 * Ứng dụng: Giới hạn tuổi thọ của một gói tin trong mạng bằng cách giảm dần mỗi khi nó đi qua một router.
 
 ### Cách hoạt động của TTL:
-
 1. Khi gói tin được gửi đi, TTL được thiết lập với một giá trị nhất định (thường là 64, 128, hoặc 255).
 2. Mỗi lần gói tin đi qua một router, TTL bị giảm 1.
 3. Nếu TTL giảm xuống 0, gói tin bị loại bỏ và router gửi về một ICMP Time Exceeded.
-
----
 
 ### Ứng dụng của TTL
 * Ngăn chặn vòng lặp mạng: Tránh việc gói tin bị lặp vô hạn nếu có lỗi định tuyến.
@@ -170,7 +160,6 @@ TTL là một trường 8-bit, nằm ở Byte 8 trong IP Header.
 * Công cụ Traceroute: Dựa vào TTL để xác định đường đi của gói tin qua các router.
 
 ### Giá trị TTL phổ biến theo hệ điều hành
-
 | Hệ điều hành  | Giá trị TTL mặc định |
 |--------------|----------------------|
 | Windows      | 128                  |
@@ -187,7 +176,6 @@ Protocol là một trường 8-bit
 * Úng dụng: Xác định giao thức lớp trên mà IP sẽ chuyển tiếp gói tin đến, ví dụ như TCP, UDP, ICMP...
 
 ### Một số giá trị phổ biến của Protocol
-
 | Giá trị | Giao thức | Mô tả |
 |---------|----------|-------------------------------|
 | 1       | ICMP     | Giao thức điều khiển, thường dùng trong ping. |
@@ -214,7 +202,6 @@ Header Checksum là một trường 16-bit
 * Nếu khớp, gói tin không bị lỗi.
 * Nếu khác, gói tin bị lỗi và sẽ bị loại bỏ hoặc yêu cầu gửi lại.
 
----
 ## Source IP Address
 * Vị trí: Nằm ở Byte 12 - 15 (Bit 96 -> Bit 127)
 * Ứng dụng: Trường này chứa địa chỉ IP nguồn, tức là địa chỉ của thiết bị gửi gói tin.
@@ -222,8 +209,6 @@ Header Checksum là một trường 16-bit
 ## Destination IP Address
 * Vị trí: Nằm ở Byte 16 - 19 (Bit 128 - Bit 159)
 * Ứng dung: Destination IP Address chứa địa chỉ IP đích, tức là thiết bị nhận gói tin.
-
----
 
 ## Option
 * Vị trí: Trường Option trong IP Header có kích thước biến đổi và chỉ xuất hiện khi IHL > 5 (tức là header lớn hơn 20 bytes). Nếu không có Option, IP Header mặc định có 20 bytes. Nếu có Option, tổng kích thước header có thể lên tới 60 bytes.
@@ -240,7 +225,6 @@ Header Checksum là một trường 16-bit
 {:.inner-borders}
 
 ---
-
 # Code 
 >Python
 {% highlight python linenos %}
@@ -341,15 +325,11 @@ except KeyboardInterrupt:
 Đoạn code này là một **sniffer** (bộ thu thập gói tin) đơn giản được viết bằng Python. Nó sử dụng **Raw Socket** để bắt các gói tin trên một địa chỉ IP cụ thể (`192.168.1.13`).  
 Code có khả năng phân tích tiêu đề của các gói tin IP và ICMP.
 
----
-
 ## Các thư viện được sử dụng
 - `socket`: Hỗ trợ làm việc với socket mạng.
 - `os`: Kiểm tra hệ điều hành (Windows hoặc Linux).
 - `struct`: Hỗ trợ xử lý dữ liệu nhị phân.
 - `ctypes`: Định nghĩa cấu trúc dữ liệu ở cấp thấp.
-
----
 
 ## Lớp IP - Phân tích tiêu đề IP
 Lớp IP dùng để biểu diễn tiêu đề của gói tin IP.
@@ -374,7 +354,6 @@ class IP(Structure):
 * **__init__()**: Trích xuất địa chỉ nguồn và đích từ dữ liệu IP.
 
 ## Lớp ICMP biểu diễn tiêu đề của gói tin ICMP.
-
 {% highlight python %}
 class ICMP(Structure):
     _fields_ = [
@@ -399,7 +378,6 @@ sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 * IP_HDRINCL = 1: Bao gồm tiêu đề IP trong dữ liệu nhận được.
 
 ## Bắt gói tin
-
 {% highlight python %}
 while True:
     raw_buffer = sniffer.recvfrom(65535)[0]
@@ -417,7 +395,6 @@ while True:
 * Giải mã tiêu đề IP để lấy giao thức, địa chỉ nguồn và đích.
 
 ## Xử lý gói tin ICMP
-
 {% highlight python %}
 if ip_header.protocol == "ICMP":
     offset = ip_header.ihl * 4
@@ -436,7 +413,6 @@ if ip_header.protocol == "ICMP":
 * Vị trí của gói tin ICMP bắt đầu từ Byte thứ 20, mở rộng đến `+ sizeof(ICMP)`
 
 ## Xử lý ngắt chương trình
-
 {% highlight python %}
 except KeyboardInterrupt:
     if os.name == "nt":
