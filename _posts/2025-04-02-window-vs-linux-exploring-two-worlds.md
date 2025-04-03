@@ -17,6 +17,7 @@ Khi nói tới hệ điều hành, mọi người thường nghĩ đến **Windo
 Trái ngược với **Windows**, **Linux** hướng tới người dùng nâng cao 1 tí, hơn cả, nó miễn phí 100%, có cộng đồng hỗ trợ đông đảo. Đặc biệt, **Linux** có rất nhiều phiên bản phân phối, phục vụ có từng nhu cầu cụ thể, đẽ dàng tùy chỉnh giao diện với nhiều môi trường Desktop khác nhau.
 **Linux** chủ yếu sử dụng giao CLI (Command Line Interface).
 
+---
 # Opera System Family 
 ![Opera System Family](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/os-family.png)
 
@@ -24,6 +25,7 @@ Trái ngược với **Windows**, **Linux** hướng tới người dùng nâng 
 
 **Windows** mà bạn dùng hiện nay dựa trên **Windows NT Kenel**, là **kenel** của các hệ điều hành phổ biến như **Windows 10** và **Windows 11**.
 
+---
 # My Experience with Windows and Linux
 Ở bài viết này tôi chỉ đánh giá các hệ điều hành mà mình đã sữ dụng, chia sẽ cảm nhận của mình về các hệ điều hành đó.
 
@@ -49,6 +51,7 @@ Khả năng gõ tiếng Việt thì **Linux** lỏ thôi rồi, không được 
 
 Về phần quản lý gói và cài đặt ứng dụng, dường như **Linux** sử dụng CLI để quản lý, có thể cài trên **Software** cho một số bản phân phối có hỗ trợ GUI như **Ubuntu**. Trên **Windows** có thể cài trên **Microsoft Store** hoặc tải file `.exe` để cài. Phần này thấy sài quen rồi thì cài bằng cách nào cũng được. Như người dùng bình thường thì thấy cài trên **Windows** khỏe hơn.
 
+---
 # Conclusion
 Người dùng bình thường thì nên sài **Windows**, hỗ trợ tốt. **Linux** dùng cho **Dev** hay **System Manager** vì thực hiện giao diện dòng lệnh cho quen, đó là đầu vào chuẩn, có thể sử dụng trên tất cả các thiết bị.
 
