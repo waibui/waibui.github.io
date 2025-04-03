@@ -12,7 +12,7 @@ tags:
 - web
 ---
 
-# Giới thiệu
+# Overview
 Hi. Nay mình sẽ chia sẽ cách mình đã tạo ra trang Blog này. Mình sử dụng 2 nền tảng miễn phí là Github pages và Giscus.
 
 ## Github pages
@@ -24,20 +24,20 @@ Giscus là một ứng dụng được phát triển để đơn giản hóa và
 Do Github pages dùng để lưu trữ các web tĩnh nên phần cơ sở dữ liệu sẽ không được thêm vào, nếu có thì bạn có thể sử dụng Firebase để làm cơ sở dữ liệu.
 Giscus nó miễn phí, không quảng cáo, cài đặt dễ dàng. 
 
-# Thực hiện
+# Carry Out
 ## Chọn Themes
 Đầu tiên mình sẽ sử dụng template của Jekyll, các bạn có thể tham khảo các trang này để chọn.
 [jekyllthemes.org](http://jekyllthemes.org/) - [jekyllthemes.io/free](https://jekyllthemes.io/free)
 <img style="width: 100%;" src="/assets/images/posts/2025-01-01-how-to-create-my-blog-website/choose_theme.gif" alt="Choose Theme">
 
-## Lấy Website về 
+## Get Source
 Ở bước này bạn có thể **Fork** rồi **Clone code** hoặc **Clone code** rồi push lên lại cũng được. Ở đây mình sẽ Fork về và đặt repository là `username.github.io`
 <img style="width: 100%;" src="/assets/images/posts/2025-01-01-how-to-create-my-blog-website/fork.gif" alt="Fork">
 Sau khi Fork về, mình cần setting để nó có thể render ra web.
 ![Setting](/assets/images/posts/2025-01-01-how-to-create-my-blog-website/setting.png)
 Sau khi clone code về bạn cần phải chỉnh sửa một số thông tin, thay đổi thành thông tin của bạn, thường thì nó ở file `_config.yml`
 
-## Thêm chức năng bình luận
+## Add Comment Feature
 Như giời thiệu ở trên, mình sẽ sử dụng Giscus để tạo chức năng bình luận cho mỗi bài viết.
 Để sử dụng chức năng bình luận thì bạn cần phải đáp ứng 3 yêu cầu sau
 1. Kho lưu trữ là công khai, nếu không, khách truy cập sẽ không thể xem thảo luận.
