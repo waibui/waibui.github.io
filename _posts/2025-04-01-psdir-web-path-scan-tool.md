@@ -1,4 +1,7 @@
-ool"
+---
+author: "waibui"
+layout: post
+title: "psdir - Web Path Scanner Tool"
 date: 2025-04-01
 comments: true
 description: Công cụ quét đường dẫn website dựa trên wordlist của tôi.
