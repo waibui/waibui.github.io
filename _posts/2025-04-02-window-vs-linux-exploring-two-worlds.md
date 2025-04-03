@@ -31,7 +31,6 @@ Trái ngược với **Windows**, **Linux** hướng tới người dùng nâng 
 Ở bài viết này tôi chỉ đánh giá các hệ điều hành mà mình đã sữ dụng, chia sẽ cảm nhận của mình về các hệ điều hành đó.
 
 ## User Interface (UI)
----
 Mặc dù **Windows 11** có nhiều người chê nhưng tôi phải công nhận rằng UI của nó đẹp thực sự, không bị khô cứng như các các phiên bản **Windows** trước hay **Linux** nói chung. **Windows** có giao diện trực quan, dễ sử dụng, quen thuộc với đa số người dùng. còn **Linux** có tính tùy chỉnh cao, có nhiều môi trường desktop như GNOME, KDE, XFCE.
 
 Còn khi dùng **Linux**, việc đầu tiên sau tôi khi cài là tùy chỉnh giao diện, đặc biệt trên mỗi trường **GNOME** có cộng đồng hỗ trợ mạnh mẽ, các tùy chỉnh template đẹp, dễ sử dụng. Trên **Kali Linux** nếu không ưa dùng **XFCE**(default), bạn có thể chuyển sang **GNOME** từ bước cài đặt nó hoặc tùy chỉnh thông qua dòng lệnh sau khi chạy.
@@ -39,15 +38,14 @@ Còn khi dùng **Linux**, việc đầu tiên sau tôi khi cài là tùy chỉnh
 Hầu như tôi chỉ dùng **CLI** (Command Line Interface) trên **Linux**, hiếm khi sử dụng nó trên **Windows**. **Linux** sử dụng **Terminal** làm giao diện dòng lệnh còn **Windows** sử dụng **CMD** hoặc **Power Shell**. Sử dụng trên **Terminal** thích nhất phím `Ctrl + C`, nó giúp **Terminate** hay dừng chương trình ngay lập tức, còn **Windows** trong một số trường hợp không hỗ trợ, khi code, các chương trình vòng lặp được thực thi, chúng ta có thể ngừng ngay lập tức mà không cần phải bắt sự kiện để ngừng.
 
 ## Resources
----
 Sau khi sài nhiều bản phân phối, hệ điều hành khác nhau, tôi thấy **Windows** luôn chiếm nhiều **RAM** hơn so với các bản phân phối **Linux** do chạy nhiều tiến trình hơn ngay từ khi khởi động, mặc dù tôi đã tắt các **process** tự khởi động. Do đó khi dùng **laptop** cũng sẽ nóng hơn hết. 
 Trong các điều kiện giống nhau, **Pin** của **Windows** nó nhanh hết hơn của **Linux**, phải gấp 2 lần.
 
 ![In Ubuntu](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-linux.png)
 
 ![In Windows](/assets/images/posts/2025-04-02-window-vs-linux-exploring-two-worlds/ram-windows.png)
+
 ## Software & Applications
----
 Bản phân phối Linux chính mà tôi đang sài là **Ubuntu 22.04.5 LTS** cũng là hệ điều hành chính mà tôi dang sài, dual boot với **Windows 11 Pro**. Tuy vậy, không thể phủ nhận rằng Lib Office lỏ hơn Microsoft Office, nên tôi mới dual boot để sử dụng Office của Microsoft.
 
 Khả năng gõ tiếng Việt thì **Linux** lỏ thôi rồi, không được tối ưu như Unikey hay EVKey trên **Windows**.
