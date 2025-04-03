@@ -25,7 +25,7 @@ Do Github pages dùng để lưu trữ các web tĩnh nên phần cơ sở dữ 
 Giscus nó miễn phí, không quảng cáo, cài đặt dễ dàng. 
 
 # Carry Out
-## Chọn Themes
+## Choose Templates
 Đầu tiên mình sẽ sử dụng template của Jekyll, các bạn có thể tham khảo các trang này để chọn.
 [jekyllthemes.org](http://jekyllthemes.org/) - [jekyllthemes.io/free](https://jekyllthemes.io/free)
 <img style="width: 100%;" src="/assets/images/posts/2025-01-01-how-to-create-my-blog-website/choose_theme.gif" alt="Choose Theme">
