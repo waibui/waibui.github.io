@@ -99,6 +99,8 @@ async def cmd_namefunc(update: Update, context: ContextTypes.DEFAULT_TYPE):
     """docstring"""
 {% endhighlight %}
 
+* `namefunc`: cũng chính là tên của feature.
+* `docstring`: là phần mô tả cho hàm, cũng mô tả cho feature.
 
 
 <script src="https://giscus.app/client.js"
