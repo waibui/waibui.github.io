@@ -64,7 +64,35 @@ TELEGRAM_BOT_TOKEN=yourbot-token
 AUTHORIZED_USERS=valid-uid
 {% endhighlight %}
 
-[valid-uid](https://t.me/userinfobot)
+[Get valid-uid](https://t.me/userinfobot)
+
+---
+# Running
+## Virtual Enviroment
+Nên tạo môi trường ảo để chạy:
+* Tránh xung đột với **Python System**
+* Dễ dàng quản lý
+
+{% highlight bash %}
+python3 -m venv venv
+{% endhighlight %}
+
+## Testing
+{% highlight bash %}
+python wai-bot-tele.py
+{% endhighlight %}
+
+---
+# Extend
+Để thêm các **plugin** khác:
+* Tạo file **Python** trong thư mục **plugins**
+* Trong mỗi file tạo các **module** với tên có cấu trúc **cmd_namefunc**, phải có **async** trước **def**, vì **Telegram** yêu cầu bất đồng bộ.
+
+{% highlight bash %}
+async def cmd_namefunc(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    """docstring"""
+{% endhighlight %}
+
 
 
 <script src="https://giscus.app/client.js"
