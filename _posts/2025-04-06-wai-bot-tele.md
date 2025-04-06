@@ -59,6 +59,12 @@ wai-bot-tele
 
 ## .env File
 Thêm nội dung vào file `.env`
+{% highlight bash %}
+TELEGRAM_BOT_TOKEN=yourbot-token
+AUTHORIZED_USERS=valid-uid
+{% endhighlight %}
+
+[valid-uid](https://t.me/userinfobot)
 
 
 <script src="https://giscus.app/client.js"
