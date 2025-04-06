@@ -13,7 +13,7 @@ tags:
 ---
 
 # Overview
-Wai-bot-tele là một Telegram bot linh hoạt và có thể mở rộng, được xây dựng bằng Python. Nó cung cấp một framework để quản lý plugin và các lệnh, giúp các lập trình viên dễ dàng tạo và mở rộng các tính năng của bot. Bot được thiết kế để tương tác với Telegram API một cách mượt mà, đồng thời cung cấp phương thức dễ dàng để thêm các tính năng mới thông qua kiến trúc plugin. Dù bạn muốn tạo ra các lệnh mới hay tùy chỉnh các lệnh có sẵn, bot này rất linh hoạt và có thể mở rộng, giúp bạn dễ dàng điều chỉnh theo nhu cầu cụ thể của mình.
+wai-bot-tele là một Telegram bot linh hoạt và có thể mở rộng, được xây dựng bằng Python. Nó cung cấp một framework để quản lý plugin và các lệnh, giúp các lập trình viên dễ dàng tạo và mở rộng các tính năng của bot. Bot được thiết kế để tương tác với Telegram API một cách mượt mà, đồng thời cung cấp phương thức dễ dàng để thêm các tính năng mới thông qua kiến trúc plugin. Dù bạn muốn tạo ra các lệnh mới hay tùy chỉnh các lệnh có sẵn, bot này rất linh hoạt và có thể mở rộng, giúp bạn dễ dàng điều chỉnh theo nhu cầu cụ thể của mình.
 
 Một số tính năng nổi bật của bot bao gồm:
 
