@@ -77,6 +77,12 @@ Nên tạo môi trường ảo để chạy:
 python3 -m venv venv
 {% endhighlight %}
 
+## Default feature
+* `/start`: khởi động bot.
+* `/help`: hiển thị các tính năng đang có.
+* `/reload`: nạp lại các plugins(thêm/sửa/xóa plugins ngay cả khi chương trình vẫn đang chạy).
+* `/shutdown`: shutdown bot, thoát chương trình.
+
 ## Testing
 {% highlight bash %}
 python wai-bot-tele.py
