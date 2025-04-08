@@ -40,7 +40,7 @@ IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truy
 
 Vì ở đây là 4 bit nên max value là 15(1111) nhưng min value lại là 5(0101)
 
-### Công thức tính kích thước Header
+### Header size calculation formula
 {% highlight bash %}
 length(header) = IHL * 4
 min(length(header)) = 5 * 4 = 20(bytes) // Header IPv4 chuẩn
@@ -94,7 +94,7 @@ Total Length là một trường 16-bit trong IP Header.
 * Giá trị tối thiểu: 20 bytes (khi chỉ có IP Header, không có dữ liệu).
 * Giá trị tối đa: 65,535 bytes (giới hạn bởi kích thước 16-bit).
 
-### Công thức tính kích thước Total Length
+### Formula for calculating Total Length
 {% highlight bash %}
 Total Length=IP Header Length+Payload Length
 {% endhighlight %}
@@ -149,17 +149,17 @@ TTL là một trường 8-bit, nằm ở Byte 8 trong IP Header.
 * Vị trí: Byte 8 (Bit 64 -> Bit 71)
 * Ứng dụng: Giới hạn tuổi thọ của một gói tin trong mạng bằng cách giảm dần mỗi khi nó đi qua một router.
 
-### Cách hoạt động của TTL:
+### How TTL Works
 1. Khi gói tin được gửi đi, TTL được thiết lập với một giá trị nhất định (thường là 64, 128, hoặc 255).
 2. Mỗi lần gói tin đi qua một router, TTL bị giảm 1.
 3. Nếu TTL giảm xuống 0, gói tin bị loại bỏ và router gửi về một ICMP Time Exceeded.
 
-### Ứng dụng của TTL
+### Applications of TTL
 * Ngăn chặn vòng lặp mạng: Tránh việc gói tin bị lặp vô hạn nếu có lỗi định tuyến.
 * Kiểm soát thời gian sống của gói tin: Đảm bảo gói tin không tồn tại mãi trong mạng.
 * Công cụ Traceroute: Dựa vào TTL để xác định đường đi của gói tin qua các router.
 
-### Giá trị TTL phổ biến theo hệ điều hành
+### Common TTL values ​​by operating system
 | Hệ điều hành  | Giá trị TTL mặc định |
 |--------------|----------------------|
 | Windows      | 128                  |
@@ -175,7 +175,7 @@ Protocol là một trường 8-bit
 * Vị trí: Byte 9 (Bit 72 -> Bit 79)
 * Úng dụng: Xác định giao thức lớp trên mà IP sẽ chuyển tiếp gói tin đến, ví dụ như TCP, UDP, ICMP...
 
-### Một số giá trị phổ biến của Protocol
+### Some common values ​​of Protocol
 | Giá trị | Giao thức | Mô tả |
 |---------|----------|-------------------------------|
 | 1       | ICMP     | Giao thức điều khiển, thường dùng trong ping. |
@@ -196,7 +196,7 @@ Header Checksum là một trường 16-bit
 * Vị trí: Nằm ở Byte 10 và 11 (Bit 80 -> Bit 95).
 * Ứng dụng: Header Checksum là một giá trị kiểm tra lỗi, giúp xác định xem header của gói tin IP có bị lỗi trong quá trình truyền hay không.
 
-### Cách hoạt động:
+### How it works
 1. Trước khi gửi đi, bộ gửi tính toán checksum dựa trên toàn bộ IP Header.
 2. Khi nhận gói tin, bộ nhận tính toán lại checksum và so sánh với giá trị checksum trong header.
 * Nếu khớp, gói tin không bị lỗi.
@@ -321,17 +321,17 @@ except KeyboardInterrupt:
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
 {% endhighlight %}
 
-## Tổng quan
+## Overview
 Đoạn code này là một **sniffer** (bộ thu thập gói tin) đơn giản được viết bằng Python. Nó sử dụng **Raw Socket** để bắt các gói tin trên một địa chỉ IP cụ thể (`192.168.1.13`).  
 Code có khả năng phân tích tiêu đề của các gói tin IP và ICMP.
 
-## Các thư viện được sử dụng
+## Libraries used
 - `socket`: Hỗ trợ làm việc với socket mạng.
 - `os`: Kiểm tra hệ điều hành (Windows hoặc Linux).
 - `struct`: Hỗ trợ xử lý dữ liệu nhị phân.
 - `ctypes`: Định nghĩa cấu trúc dữ liệu ở cấp thấp.
 
-## Lớp IP - Phân tích tiêu đề IP
+## IP Layer - IP Header Analysis
 Lớp IP dùng để biểu diễn tiêu đề của gói tin IP.
 
 {% highlight python %}
@@ -353,7 +353,7 @@ class IP(Structure):
 * **__new__()**: Tạo đối tượng từ dữ liệu nhị phân.
 * **__init__()**: Trích xuất địa chỉ nguồn và đích từ dữ liệu IP.
 
-## Lớp ICMP biểu diễn tiêu đề của gói tin ICMP.
+## The ICMP class represents the header of an ICMP packet
 {% highlight python %}
 class ICMP(Structure):
     _fields_ = [
@@ -365,7 +365,7 @@ class ICMP(Structure):
     ]
 {% endhighlight %}
 
-## Tạo socket raw
+## Create socket raw
 {% highlight python %}
 socket_protocol = socket.IPPROTO_IP if os.name == "nt" else socket.IPPROTO_ICMP
 sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)
@@ -377,7 +377,7 @@ sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
 * Windows: Dùng IPPROTO_IP, Linux: Dùng IPPROTO_ICMP.
 * IP_HDRINCL = 1: Bao gồm tiêu đề IP trong dữ liệu nhận được.
 
-## Bắt gói tin
+## Packet capture
 {% highlight python %}
 while True:
     raw_buffer = sniffer.recvfrom(65535)[0]
@@ -394,7 +394,7 @@ while True:
 * Nhận dữ liệu từ socket.
 * Giải mã tiêu đề IP để lấy giao thức, địa chỉ nguồn và đích.
 
-## Xử lý gói tin ICMP
+## ICMP packet processing
 {% highlight python %}
 if ip_header.protocol == "ICMP":
     offset = ip_header.ihl * 4
@@ -412,7 +412,7 @@ if ip_header.protocol == "ICMP":
 * IHL=5 ở đây sẽ là 5, nên Header Length là 20 byte, không chứa phần `Option`
 * Vị trí của gói tin ICMP bắt đầu từ Byte thứ 20, mở rộng đến `+ sizeof(ICMP)`
 
-## Xử lý ngắt chương trình
+## Program Interrupt Handling
 {% highlight python %}
 except KeyboardInterrupt:
     if os.name == "nt":
@@ -421,7 +421,7 @@ except KeyboardInterrupt:
 
 * Khi nhấn Ctrl + C, nếu trên Windows, tắt chế độ promiscuous mode (RCVALL_OFF).
 
-## Kết quả
+## Result
 ### Ping
 {% highlight bash %}
 (venv) ┌─[wai@wai]─[~/Documents/Project/Blackhat-python]
