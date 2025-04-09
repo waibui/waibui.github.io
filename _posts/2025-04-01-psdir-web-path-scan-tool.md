@@ -53,13 +53,13 @@ psdir
 ├── ui
 │   ├── display.py
 │   └── __init__.py
-├── utils
-│   ├── cookie.py
-│   ├── dependencies.py
-│   ├── file.py
-│   ├── __init__.py
-│   ├── user_agent.py
-│   └── validators.py
+└── utils
+    ├── cookie.py
+    ├── dependencies.py
+    ├── file.py
+    ├── __init__.py
+    ├── user_agent.py
+    └── validators.py
 {% endhighlight %}
 
 ---
