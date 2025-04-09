@@ -24,38 +24,42 @@ Tôi viết nó đơn giản vì nhu cầu cá nhân, sau thời gian dài phân
 {% highlight bash %}
 psdir
 .
+├── cli
+│   ├── banner.py
+│   ├── __init__.py
+│   └── parser.py
 ├── controller
-│   └── controller.py
+│   ├── controller.py
+│   └── __init__.py
 ├── core
 │   ├── config.py
-│   └── logger.py
+│   ├── exception.py
+│   ├── __init__.py
+│   ├── logger.py
+│   ├── result.py
+│   └── scanner.py
 ├── data
 │   ├── common.txt
 │   ├── user-agent.txt
 │   └── wordlist.txt
 ├── LICENSE
-├── model
-│   ├── exception.py
-│   ├── result.py
-│   └── scanner.py
+├── network
+│   ├── __init__.py
+│   ├── request_handler.py
+│   └── scrape.py
 ├── psdir.py
 ├── README.md
 ├── requirements.txt
-├── setup.py
+├── ui
+│   ├── display.py
+│   └── __init__.py
 ├── utils
-│   ├── arg_parser.py
+│   ├── cookie.py
 │   ├── dependencies.py
 │   ├── file.py
-│   ├── request_handler.py
-│   ├── scrape.py
+│   ├── __init__.py
 │   ├── user_agent.py
 │   └── validators.py
-└── view
-    ├── banner.py
-    ├── config.py
-    └── result.py
-
-6 directories, 24 files
 {% endhighlight %}
 
 ---
