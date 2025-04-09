@@ -24,14 +24,16 @@ Tôi viết nó đơn giản vì nhu cầu cá nhân, sau thời gian dài phân
 {% highlight bash %}
 psdir
 .
-├── config
-│   └── settings.py
 ├── controller
 │   └── controller.py
+├── core
+│   ├── config.py
+│   └── logger.py
 ├── data
 │   ├── common.txt
 │   ├── user-agent.txt
 │   └── wordlist.txt
+├── LICENSE
 ├── model
 │   ├── exception.py
 │   ├── result.py
@@ -43,9 +45,7 @@ psdir
 ├── utils
 │   ├── arg_parser.py
 │   ├── dependencies.py
-│   ├── file_logger.py
 │   ├── file.py
-│   ├── logger.py
 │   ├── request_handler.py
 │   ├── scrape.py
 │   ├── user_agent.py
