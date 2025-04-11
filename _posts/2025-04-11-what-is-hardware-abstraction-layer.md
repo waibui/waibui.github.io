@@ -36,6 +36,14 @@ HAL (tạm dịch: Lớp trừu tượng phần cứng) là một phần mềm t
 * **HAL**: Là lớp trung gian, giúp tách biệt phần cứng khỏi phần mềm.
 * Trong một vài trường hợp đặc biệt, kernel có thể giao tiếp trực tiếp với phần cứng, nhưng vẫn dựa vào HAL cho phần lớn công việc.
 
+---
+# Conclusion
+| Thành phần | Vai trò |
+|------------|--------|
+| Kernel     | Nhân hệ điều hành, điều khiển toàn bộ hệ thống |
+| HAL        | Dịch và xử lý yêu cầu giữa kernel và phần cứng |
+| Hardware   | Thiết bị vật lý như CPU, RAM, ổ cứng, chuột, bàn phím |
+
 <script src="https://giscus.app/client.js"
         data-repo="waibui/waibui.github.io"
         data-repo-id="R_kgDONiHcVw"
