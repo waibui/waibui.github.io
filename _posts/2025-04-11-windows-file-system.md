@@ -54,7 +54,8 @@ Trước khi sử dụng thiết bị lưu trữ, cần phải:
 | **File Area**            | Vùng lưu trữ thực tế cho dữ liệu người dùng. |
 {:.inner-borders}
 
-## ⚠️ Security Considerations
+---
+# Security Considerations
 
 - Format không xóa hoàn toàn dữ liệu → có thể khôi phục bằng công cụ chuyên dụng.
 - Nên sử dụng **secure wipe** (xóa an toàn) để ghi đè nhiều lần và bảo đảm dữ liệu cũ không thể phục hồi.
