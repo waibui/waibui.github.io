@@ -13,9 +13,6 @@ tags:
 ---
 
 # Windows File Systems
-
-## What is a File System?
-
 **File system (hệ thống tập tin)** là cách mà hệ điều hành tổ chức, lưu trữ và truy xuất dữ liệu trên các thiết bị lưu trữ như ổ cứng, SSD, USB, thẻ nhớ,…
 
 Trước khi sử dụng thiết bị lưu trữ, cần phải:
