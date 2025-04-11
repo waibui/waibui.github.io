@@ -2,7 +2,7 @@
 author: "waibui"
 layout: post
 title:  "What is Hardware Abstraction Layer?"
-date: 2025-03-18
+date: 2025-04-11
 comments: true
 description: Hardware Abstraction Layer trong Windows
 categories: introduce
@@ -38,6 +38,7 @@ HAL (tạm dịch: Lớp trừu tượng phần cứng) là một phần mềm t
 
 ---
 # Conclusion
+
 | Thành phần | Vai trò |
 |------------|--------|
 | Kernel     | Nhân hệ điều hành, điều khiển toàn bộ hệ thống |
