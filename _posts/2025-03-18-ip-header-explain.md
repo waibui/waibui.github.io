@@ -3,9 +3,9 @@ title:  "IP Header Explain"
 date: 2025-03-18 10:00:00 +0700
 comments: true
 description: Detail about IP header
-categories: [security]
+categories: [Cybersecurity, Networking]
 toc: true
-tags: [python, networking]
+tags: [analytics, ipv4, protocol]
 image:
     path: /assets/img/posts/2025-03-18-ip-header-explain/ip_header.png
 ---

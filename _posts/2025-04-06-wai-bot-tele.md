@@ -3,9 +3,9 @@ title:  "wai-bot-tele - A Telegram Bot using Python"
 date: 2025-04-06 10:00:00 +0700
 comments: true
 description: Telegram bot using Python, easy to extend.
-categories: security
+categories: [Cybersecurity, Tools]
 toc: true
-tags: [python]
+tags: [telegram, python, bot, automation]
 image:
     path: /assets/img/posts/2025-04-06-wai-bot-tele/pythonxtele.png
 ---

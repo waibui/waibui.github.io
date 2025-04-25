@@ -3,9 +3,9 @@ title:  "What is Hardware Abstraction Layer?"
 date: 2025-04-11 10:00:00 +0700
 comments: true
 description: Hardware Abstraction Layer on Windows
-categories: [introduce]
+categories: [Cybersecurity, Operating Systems]
 toc: true
-tags: [analytics, windows]
+tags: [hardware, kernel, system architecture, windows]
 image:
         path: /assets/img/posts/2025-04-11-what-is-hardware-abstraction-layer/layer-model.png
 ---
