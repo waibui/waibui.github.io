@@ -2,7 +2,7 @@
 title:  "How To Create Trojan Tool With Github"
 date: 2025-03-21
 comments: true
-description: Cách tạo Trojan tool với Github
+description: Learn how to create a Python-based Trojan tool that dynamically fetches and executes modules from a GitHub repository.
 categories: [security]
 toc: true
 tags: [python, tool]
