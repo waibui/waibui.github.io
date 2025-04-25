@@ -173,6 +173,7 @@ Protocol là một trường 8-bit
 * Úng dụng: Xác định giao thức lớp trên mà IP sẽ chuyển tiếp gói tin đến, ví dụ như TCP, UDP, ICMP...
 
 #### Some common values ​​of Protocol
+
 | Giá trị | Giao thức | Mô tả |
 |---------|----------|-------------------------------|
 | 1       | ICMP     | Giao thức điều khiển, thường dùng trong ping. |
