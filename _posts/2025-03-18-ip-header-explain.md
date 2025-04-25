@@ -37,11 +37,11 @@ IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truy
 Vì ở đây là 4 bit nên max value là 15(1111) nhưng min value lại là 5(0101)
 
 #### Header size calculation formula
-{% highlight bash %}
+```bash
 length(header) = IHL * 4
 min(length(header)) = 5 * 4 = 20(bytes) // Header IPv4 chuẩn
 max(length(header)) = 15 * 4 = 60(bytes) 
-{% endhighlight %}
+```
 
 Nếu ở IHL=5 thì chỉ chứa Header IPv4 chuẩn, không có phần Option (giải thích ở dưới). Vì nó chỉ có 20 byte, bắt đầu từ byte 0 đến byte 19, quan sát hình ở trên bạn sẽ thấy rằng phần Option nó xuất hiện từ byte 20.
 
@@ -91,9 +91,9 @@ Total Length là một trường 16-bit trong IP Header.
 * Giá trị tối đa: 65,535 bytes (giới hạn bởi kích thước 16-bit).
 
 #### Formula for calculating Total Length
-{% highlight bash %}
+```bash
 Total Length=IP Header Length+Payload Length
-{% endhighlight %}
+```
 
 Nếu Total Length > MTU (Maximum Transmission Unit), gói tin sẽ bị chia nhỏ (fragmentation)
 
@@ -222,8 +222,7 @@ Header Checksum là một trường 16-bit
 
 ---
 ## Code 
->Python
-{% highlight python linenos %}
+```python
 import socket
 import os
 import struct
@@ -315,7 +314,7 @@ try:
 except KeyboardInterrupt:
     if os.name == "nt":
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
-{% endhighlight %}
+```
 
 ### Overview
 Đoạn code này là một **sniffer** (bộ thu thập gói tin) đơn giản được viết bằng Python. Nó sử dụng **Raw Socket** để bắt các gói tin trên một địa chỉ IP cụ thể (`192.168.1.13`).  
@@ -330,7 +329,7 @@ Code có khả năng phân tích tiêu đề của các gói tin IP và ICMP.
 ### IP Layer - IP Header Analysis
 Lớp IP dùng để biểu diễn tiêu đề của gói tin IP.
 
-{% highlight python %}
+```python
 class IP(Structure):
     _fields_ = [
         ("ihl", c_ubyte, 4),  # Độ dài phần header IP
@@ -345,12 +344,12 @@ class IP(Structure):
         ("src", c_uint32),  # Địa chỉ nguồn
         ("dst", c_uint32)  # Địa chỉ đích
     ]
-{% endhighlight %}
+```
 * **__new__()**: Tạo đối tượng từ dữ liệu nhị phân.
 * **__init__()**: Trích xuất địa chỉ nguồn và đích từ dữ liệu IP.
 
 ### The ICMP class represents the header of an ICMP packet
-{% highlight python %}
+```python
 class ICMP(Structure):
     _fields_ = [
         ("type", c_ubyte),  # Loại ICMP (Echo Request, Echo Reply, ...)
@@ -359,22 +358,22 @@ class ICMP(Structure):
         ("unused", c_ushort),
         ("next_hop_mtu", c_ushort),
     ]
-{% endhighlight %}
+```
 
 ### Create socket raw
-{% highlight python %}
+```python
 socket_protocol = socket.IPPROTO_IP if os.name == "nt" else socket.IPPROTO_ICMP
 sniffer = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket_protocol)
 sniffer.bind((HOST, 0))
 sniffer.setsockopt(socket.IPPROTO_IP, socket.IP_HDRINCL, 1)
-{% endhighlight %}
+```
 
 * Raw Socket được sử dụng để bắt gói tin thô.
 * Windows: Dùng IPPROTO_IP, Linux: Dùng IPPROTO_ICMP.
 * IP_HDRINCL = 1: Bao gồm tiêu đề IP trong dữ liệu nhận được.
 
 ### Packet capture
-{% highlight python %}
+```python
 while True:
     raw_buffer = sniffer.recvfrom(65535)[0]
     ip_header = IP(raw_buffer[0:20])
@@ -385,13 +384,13 @@ while True:
         ip_header.dst_address
         )
     )
-{% endhighlight %}
+```
 
 * Nhận dữ liệu từ socket.
 * Giải mã tiêu đề IP để lấy giao thức, địa chỉ nguồn và đích.
 
 ### ICMP packet processing
-{% highlight python %}
+```python
 if ip_header.protocol == "ICMP":
     offset = ip_header.ihl * 4
     buf = raw_buffer[offset:offset+sizeof(ICMP)]
@@ -402,24 +401,24 @@ if ip_header.protocol == "ICMP":
         icmp_header.code
         )
     )
-{% endhighlight %}
+```
 
 * Nếu gói tin là ICMP, trích xuất tiêu đề ICMP và in ra type và code.
 * IHL=5 ở đây sẽ là 5, nên Header Length là 20 byte, không chứa phần `Option`
 * Vị trí của gói tin ICMP bắt đầu từ Byte thứ 20, mở rộng đến `+ sizeof(ICMP)`
 
 ### Program Interrupt Handling
-{% highlight python %}
+```python
 except KeyboardInterrupt:
     if os.name == "nt":
         sniffer.ioctl(socket.SIO_RCVALL, socket.RCVALL_OFF)
-{% endhighlight %}
+```
 
 * Khi nhấn Ctrl + C, nếu trên Windows, tắt chế độ promiscuous mode (RCVALL_OFF).
 
 ### Result
 #### Ping
-{% highlight bash %}
+```bash
 (venv) ┌─[wai@wai]─[~/Documents/Project/Blackhat-python]
 └──╼ $ ping -c 4 8.8.8.8
 PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
@@ -431,10 +430,10 @@ PING 8.8.8.8 (8.8.8.8) 56(84) bytes of data.
 --- 8.8.8.8 ping statistics ---
 4 packets transmitted, 4 received, 0% packet loss, time 3003ms
 rtt min/avg/max/mdev = 25.198/29.237/38.354/5.302 ms
-{% endhighlight %}
+```
 
 #### Sniffing
-{% highlight bash %}
+```bash
 (venv) ┌─[wai@wai]─[~/Documents/Project/Blackhat-python]
 └──╼ $ sudo python3 chapter_3/sniffer_with_icmp.py 
 Protocol: ICMP 8.8.8.8 -> 192.168.1.13
@@ -445,4 +444,4 @@ Protocol: ICMP 8.8.8.8 -> 192.168.1.13
 ICMP -> Type: 0 Code: 0
 Protocol: ICMP 8.8.8.8 -> 192.168.1.13
 ICMP -> Type: 0 Code: 0
-{% endhighlight %}
+```
