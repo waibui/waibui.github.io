@@ -12,8 +12,8 @@ tags: [me]
     <source src="/assets/video/posts/neu_50_nam_sau.mp4" type="video/mp4">
 </video>
 
-> "Nếu 50 năm sau.."
-> "Tụi mình bị mất trí nhớ cũng giống như ông cụ đó.."
-> "Không biết ai sẽ là người hiện diện trong kí ức của mình ha.."
-> "Em nghĩ sẽ là ai?"
+> "Nếu 50 năm sau.."<br>
+> "Tụi mình bị mất trí nhớ cũng giống như ông cụ đó.."<br>
+> "Không biết ai sẽ là người hiện diện trong kí ức của mình ha.."<br>
+> "Em nghĩ sẽ là ai?"<br>
 > "Ai sẽ là người ngự trị trong kí ức nhỏ bé của em?"
