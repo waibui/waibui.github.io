@@ -51,7 +51,7 @@ wai-bot-tele
 ## Requirements
 ### Telegram Bot
 * Go to **Bot Father**: [Bot Father](https://t.me/botfather)
-![Bot Father](/assets/images/posts/2025-04-06-wai-bot-tele/bot_father.png)
+![Bot Father](/assets/img/posts/2025-04-06-wai-bot-tele/bot_father.png)
 * Create new Bot: `/newbot`
 * Enter Name: `bot's name`
 * Username for bot: `username` (It must end in `bot`. Like this, for example: TetrisBot or tetris_bot.)
