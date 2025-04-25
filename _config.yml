@@ -98,7 +98,7 @@ theme_mode: # [light | dark]
 cdn:
 
 # the avatar on sidebar, support local or CORS resources
-avatar: https://chirpy-img.netlify.app/commons/avatar.jpg
+avatar: https://i.pinimg.com/736x/a8/01/cc/a801cc6a1a4ed8cdbd433e66f593dce5.jpg
 
 # The URL of the site-wide social preview image used in SEO `og:image` meta tag.
 # It can be overridden by a customized `page.image` in front matter.
@@ -128,7 +128,6 @@ comments:
     input_position: bottom
     lang: vi
     reactions_enabled: 1
-
 
 # Self-hosted static assets, optional › https://github.com/cotes2020/chirpy-static-assets
 assets:
