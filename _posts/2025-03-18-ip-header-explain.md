@@ -156,6 +156,7 @@ TTL là một trường 8-bit, nằm ở Byte 8 trong IP Header.
 * Công cụ Traceroute: Dựa vào TTL để xác định đường đi của gói tin qua các router.
 
 #### Common TTL values ​​by operating system
+
 | Hệ điều hành  | Giá trị TTL mặc định |
 |--------------|----------------------|
 | Windows      | 128                  |
