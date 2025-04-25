@@ -1,10 +1,10 @@
 ---
-layout: post
 title: "Hi There!"
 description: The first post
 date: 2024-12-25 10:00:00 +0700
 categories: [blog]
 tags: [me]
+pin: true
 comments: false
 ---
 

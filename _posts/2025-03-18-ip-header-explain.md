@@ -1,12 +1,11 @@
 ---
-layout: post
 title:  "IP Header Explain"
 date: 2025-03-18 10:00:00 +0700
 comments: true
 description: Detail about IP header
 categories: [security]
 toc: true
-tags: [python, tool]
+tags: [python, networking]
 ---
 
 ## Overview
