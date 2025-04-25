@@ -6,9 +6,12 @@ description: Overview of file systems supported by Windows such as FAT32, exFAT,
 categories: [Cybersecurity, Operating Systems]
 toc: true
 tags: [filesystem, windows]
+image:
+  path: /assets/img/posts/2025-04-11-windows-file-system/window_file_system.png
 ---
 
-# Windows File Systems
+## Introduction
+---
 **File system (hệ thống tập tin)** là cách mà hệ điều hành tổ chức, lưu trữ và truy xuất dữ liệu trên các thiết bị lưu trữ như ổ cứng, SSD, USB, thẻ nhớ,…
 
 Trước khi sử dụng thiết bị lưu trữ, cần phải:
@@ -16,6 +19,7 @@ Trước khi sử dụng thiết bị lưu trữ, cần phải:
 2. **Format** (định dạng) với một hệ thống tập tin phù hợp.
 
 ## File Systems Supported by Windows
+---
 
 | File System           | Description |
 |------------------------|-------------|
@@ -27,7 +31,7 @@ Trước khi sử dụng thiết bị lưu trữ, cần phải:
 {:.inner-borders}
 
 ## Advantages of NTFS
-
+---
 - Hỗ trợ file và phân vùng có dung lượng rất lớn.
 - Tương thích tốt với các hệ điều hành khác (với driver hỗ trợ).
 - Tính năng nổi bật:
@@ -38,6 +42,7 @@ Trước khi sử dụng thiết bị lưu trữ, cần phải:
 {:.inner-borders}
 
 ## NTFS Partition Structure
+---
 
 | Component                | Role |
 |--------------------------|------|
@@ -47,10 +52,8 @@ Trước khi sử dụng thiết bị lưu trữ, cần phải:
 | **File Area**            | Vùng lưu trữ thực tế cho dữ liệu người dùng. |
 {:.inner-borders}
 
----
-# Security Considerations
 
+## Security Considerations
+---
 - Format không xóa hoàn toàn dữ liệu → có thể khôi phục bằng công cụ chuyên dụng.
 - Nên sử dụng **secure wipe** (xóa an toàn) để ghi đè nhiều lần và bảo đảm dữ liệu cũ không thể phục hồi.
-
----

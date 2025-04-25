@@ -11,6 +11,7 @@ image:
 ---
 
 ## Introduction
+---
 Trojan (hay Trojan Horse – "con ngựa thành Troy") là một loại phần mềm độc hại (malware) giả dạng phần mềm hợp pháp hoặc hữu ích để đánh lừa người dùng tải về và chạy nó. Khi được kích hoạt, Trojan có thể thực hiện nhiều hoạt động độc hại như:
 
 * Đánh cắp thông tin cá nhân (mật khẩu, tài khoản ngân hàng, dữ liệu cá nhân).
@@ -18,8 +19,8 @@ Trojan (hay Trojan Horse – "con ngựa thành Troy") là một loại phần m
 * Tự động tải xuống và cài đặt phần mềm độc hại khác.
 * Chiếm quyền kiểm soát thiết bị để thực hiện tấn công mạng.
 
----
 ## How Trojan Works
+---
 Trojan không tự nhân bản như virus hay sâu máy tính (worm), mà thường lây lan thông qua:
 
 * Email lừa đảo chứa tệp đính kèm độc hại.
@@ -27,8 +28,8 @@ Trojan không tự nhân bản như virus hay sâu máy tính (worm), mà thư�
 * Quảng cáo giả mạo trên web dẫn đến tải phần mềm độc hại.
 * USB hoặc thiết bị lưu trữ bên ngoài bị nhiễm Trojan.
 
----
 ## Code Trojan with Github
+---
 ```bash
 bhptrojan
 ├── config
@@ -202,6 +203,7 @@ if __name__ == "__main__":
 {: file="git_trojan.py"}
 
 ## Explanation
+---
 ```python
 def github_connect(token_path='path_to_personal_access_token_file', owner='owner', repo='repo_name') -> github3.repos.Repository:
     """Connects to the GitHub repository."""

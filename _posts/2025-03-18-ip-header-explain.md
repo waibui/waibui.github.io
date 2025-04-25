@@ -11,12 +11,13 @@ image:
 ---
 
 ## Overview
+---
 IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truyền đi trong mạng hay internet. Nó gồm nhiểu trường khác nhau, chứa các thông tin quan trọng để định tuyến và truyền dữ liệu qua mạng. Mỗi gói tin IP bao gồm 2 phần chính:
 * IP Header
 * Payload
 
----
 ## Components of IP Header
+---
 ### Version
 * Vị trí: Octec 0 (4 Bit đầu)
 * Chức năng: Chỉ định phiên bản của IP packet.
@@ -36,7 +37,7 @@ IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truy
 
 Vì ở đây là 4 bit nên max value là 15(1111) nhưng min value lại là 5(0101)
 
-#### Header size calculation formula
+Header size calculation formula:
 ```bash
 length(header) = IHL * 4
 min(length(header)) = 5 * 4 = 20(bytes) // Header IPv4 chuẩn
@@ -90,7 +91,7 @@ Total Length là một trường 16-bit trong IP Header.
 * Giá trị tối thiểu: 20 bytes (khi chỉ có IP Header, không có dữ liệu).
 * Giá trị tối đa: 65,535 bytes (giới hạn bởi kích thước 16-bit).
 
-#### Formula for calculating Total Length
+Formula for calculating Total Length:
 ```bash
 Total Length=IP Header Length+Payload Length
 ```
@@ -138,8 +139,6 @@ Flags + Fragment Offset là một trường 16-bit trong IP Header.
 Nếu Offset = 100, thì vị trí thực = 100 × 8 = 800 bytes.
 Mảnh đầu tiên luôn có Offset = 0.
 
----
-
 ### TTL (Time to Live)
 TTL là một trường 8-bit, nằm ở Byte 8 trong IP Header.
 * Vị trí: Byte 8 (Bit 64 -> Bit 71)
@@ -165,14 +164,12 @@ TTL là một trường 8-bit, nằm ở Byte 8 trong IP Header.
 | Cisco        | 255                  |
 {:.inner-borders}
 
----
-
 ### Protocol
 Protocol là một trường 8-bit
 * Vị trí: Byte 9 (Bit 72 -> Bit 79)
 * Úng dụng: Xác định giao thức lớp trên mà IP sẽ chuyển tiếp gói tin đến, ví dụ như TCP, UDP, ICMP...
 
-#### Some common values ​​of Protocol
+Some common values ​​of Protocol:
 
 | Giá trị | Giao thức | Mô tả |
 |---------|----------|-------------------------------|
@@ -187,14 +184,12 @@ Protocol là một trường 8-bit
 | 132     | SCTP     | Giao thức truyền tải thay thế TCP, hỗ trợ đa luồng. |
 {:.inner-borders}
 
----
-
 ### Header Checksum
 Header Checksum là một trường 16-bit
 * Vị trí: Nằm ở Byte 10 và 11 (Bit 80 -> Bit 95).
 * Ứng dụng: Header Checksum là một giá trị kiểm tra lỗi, giúp xác định xem header của gói tin IP có bị lỗi trong quá trình truyền hay không.
 
-#### How it works
+How it works:
 1. Trước khi gửi đi, bộ gửi tính toán checksum dựa trên toàn bộ IP Header.
 2. Khi nhận gói tin, bộ nhận tính toán lại checksum và so sánh với giá trị checksum trong header.
 * Nếu khớp, gói tin không bị lỗi.
@@ -222,8 +217,9 @@ Header Checksum là một trường 16-bit
 | Router Alert             | 148         | Báo hiệu gói tin cần xử lý đặc biệt. |
 {:.inner-borders}
 
----
+
 ## Code 
+---
 ```python
 import socket
 import os

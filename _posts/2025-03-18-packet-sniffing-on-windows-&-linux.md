@@ -11,38 +11,40 @@ image:
 ---
 
 ## Overview
+---
 Packet sniffing là quá trình bắt và phân tích gói tin truyền qua mạng. Kỹ thuật này được sử dụng để giám sát lưu lượng mạng, phân tích lỗi, kiểm tra bảo mật hoặc thậm chí thực hiện các cuộc tấn công mạng. Trên Windows và Linux, việc triển khai packet sniffing có một số điểm khác biệt do cách xử lý raw sockets của từng hệ điều hành.
 
----
 ## What is Raw Sockets?
+---
 Raw sockets là loại socket cho phép truy cập trực tiếp vào gói tin ở mức thấp, bao gồm cả phần tiêu đề (header) và dữ liệu (payload). Điều này giúp lập trình viên có thể bắt, phân tích, và thậm chí tạo các gói tin tùy chỉnh.
 
-### Apply To
+Apply To:
 * Giám sát và phân tích mạng (tương tự Wireshark)
 * Phát hiện và khai thác lỗ hổng bảo mật
 * Tạo công cụ tấn công mạng như ARP Spoofing, Man-in-the-Middle (MITM)
 * Xây dựng tường lửa hoặc hệ thống phát hiện xâm nhập (IDS/IPS)
 
----
 ## Packet Sniffing on Windows
+---
 Trên Windows, raw sockets bị giới hạn, đặc biệt từ Windows 10 trở lên, do Microsoft vô hiệu hóa khả năng gửi gói tin tùy chỉnh nhằm ngăn chặn các cuộc tấn công mạng.
 
-### Step to Follows
+Step to Follows:
 * Tạo raw socket với giao thức IPPROTO_IP
 * Bật chế độ promiscuous mode bằng IOCTL (SIO_RCVALL)
 * Bắt gói tin và phân tích dữ liệu
 * Tắt promiscuous mode sau khi hoàn tất
 
----
 ## Packet Sniffing on Linux
+---
 Linux cung cấp nhiều quyền kiểm soát hơn đối với raw sockets so với Windows, giúp dễ dàng thực hiện packet sniffing.
 
-### Step to Follows
+Step to Follows:
 * Tạo raw socket với giao thức IPPROTO_ICMP
 * Bind socket vào giao diện mạng
 * Nhận và phân tích gói tin
 
-### Python Code Example
+## Python Code Example
+---
 ```python
 import socket
 import os
@@ -88,8 +90,8 @@ if __name__ == "__main__":
     main()
 ```
 
----
 ## Explain Code
+---
 ### Define IP Address and Create Socket
 * Chương trình đặt biến HOST là địa chỉ IP của máy tính cục bộ.
 * Sau đó, nó tạo một raw socket với tham số phù hợp để bắt gói tin từ card mạng.

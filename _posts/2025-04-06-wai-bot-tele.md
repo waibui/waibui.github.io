@@ -11,6 +11,7 @@ image:
 ---
 
 ## Overview
+---
 wai-bot-tele là một Telegram bot linh hoạt và có thể mở rộng, được xây dựng bằng Python. Nó cung cấp một framework để quản lý plugin và các lệnh, giúp các lập trình viên dễ dàng tạo và mở rộng các tính năng của bot. Bot được thiết kế để tương tác với Telegram API một cách mượt mà, đồng thời cung cấp phương thức dễ dàng để thêm các tính năng mới thông qua kiến trúc plugin. Dù bạn muốn tạo ra các lệnh mới hay tùy chỉnh các lệnh có sẵn, bot này rất linh hoạt và có thể mở rộng, giúp bạn dễ dàng điều chỉnh theo nhu cầu cụ thể của mình.
 
 Một số tính năng nổi bật của bot bao gồm:
@@ -19,8 +20,8 @@ Một số tính năng nổi bật của bot bao gồm:
 - **Xử lý Lệnh:** Hỗ trợ thêm và thực thi các lệnh tùy chỉnh.
 - **Khả năng Mở rộng:** Sẵn sàng mở rộng với các tính năng tùy chỉnh cho các trường hợp sử dụng cụ thể.
 
----
 ## Construct
+---
 ```
 wai-bot-tele
 .
@@ -45,8 +46,8 @@ wai-bot-tele
 4 directories, 13 files
 ```
 
----
 ## Requirements
+---
 ### Telegram Bot
 * Go to **Bot Father**: [Bot Father](https://t.me/botfather)
 ![Bot Father](/assets/img/posts/2025-04-06-wai-bot-tele/bot_father.png)
@@ -64,8 +65,8 @@ AUTHORIZED_USERS=valid-uid
 
 [Get valid-uid](https://t.me/userinfobot)
 
----
 ## Running
+---
 ### Virtual Enviroment
 Nên tạo môi trường ảo để chạy:
 * Tránh xung đột với **Python System**
@@ -86,8 +87,8 @@ python3 -m venv venv
 python wai-bot-tele.py
 ```
 
----
 ## Extend
+---
 Để thêm các **plugin** khác:
 * Tạo file **Python** trong thư mục **plugins**
 * Trong mỗi file tạo các **module** với tên có cấu trúc **cmd_namefunc**, phải có **async** trước **def**, vì **Telegram** yêu cầu bất đồng bộ.
