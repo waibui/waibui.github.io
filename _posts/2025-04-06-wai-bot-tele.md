@@ -4,7 +4,7 @@ layout: post
 title:  "wai-bot-tele - A Telegram Bot using Python"
 date: 2025-04-06
 comments: true
-description: Telegram bot sử dụng Python, dễ dàng mở rộng.
+description: Telegram bot using Python, easy to extend.
 categories: security
 toc: true
 tags: [python]
