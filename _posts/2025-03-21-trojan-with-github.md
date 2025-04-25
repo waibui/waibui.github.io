@@ -6,6 +6,8 @@ description: Learn how to create a Python-based Trojan tool that dynamically fet
 categories: [security]
 toc: true
 tags: [python, tool]
+imgae:
+    path: /assets/img/posts/2025-03-21-trojan-with-github/trojanhorse.jpg
 ---
 
 ## Introduction
