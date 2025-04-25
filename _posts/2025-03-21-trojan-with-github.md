@@ -7,7 +7,7 @@ categories: [security]
 toc: true
 tags: [python, tool]
 image:
-    path: /assets/img/posts/2025-03-21-trojan-with-github/trojanhorse.jpg
+    path: /assets/img/posts/2025-03-21-trojan-with-github/trojanhorse.png
 ---
 
 ## Introduction
