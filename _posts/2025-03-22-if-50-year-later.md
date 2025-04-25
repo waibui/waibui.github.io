@@ -1,5 +1,4 @@
 ---
-layout: post
 title:  "If 50 Year Later"
 date: 2025-03-22 10:00:00 +0700
 comments: false

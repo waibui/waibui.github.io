@@ -1,8 +1,6 @@
 ---
-author: "waibui"
-layout: post
 title:  "wai-bot-tele - A Telegram Bot using Python"
-date: 2025-04-06
+date: 2025-04-06 10:00:00 +0700
 comments: true
 description: Telegram bot using Python, easy to extend.
 categories: security
