@@ -5,6 +5,8 @@ comments: false
 description: Who will be present in their memories
 categories: [blog]
 tags: [me]
+image:
+    path: assets/img/posts/2025-03-22-if-50-year-later/lofi.gif
 ---
 
 <video width="0%" autoplay loop>

@@ -6,6 +6,8 @@ description: A practical guide to packet sniffing on both Windows and Linux usin
 categories: [security]
 toc: true
 tags: [python, networking]
+image:
+    path: /assets/img/posts/2025-03-18-packet-sniffing-on-windows-&-linux/packet_sniffing.png
 ---
 
 ## Overview

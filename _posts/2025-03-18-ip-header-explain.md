@@ -6,14 +6,14 @@ description: Detail about IP header
 categories: [security]
 toc: true
 tags: [python, networking]
+image:
+    path: /assets/img/posts/2025-03-18-ip-header-explain/ip_header.png
 ---
 
 ## Overview
 IP Header là phần tiêu đề của 1 gói tin IP(Internet Protocol) khi truyền đi trong mạng hay internet. Nó gồm nhiểu trường khác nhau, chứa các thông tin quan trọng để định tuyến và truyền dữ liệu qua mạng. Mỗi gói tin IP bao gồm 2 phần chính:
 * IP Header
 * Payload
-
-![IP Header](/assets/img/posts/2025-03-18-ip-header-explain/ip_header.png)
 
 ---
 ## Components of IP Header
