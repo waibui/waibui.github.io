@@ -27,7 +27,7 @@ Giscus nó miễn phí, không quảng cáo, cài đặt dễ dàng.
 ---
 ### Choose Templates
 Đầu tiên mình sẽ sử dụng template của Jekyll, các bạn có thể tham khảo các trang này để chọn.
-[jekyllthemes.org](http://jekyllthemes.org/) - [jekyllthemes.io/free](https://jekyllthemes.io/free)
+[jekyllthemes.io/free](https://jekyllthemes.io/free)
 <img style="width: 100%;" src="/assets/img/posts/2025-01-01-how-to-create-my-blog-website/choose_theme.gif" alt="Choose Theme">
 
 ### Get Source
