@@ -16,7 +16,7 @@ image:
 
 Mục tiêu chính của **FwF** là giúp pentester rút ngắn thời gian trinh sát ban đầu (reconnaissance), đồng thời mang lại khả năng tùy biến linh hoạt để phù hợp với từng mục tiêu cụ thể.
 
-> ✍️ *Author: WaiBui*
+> ✍️ *Author: WaiBui*.
 
 ## Installation
 ---
