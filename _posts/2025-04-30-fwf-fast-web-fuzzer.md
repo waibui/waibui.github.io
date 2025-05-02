@@ -5,7 +5,7 @@ date: 2025-04-30 10:00:00 +0700
 categories: [Cybersecurity, Tools]
 tags: [introduction, tool, web, directoryscan, reconnaissance]
 pin: false
-comments: false
+comments: true
 image:
     path: /assets/img/posts/2025-04-30-fwf-fast-web-fuzzer/banner.png
 ---
