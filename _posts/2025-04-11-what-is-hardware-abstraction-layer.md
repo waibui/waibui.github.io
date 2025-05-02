@@ -8,6 +8,7 @@ toc: true
 tags: [hardware, kernel, system architecture, windows]
 image:
         path: /assets/img/posts/2025-04-11-what-is-hardware-abstraction-layer/layer-model.png
+        alt: HAL
 ---
 
 ## Hardware Abstraction Layer (HAL)

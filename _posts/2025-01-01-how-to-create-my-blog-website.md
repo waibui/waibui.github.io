@@ -8,6 +8,7 @@ toc: true
 tags: [github, web, blog, giscus]
 image:
         path: /assets/img/posts/2025-01-01-how-to-create-my-blog-website/githubpage.png
+        alt: Github + Giscis
 ---
 
 ## Overview

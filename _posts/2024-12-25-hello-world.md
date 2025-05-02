@@ -8,6 +8,7 @@ pin: true
 comments: false
 image:
     path: /assets/img/posts/2024-12-25-hello-world/shin.png
+    alt: Hi there!
 ---
 
 First of all, I’m waibui (Bui Van Y) in case this is the first time you’ve read my things ;).

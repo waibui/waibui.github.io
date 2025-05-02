@@ -7,6 +7,7 @@ categories: [Life, Me, You]
 tags: thoughts
 image:
     path: assets/img/posts/2025-03-22-if-50-year-later/lofi.gif
+    alt: If 50 year later
 ---
 
 <video width="0%" autoplay loop>

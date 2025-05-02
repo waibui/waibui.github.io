@@ -8,6 +8,7 @@ toc: true
 tags: [protocol, python, packet, icmp]
 image:
     path: /assets/img/posts/2025-04-13-how-to-create-icmp-packet-with-payload-exfiltrate-data/icmp.png
+    alt: Icmp
 ---
 
 ## Introduction

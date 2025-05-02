@@ -8,6 +8,7 @@ toc: true
 tags: [telegram, python, bot, automation]
 image:
     path: /assets/img/posts/2025-04-06-wai-bot-tele/pythonxtele.png
+    alt: Python - Telegram
 ---
 
 ## Overview

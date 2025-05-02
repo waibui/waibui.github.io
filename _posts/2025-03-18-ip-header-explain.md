@@ -8,6 +8,7 @@ toc: true
 tags: [analytics, ipv4, protocol]
 image:
     path: /assets/img/posts/2025-03-18-ip-header-explain/ip_header.png
+    alt: IP Header
 ---
 
 ## Overview

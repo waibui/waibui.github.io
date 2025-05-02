@@ -8,6 +8,7 @@ pin: false
 comments: true
 image:
     path: /assets/img/posts/2025-04-30-fwf-fast-web-fuzzer/banner.png
+    alt: FwF
 ---
 
 ## Introduction
