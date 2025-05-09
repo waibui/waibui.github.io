@@ -58,9 +58,15 @@ Mặc định file này chưa được tạo, tạo file và copy nội dụng t
 * **copyright**: thay đổi nội dung nếu cần.
 
 ### assets/img/favicons/favicon.ico File
-Thay đổi thành favicon của bạn, có 2 dạng:
-* favicon.ico
-* favicon.png
+Để thay đổi **favicon**, bạn cần tạo 1 tập các **favicon** theo cách sau:
+Truy cập vào [site](https://www.favicon-generator.org/) sau để tạo tập **favicon**
+![favicon](/assets/img/posts/2025-04-26-github-giscus-jekyII-theme/create_favicon.png)
+
+Sau đó tải tập các **favicon** này về và giải nén
+
+![Download favicon](/assets/img/posts/2025-04-26-github-giscus-jekyII-theme/download_favicon.png)
+
+Cuối cùng xóa 2 file `browserconfig.xml` và `manifest.json` rồi copy tập **favicon** vào `assets/img/favicons`
 
 ### post File
 Mọi bài viết phải được đặt tên ở dạng **year-month-day-name-of-article.md**. Tham khảo chuẩn viêt tại [đây](https://chirpy.cotes.page/posts/write-a-new-post/)
