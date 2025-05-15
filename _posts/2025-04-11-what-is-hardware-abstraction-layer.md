@@ -8,7 +8,7 @@ toc: true
 tags: [hardware, kernel, system architecture, windows]
 image:
         path: /assets/img/posts/2025-04-11-what-is-hardware-abstraction-layer/layer-model.png
-        alt: HAL
+        alt: Hardware Abstraction Layer
 ---
 
 ## Hardware Abstraction Layer (HAL)
@@ -16,7 +16,7 @@ image:
 HAL (tạm dịch: Lớp trừu tượng phần cứng) là một phần mềm trung gian giữa phần cứng của máy tính và hệ điều hành (chính xác là kernel – nhân hệ điều hành).
 
 ## Functions of HAL
-💻 Phần cứng → 🧱 HAL → 🧠 Kernel (Nhân hệ điều hành) 
+💻 Phần cứng → 🧱 HAL → 🧠 Kernel (Nhân hệ điều hành)
 * Máy tính có thể có nhiều loại phần cứng khác nhau (mainboard, CPU, thiết bị ngoại vi…).
 * HAL giúp hệ điều hành không cần biết chính xác phần cứng bên dưới là gì.
 * HAL đảm nhận việc dịch các lệnh từ hệ điều hành thành ngôn ngữ phù hợp với phần cứng.
