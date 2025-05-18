@@ -29,7 +29,7 @@ Tải zsh về thông qua **apt**
 sudo apt install zsh
 ```
 
-### Change shell
+### Change Shell
 Dùng lệnh sau để thay đổi shell mặc định của Ubuntu
 ```bash 
 chsh -s $(which zsh)
@@ -42,7 +42,7 @@ chsh -s /usr/bin/zsh
 
 Sau khi thay đổi cần khởi động lại hoặc đăng nhập lại để shell thay đổi.
 
-### Create **.zshrc** file
+### Create **.zshrc** File
 Mở **Terminal** sau khi trở lại, recommended chọn option 2 để tạo file .zshrc
 * .zshrc là một file ẩn nằm trong thư mục home của người dùng (~/.zshrc).
 * Nó chứa các lệnh và thiết lập cấu hình được thực thi mỗi khi bạn mở một terminal mới với Zsh (interactive shell).
@@ -51,7 +51,7 @@ Mở **Terminal** sau khi trở lại, recommended chọn option 2 để tạo f
 ![Create .zshrc](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/startup.png)
 
 
-## Change theme
+## Change Theme
 ---
 Mặc định giao diện khá xấu, nên sử dụng [Oh-my-zsh](https://ohmyz.sh/) để custom giao diện terminal.
 
@@ -87,13 +87,13 @@ sudo apt install wget -y
 Như này là đã tải thành công
 ![Installed Ohmyzsh](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/installed-zsh.png)
 
-### Install powerlever10k
+### Install Powerlever10k
 Sử dụng **powerlever10k** để thay đổi **promt** của **terminal**.
 ```zsh
 git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k"
 ```
 
-### Change fonts
+### Change Fonts
 Cần thay đổi fonts để có thể sử dụng 1 số icons
 [Download fonts](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/MesloLGS NF Regular.ttf)
 * Di chuyển để thư mục **home**
@@ -107,7 +107,7 @@ sudo apt install gnome-tweaks -y
 ```
 Vào Tweaks > Fonts > Monospace Text chọn font vừa tải
 
-### Change theme in .zshrc file
+### Change Theme in .zshrc File
 Thay đổi theme trong .zshrc
 ```zsh
 nano ~/.zshrc
@@ -121,7 +121,28 @@ source ~/,zshrc
 Như này là đã thành công
 ![Successfull](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/success.png)
 
-Finnaly, bạn chỉ cần custom theo sở thích của mình
+Bạn chỉ cần custom theo sở thích của mình
+
+## Enable Command History Feature
+---
+Mặc định tính năng này không được bật, bạn cần phải tải thêm plugin về để sử dụng tính năng này
+### Install zsh-autosuggestions
+```zsh
+git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
+```
+
+### Change .zshrc file
+```zsh
+nano ~/.zshrc
+```
+Sửa hoặc thêm plugin này nếu chưa có: `plugins=(git zsh-autosuggestions)`
+
+### Reload .zshrc
+```zsh
+source ~/.zshrc
+```
+
+Như này là đã ok rồi đấy.
 
 ---
 Goodluck! 🍀🍀🍀
