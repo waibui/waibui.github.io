@@ -48,7 +48,7 @@ Mở **Terminal** sau khi trở lại, recommended chọn option 2 để tạo f
 * Nó chứa các lệnh và thiết lập cấu hình được thực thi mỗi khi bạn mở một terminal mới với Zsh (interactive shell).
 * Tương tự như .bashrc với Bash.
 
-![Create .zshrc](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/startup.png)
+![Create .zshrc](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/startup.png)
 
 
 ## Change Theme
@@ -85,7 +85,7 @@ sudo apt install wget -y
 ```
 
 Như này là đã tải thành công
-![Installed Ohmyzsh](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/installed-zsh.png)
+![Installed Ohmyzsh](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/installed-zsh.png)
 
 ### Install Powerlever10k
 Sử dụng **powerlever10k** để thay đổi **promt** của **terminal**.
@@ -95,7 +95,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-
 
 ### Change Fonts
 Cần thay đổi fonts để có thể sử dụng 1 số icons
-[Download fonts](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/MesloLGS NF Regular.ttf)
+[Download fonts](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/MesloLGS NF Regular.ttf)
 * Di chuyển để thư mục **home**
 * Ctrl + h để hiển thị file ẩn
 * Tạo thư mục **.fonts** 
@@ -119,7 +119,7 @@ Chạy lệnh sau để khởi động lại file .zshrc
 source ~/,zshrc
 ```
 Như này là đã thành công
-![Successfull](/assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/success.png)
+![Successfull](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/success.png)
 
 Bạn chỉ cần custom theo sở thích của mình
 
