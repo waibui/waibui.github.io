@@ -5,6 +5,7 @@ comments: true
 description: A quick guide on how to switch the default shell from bash to zsh on Ubuntu for a more powerful and customizable terminal experience.
 categories: [Life, You]
 toc: true
+pin: true
 tags: [bash, zsh, ubuntu, linux]
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/bash-to-zsh.png

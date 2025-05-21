@@ -5,6 +5,7 @@ comments: false
 description: Who will be present in their memories
 categories: [Life, Me, You]
 tags: thoughts
+pin: true
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-03-22-if-50-year-later/lofi.gif
     alt: If 50 year later

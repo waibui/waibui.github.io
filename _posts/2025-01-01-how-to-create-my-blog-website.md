@@ -5,6 +5,7 @@ comments: true
 description: How I created this blog using Github Pages and Giscus.
 categories: [Life, Me]
 toc: true
+pin: true
 tags: [github, web, blog, giscus]
 image:
         path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-01-01-how-to-create-my-blog-website/githubpage.png

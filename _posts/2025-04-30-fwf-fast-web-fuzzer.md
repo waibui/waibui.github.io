@@ -2,9 +2,10 @@
 title: "FwF - Fast Web Fuzzer"
 description: A high-performance web path discovery and reconnaissance tool
 date: 2025-04-30 10:00:00 +0700
-categories: [Cybersecurity, Tools]
+categories: [Cyber ​​Security, Tools]
 tags: [introduction, tool, web, directoryscan, reconnaissance]
 pin: false
+pin: true
 comments: true
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-30-fwf-fast-web-fuzzer/banner.png

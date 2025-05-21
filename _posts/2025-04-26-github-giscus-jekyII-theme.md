@@ -5,6 +5,7 @@ comments: true
 description: Set Up and Deploy a Documentation Site With Jekyll, Chirpy, Giscus
 categories: [Life, You]
 toc: true
+pin: true
 tags: [github, giscus, jekyll, chirpy, ruby, blog]
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-26-github-giscus-jekyII-theme/chirpy.png

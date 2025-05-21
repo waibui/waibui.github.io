@@ -3,8 +3,9 @@ title:  "ICMP Packets with Payload"
 date: 2025-04-13 10:00:00 +0700
 comments: true
 description: How to Create ICMP Packets with Payload to Exfiltrate Data
-categories: [Cybersecurity, Networking]
+categories: [Cyber ​​Security, Networking]
 toc: true
+pin: true
 tags: [protocol, python, packet, icmp]
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-13-how-to-create-icmp-packet-with-payload-exfiltrate-data/icmp.png

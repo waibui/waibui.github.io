@@ -3,8 +3,9 @@ title:  "IP Header Explain"
 date: 2025-03-18 10:00:00 +0700
 comments: true
 description: Detail about IP header
-categories: [Cybersecurity, Networking]
+categories: [Cyber ​​Security, Networking]
 toc: true
+pin: true
 tags: [analytics, ipv4, protocol]
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-03-18-ip-header-explain/ip_header.png

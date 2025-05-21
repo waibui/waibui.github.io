@@ -3,8 +3,9 @@ title:  "Packet Sniffing On Windows And Linux"
 date: 2025-03-18 10:00:00 +0700
 comments: true
 description: A practical guide to packet sniffing on both Windows and Linux using raw sockets in Python.
-categories: [Cybersecurity, Networking]
+categories: [Cyber ​​Security, Networking]
 toc: true
+pin: true
 tags: [windows, linux, packet, sniffing]
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-03-18-packet-sniffing-on-windows-&-linux/packet_sniffing.png

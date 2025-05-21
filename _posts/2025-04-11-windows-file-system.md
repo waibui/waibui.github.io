@@ -3,8 +3,9 @@ title:  "Windows File Systems"
 date: 2025-04-11 10:00:00 +0700
 comments: true
 description: Overview of file systems supported by Windows such as FAT32, exFAT, and NTFS, along with key security considerations when handling file system data.
-categories: [Cybersecurity, Operating Systems]
+categories: [Cyber ​​Security, Operating Systems]
 toc: true
+pin: true
 tags: [filesystem, windows]
 image:
   path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-11-windows-file-system/window_file_system.png
