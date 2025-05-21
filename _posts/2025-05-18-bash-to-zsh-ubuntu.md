@@ -95,7 +95,7 @@ git clone --depth=1 https://github.com/romkatv/powerlevel10k.git "${ZSH_CUSTOM:-
 
 ### Change Fonts
 Cần thay đổi fonts để có thể sử dụng 1 số icons
-[Download fonts](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/MesloLGS NF Regular.ttf)
+[Download fonts](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/fonts/posts/2025-05-18-bash-to-zsh-ubuntu/MesloLGS NF Regular.ttf)
 * Di chuyển để thư mục **home**
 * Ctrl + h để hiển thị file ẩn
 * Tạo thư mục **.fonts** 
