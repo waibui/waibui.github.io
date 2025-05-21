@@ -51,14 +51,9 @@ Payload:
 ```
 
 Câu truy vấn sẽ được thay thế thành:
+
 ```sql
 SELECT * FROM products WHERE category = '' OR 1=1 --' AND released = 1
-```
-
-Request:
-```http
-GET /filter?category='+OR+1%3d1+-- HTTP/2
-Host: 0aa400cc04b07ef3818389f900dd00df.web-security-academy.net
 ```
 
 
