@@ -78,7 +78,7 @@ administrator'--
 
 Câu truy vấn sẽ được thay thế thành:
 ```sql
-SELECT * FROM users WHERE username = 'administrator' --' AND password = 'password'
+SELECT * FROM users WHERE username = 'administrator'--' AND password = 'password'
 ```
 
 Request:
