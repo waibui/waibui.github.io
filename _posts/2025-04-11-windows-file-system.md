@@ -7,7 +7,7 @@ categories: [Cybersecurity, Operating Systems]
 toc: true
 tags: [filesystem, windows]
 image:
-  path: /assets/img/posts/2025-04-11-windows-file-system/window_file_system.png
+  path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-11-windows-file-system/window_file_system.png
   alt: Windows file system
 ---
 

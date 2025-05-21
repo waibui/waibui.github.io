@@ -7,7 +7,7 @@ categories: [Life, You]
 toc: true
 tags: [github, giscus, jekyll, chirpy, ruby, blog]
 image:
-    path: /assets/img/posts/2025-04-26-github-giscus-jekyII-theme/chirpy.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-26-github-giscus-jekyII-theme/chirpy.png
     alt: Chirpy Jekyll Theme
 ---
 
@@ -60,11 +60,11 @@ Mặc định file này chưa được tạo, tạo file và copy nội dụng t
 ### assets/img/favicons/favicon.ico File
 Để thay đổi **favicon**, bạn cần tạo 1 tập các **favicon** theo cách sau:
 Truy cập vào [site](https://www.favicon-generator.org/) sau để tạo tập **favicon**
-![favicon](/assets/img/posts/2025-04-26-github-giscus-jekyII-theme/create_favicon.png)
+![favicon](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-26-github-giscus-jekyII-theme/create_favicon.png)
 
 Sau đó tải tập các **favicon** này về và giải nén
 
-![Download favicon](/assets/img/posts/2025-04-26-github-giscus-jekyII-theme/download_favicon.png)
+![Download favicon](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-26-github-giscus-jekyII-theme/download_favicon.png)
 
 Cuối cùng xóa 2 file `browserconfig.xml` và `manifest.json` rồi copy tập **favicon** vào `assets/img/favicons`
 

@@ -7,7 +7,7 @@ categories: [Cybersecurity, Operating Systems]
 toc: true
 tags: [hardware, kernel, system architecture, windows]
 image:
-        path: /assets/img/posts/2025-04-11-what-is-hardware-abstraction-layer/layer-model.png
+        path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-11-what-is-hardware-abstraction-layer/layer-model.png
         alt: Hardware Abstraction Layer
 ---
 

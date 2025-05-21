@@ -7,7 +7,7 @@ categories: [Life, You]
 toc: true
 tags: [bash, zsh, ubuntu, linux]
 image:
-    path: /assets/img/posts/2025-05-18-bash-to-zsh-ubuntu/bash-to-zsh.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-18-bash-to-zsh-ubuntu/bash-to-zsh.png
     alt: Bash to Zsh
 ---
 

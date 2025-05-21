@@ -7,7 +7,7 @@ tags: [introduction, you, me]
 pin: true
 comments: false
 image:
-    path: /assets/img/posts/2024-12-25-hello-world/shin.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2024-12-25-hello-world/shin.png
     alt: Hi there!
 ---
 

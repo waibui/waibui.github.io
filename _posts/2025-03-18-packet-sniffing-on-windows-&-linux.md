@@ -7,7 +7,7 @@ categories: [Cybersecurity, Networking]
 toc: true
 tags: [windows, linux, packet, sniffing]
 image:
-    path: /assets/img/posts/2025-03-18-packet-sniffing-on-windows-&-linux/packet_sniffing.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-03-18-packet-sniffing-on-windows-&-linux/packet_sniffing.png
     alt: Package sniffing
 ---
 

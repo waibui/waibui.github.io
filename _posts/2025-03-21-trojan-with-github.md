@@ -7,7 +7,7 @@ categories: [Cybersecurity, Tools]
 toc: true
 tags: [python, trojan, github, tool]
 image:
-    path: /assets/img/posts/2025-03-21-trojan-with-github/trojanhorse.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-03-21-trojan-with-github/trojanhorse.png
     alt: Trojan Horse
 ---
 

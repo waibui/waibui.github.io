@@ -7,7 +7,7 @@ tags: [introduction, tool, web, directoryscan, reconnaissance]
 pin: false
 comments: true
 image:
-    path: /assets/img/posts/2025-04-30-fwf-fast-web-fuzzer/banner.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-04-30-fwf-fast-web-fuzzer/banner.png
     alt: FwF
 ---
 
