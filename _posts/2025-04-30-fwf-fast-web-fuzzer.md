@@ -79,6 +79,8 @@ HTTP Option:
   -r, --follow-redirects
                         Follow HTTP redirects (default: False)
   -k, --cookie COOKIE   Cookies for requests (e.g., 'key=value,key2=value2') (default: None)
+  -p, --params PARAMS   Query parameters for the request (e.g., 'key=value,key2=value2') (default: None)
+  -d, --data DATA       Request body data (for POST, PUT, etc.) (e.g., 'key=value,key2=value2') (default: None)
 
 General Option:
   -c, --concurrency CONCURRENCY
@@ -186,6 +188,18 @@ python fwf -u example.com -r
 Thêm cookie cho mỗi request theo cấu trúc: 
 ```bash
 python fwf.py -u example.com -k key1=abc,key2=bcd
+```
+
+### -p (- -params)
+Thêm params cho request theo cấu trúc
+```bash
+python fwf.py -u example.com -p key1=abc,key2=bcd
+```
+
+### -d (- -data)
+Thêm data cho request theo cấu trúc
+```bash
+python fwf.py -u example.com -d key1=abc,key2=bcd
 ```
 
 ### -c (- -concurrency)
