@@ -8,7 +8,7 @@ pin: false
 comments: true
 image:
     path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-05-21-portswigger-lab-sql-injection/sql_injection.png
-    alt: Sql Injection
+    alt: SQL Injection
 ---
 
 ## Introduction
