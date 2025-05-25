@@ -97,7 +97,7 @@ Phòng thí nghiệm này chứa lỗ hổng XSS dựa trên DOM trong chức n�
 "> <img src=0 onerror=alert(1)>
 ```
 
-Kết quả:
+4. Kết quả:
 ```html
 <img src="/resources/images/tracker.gif?searchTerms=" qm024hoew="">
 <img src="0" onerror="alert(1)">
