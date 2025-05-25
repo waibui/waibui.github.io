@@ -3,7 +3,7 @@ title: "[PortSwigger Lab] - Sql Injection"
 description: Solution of SQLi on PortSwigger Lab
 date: 2025-05-21 22:00:00 +0700
 categories: [Cyber ​​Security, Web Pentest]
-tags: [portswigger, burpsuite, labs, web, vulnerability]   
+tags: [portswigger, burpsuite, labs, web, vulnerability, sqli, sql injection]   
 pin: false
 comments: true
 image:
