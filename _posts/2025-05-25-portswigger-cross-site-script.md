@@ -1,7 +1,7 @@
 ---
 title: "[PortSwigger Lab] - Cross Site Script"
 description: Solution of XSS on PortSwigger Lab
-date: 2025-05-21 22:00:00 +0700
+date: 2025-05-25 22:00:00 +0700
 categories: [Cyber ​​Security, Web Pentest]
 tags: [portswigger, burpsuite, labs, web, vulnerability, xss, cross site script]   
 pin: false
