@@ -72,9 +72,9 @@ Fast Web Fuzzer - That allows typical directory discovery
 
 ### 📊 GitHub Stats
 <div align="center">
-  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=waibui&show_icons=true&theme=dark&include_all_commits=true&count_private=true" alt="waibui"/>
+  <img height="180em" src="https://github-readme-stats.vercel.app/api?username=waibui&show_icons=true&locale=en&theme=dark" alt="waibui" />
   <img height="180em" src="https://github-readme-stats.vercel.app/api/top-langs/?username=waibui&layout=compact&langs_count=7&theme=dark" alt="waibui"/>
-  <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=waibui&" alt="waibui" />
+  <img height="180em" src="https://github-readme-streak-stats.herokuapp.com/?user=waibui&theme=dark" alt="waibui" />
 </div>
 
 ---

