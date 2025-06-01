@@ -150,5 +150,13 @@ Host: 0a9d00870462f85880c9b2e400c6002c.web-security-academy.net
 - Một số hệ thống sẽ filter dựa trên `extension`, trường hợp này là `.png`
 - Nên sử dụng `null byte` để tách bỏ `extension` ra, đọc file `/etc/passwd`
 
+
+## Prevent
+--- 
+- Tránh hoàn toàn việc sử dụng đầu vào từ người dùng trong các API thao tác với hệ thống file.
+- Nếu buộc phải dùng đầu vào từ người dùng thì sao?
+    - Validate đầu vào
+    - Chuẩn hóa và kiểm tra đường dẫn tuyệt đối **(canonical path)**
+
 ---
 Goodluck! 🍀🍀🍀
