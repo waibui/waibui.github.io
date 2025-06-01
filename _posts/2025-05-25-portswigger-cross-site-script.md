@@ -820,6 +820,7 @@ email=abc%40gmail.com&csrf=Cyy6dLC1N01l3X3ywyfToo7mUMF7aXtM
 
 Inspect code:
 - Khi truy cập vào `/myaccount` ta nhận được 
+
 ```html
 <form class="login-form" name="change-email-form" action="/my-account/change-email" method="POST">
     <label>Email</label>
