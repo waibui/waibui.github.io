@@ -134,8 +134,7 @@ csrf=shDKgLg9f2ImcfCVEmCOxKGfnhy5KLca&name=a&email=a%40gmail.com+;+nslookup+$(wh
     - Chỉ cho phép số nếu cần
     - Chỉ cho phép ký tự chữ và số (alphanumeric)
 
-3. Không nên làm: "escape" ký tự đặc biệt
-Đừng cố gắng "lọc" hoặc "thoát" các ký tự như ;, |, & trong input người dùng. Vì sao?
+3. Không nên làm: "escape" ký tự đặc biệt, đừng cố gắng "lọc" hoặc "thoát" các ký tự như `;`, `|`, `&` trong input người dùng. Vì sao?
 - Hacker biết rất nhiều cách mã hóa để vượt qua
 - Escape không thể bảo vệ 100%
 - Rất dễ sót lọt những trường hợp đặc biệt
