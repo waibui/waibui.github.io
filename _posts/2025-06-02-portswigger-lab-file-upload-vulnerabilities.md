@@ -261,9 +261,9 @@ Nguyên lý hoạt động:
 - Khi xử lý file `.php`, chỉ cần xuất hiện <?php ... ?> thì mã sẽ được thực thi
 
 #### Idea 2: Change **(file signature**/**magic bytes)** of PHP file
-Exloit:
 - Upload `evil.php` và gửi nó đến **repeater**
 - Thêm **(file signature**/**magic bytes)** và gửi lại request
+
 ```http
 POST /my-account/avatar HTTP/2
 Host: 0ad20004039c6fc4808495c80073008d.web-security-academy.net
