@@ -293,7 +293,7 @@ GIF89a cSwTovLDzGP7ofwcQzgXVE9gEB0JcF0a
 Nguyên lý hoạt động:
 - Server chấp nhận loại file dựa trên **file signature**
 - Thay đổi **file signature** của file **PHP** để server chấp nhận nó
-- - Khi xử lý file `.php`, chỉ cần xuất hiện <?php ... ?> thì mã sẽ được thực thi
+- Khi xử lý file `.php`, chỉ cần xuất hiện <?php ... ?> thì mã sẽ được thực thi
 
 ---
 Goodluck! 🍀🍀🍀
