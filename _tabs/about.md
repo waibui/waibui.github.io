@@ -45,7 +45,8 @@ order: 4
 
 ### 🏆 Achievements & Certifications
 - 🎖️ **62%** - Completed Portswigger Lab
-- 📜 **CyberOps Associate**
+- 📜 [**Partner: NDG Linux Essentials**](https://drive.google.com/file/d/1eFNS036rPG28IKogof1mNDJP0zXhcZe9/view)
+- 📜 [**CyberOps Associate**](https://drive.google.com/file/d/1U12hd01IuAuZlVtGRRHbeM5xJ8Eff4uv/view)
 
 ---
 
@@ -53,8 +54,8 @@ order: 4
 
 #### 🕸️ [FwF](https://github.com/waibui/fwf)
 Fast Web Fuzzer - That allows typical directory discovery
-- **Tech:** Python, aiohttp, asyncio
-- **Features:** Directory discovery
+- **Language**: Python
+- **Features**: Asynchronous programming for high-speed scanning, scan web paths based on customizable wordlists, randomize User-Agent headers to avoid detection, command-line interface (CLI) for easy use and configuration, export scan results to report files for further analysis.
 
 ---
 
