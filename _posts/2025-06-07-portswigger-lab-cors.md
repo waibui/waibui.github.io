@@ -12,6 +12,7 @@ image:
 ---
 
 ## Introduction
+---
 **Cross-Origin Resource Sharing (CORS)** là một cơ chế bảo mật của trình duyệt, cho phép hoặc từ chối các yêu cầu từ một origin khác với origin của trang web hiện tại. Nó mở rộng **Same-Origin Policy (SOP)** — chính sách chỉ cho phép các tài nguyên được truy cập nếu chúng đến từ cùng một origin (gồm `scheme`, `hostname` và `port`).
 
 | **Tiêu chí**                       | **Same-Origin Policy (SOP)**                                                      | **Cross-Origin Resource Sharing (CORS)**                                                     |
@@ -29,6 +30,7 @@ image:
 | **Cách dùng phổ biến**             | Tự động, không cần cấu hình                                                       | Dùng khi website cần chia sẻ tài nguyên qua API hoặc frontend từ domain khác                 |
 
 ## Solve CORS Lab
+---
 
 | Thành phần                         | Giá trị phản ánh lỗi                              |
 | ---------------------------------- | ------------------------------------------------- |
@@ -126,6 +128,21 @@ image:
 ```
 - Deliver to victim
 - Lấy **apikey** trong `/log` của **Exploit Server**, **smart decode** và submit
+
+## Prevent
+---
+### Proper configuration of cross-origin requests 
+Nếu tài nguyên có thông tin nhạy cảm, chỉ nên cho phép origin tin cậy trong header:
+**Access-Control-Allow-Origin:** `https://trusted-site.com`
+### Only allow trusted sites 
+Không nên phản chiếu **(reflect)** origin request một cách động không kiểm soát vì dễ bị lợi dụng.
+### Avoid whitelisting null
+**Access-Control-Allow-Origin:** `null` có thể cho phép các request **sandbox** hoặc từ tài liệu nội bộ. Nên tránh dùng.
+### Avoid wildcards (*) in internal networks
+Wildcard trong mạng nội bộ tạo lỗ hổng, vì dựa vào cấu hình mạng để bảo vệ không đủ, nếu trình duyệt nội bộ truy cập từ các domain không tin cậy bên ngoài.
+### CORS is not a substitute for server-side security policies
+- **CORS** chỉ là rào cản do trình duyệt áp dụng. **Server** vẫn phải kiểm soát chặt authentication, phân quyền, session,...
+- Kẻ tấn công có thể gửi request giả mạo (forged request) trực tiếp tới server từ origin hợp lệ.
 
 ---
 Goodluck! 🍀🍀🍀 
