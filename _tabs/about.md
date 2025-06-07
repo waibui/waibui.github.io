@@ -45,7 +45,7 @@ order: 4
 
 ### 🏆 Achievements & Certifications
 - 🎖️ **62%** - Completed Portswigger Lab
-- 📜 [**Partner: NDG Linux Essentials**](https://drive.google.com/file/d/1eFNS036rPG28IKogof1mNDJP0zXhcZe9/view)
+- 📜 [**Partner: NDG Linux Essentials**](https://drive.google.com/file/d/1eFNS036rPG28IKogof1mNDJP0zXhcZe9/viewpopo)
 - 📜 [**CyberOps Associate**](https://drive.google.com/file/d/1U12hd01IuAuZlVtGRRHbeM5xJ8Eff4uv/view)
 
 ---
