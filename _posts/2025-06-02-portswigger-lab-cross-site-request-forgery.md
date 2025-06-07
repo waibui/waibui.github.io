@@ -133,7 +133,7 @@ email=c%40gmail.com&csrf=abcd
 - Dán mã khai thác vào body 
 - Deliver to victim
 
-Nyên lý hoạt động:
+Nguyên lý hoạt động:
 - Một số ứng dụng tạo và xác thực `CSRF token` mà không ràng buộc token đó với phiên đăng nhập (**session**) cụ thể của người dùng. Thay vào đó, hệ thống chỉ kiểm tra xem token đó có nằm trong danh sách token đã phát hành hay không.
 - Do đó có thể sử dụng `CSRF token` để khai thác
 
