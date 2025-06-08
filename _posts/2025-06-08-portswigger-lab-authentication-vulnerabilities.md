@@ -1,0 +1,125 @@
+---
+title: "[PortSwigger Lab] - Authentication Vulnerabilities"
+description: Solution of Authentication Vulnerabilities on PortSwigger Lab
+date: 2025-06-08 23:46:00 +0700
+categories: [Cyber ​​Security, Web Pentest]
+tags: [portswigger, burpsuite, labs, web, vulnerability, authentication]   
+pin: false
+comments: true
+image:
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-06-08-portswigger-lab-authentication-vulnerabilities/authentication.png
+    alt: Authentication Vulnerabilities
+---
+
+## Introduction
+---
+### **Authentication vulnerabilities**
+**Authentication vulnerabilities** là những điểm yếu trong cơ chế xác thực **(authentication)** của một hệ thống, cho phép kẻ tấn công truy cập trái phép vào dữ liệu hoặc chức năng nhạy cảm.
+
+Mặc dù khái niệm này khá dễ hiểu, nhưng hậu quả của chúng thường nghiêm trọng, bởi vì xác thực là tuyến phòng thủ đầu tiên giữa người dùng và hệ thống. Nếu bị phá vỡ, kẻ tấn công có thể:
+- Chiếm quyền truy cập vào tài khoản người dùng.
+- Truy cập dữ liệu riêng tư hoặc thực hiện các hành động trái phép.
+- Mở rộng tấn công vào các thành phần khác trong hệ thống.
+
+### **Authentication** and **Authorization**
+
+| **Authentication**                | **Authorization**                        |
+| --------------------------------- | ---------------------------------------- |
+| Xác minh **bạn là ai**            | Xác minh **bạn được phép làm gì**        |
+| Ví dụ: kiểm tra username/password | Ví dụ: bạn có được truy cập admin panel? |
+| Xảy ra **trước** authorization    | Xảy ra **sau** khi xác thực thành công   |
+
+## Solve Authentication Vulnerabilities Lab
+---
+### Lab: Username enumeration via different responses
+- Thực hiên đăng nhập và gửi request đăng nhập đến **Burp Intruder**
+```http
+POST /login HTTP/2
+Host: 0a4b003c0465c7a780418a9a00180028.web-security-academy.net
+...
+username=u&password=p
+```
+- Chọn mode **Cluster bomb attack** để thực hiện tấn công tổ hợp
+- Add tại `u` và `p`
+- Tại `u` chọn **Simple list** và **paste** danh sách **username** được cấp
+- Tại `p` chọn **Simple list** và **paste** danh sách **password** được cấp
+- Quan sát, request trả về status code **302** là request chứa **username** và **password** chính xác
+- Đăng nhập 
+
+### Lab: Username enumeration via subtly different responses
+- Thực hiên đăng nhập và gửi request đăng nhập đến **Burp Intruder**
+- Quan sát ta thấy đối đăng nhập không hợp lệ sẽ trả về thông báo lỗi `Invalid username or password.`
+```http
+POST /login HTTP/2
+Host: 0a4b003c0465c7a780418a9a00180028.web-security-academy.net
+...
+username=u&password=p
+```
+- Chọn mode **Cluster bomb attack** để thực hiện tấn công tổ hợp
+- Add tại `u` và `p`
+- Tại `u` chọn **Simple list** và **paste** danh sách **username** được cấp
+- Tại `p` chọn **Simple list** và **paste** danh sách **password** được cấp
+- Tại tab **Grep - match** clear và past thông báo lỗi 
+- Quan sát, request trả về chứa thông báo lỗi là request chứa **username** và **password** chính xác
+- Đăng nhập 
+
+### Lab: Username enumeration via response timing
+#### Analysis
+- Thực hiện chức năng login: 
+    - Login bằng tài khoản được cấp
+    - Login bằng tài khoản sai
+- Thời gian **repsponse** của tài khoản đúng lâu hơn tải khoản sai, vì khi sai không cần handle để gửi nhiều dữ liệu về
+- Thử login bằng tài khoản sai nhiều lần, nhận được thông báo `You have made too many incorrect login attempts. Please try again in 30 minute(s).`
+- Thêm header `X-Forwarded-For` với giá trị số ngấu nhiên => **bypass** được, do ứng dụng block request nhiều lần sai dựa trên IP
+- `X-Forwarded-For` là header phổ biến nhất dùng để chỉ địa chỉ IP gốc của client khi request được gửi qua proxy hoặc load balancer. Có thể sửa giá trị này thành IP tùy ý để "giả mạo" IP gửi request, từ đó vượt qua giới hạn **brute-force** dựa trên IP.
+
+#### Exploit
+- Ý tưởng: Sử dụng **Burp Intruder** để tấn công, ta sẽ tìm **username** trước, sau đó sẽ tìm **password**
+- Gửi request `/login` đến **Burp Intruder**
+- Thêm header `X-Forwarded-For`
+```http
+POST /login HTTP/2
+Host: 0af400180386974980b049b9004100d5.web-security-academy.net
+X-Forwarded-For: 1
+...
+username=u&password=p
+```
+- Tìm **username**
+    - Add tại `1` và `u`
+    - Chọn mode `Pitchfork` để tấn công song song theo danh sách
+    - Tại `u`, chọn **Simple list** và **paste** danh sách **username** được cấpsố lượng từ 
+    - Tại `1`, chon **Numbers** với số lượng bằng với số lượng từ khóa trong `u`, step 1
+    - Đặt **password** cực kì dài để ứng dụng băm nó ra, so sánh với **password** trong **database** dẫn đến **response time** lớn, giúp dễ phân biệt
+    - Start attack, tìm đến request có **response time** lớn nhất, thì đó chính là tài khoản
+- Tìm **password**
+    - Tương tự như trên nhưng ta add ở `1` và `p`
+    - Start attack, quan sát request trả về status code **302** là request chứa **username** và **password** chính xác
+- Đăng nhập 
+
+
+## Prevent
+---
+### 1. Protect User Credentials
+Ngay cả khi bạn có cơ chế xác thực rất mạnh, nếu bạn vô tình tiết lộ thông tin đăng nhập cho kẻ tấn công, toàn bộ hệ thống sẽ bị nguy hiểm. Luôn sử dụng HTTPS và chuyển hướng tất cả các kết nối HTTP sang HTTPS. Ngoài ra, hãy kiểm tra kỹ để không rò rỉ tên người dùng hoặc email qua phản hồi HTTP hoặc giao diện công khai.
+
+### 2. Don’t Rely on Users for Security
+Người dùng thường chọn cách dễ nhất, kể cả khi điều đó không an toàn. Bạn cần ép buộc hành vi an toàn thông qua chính sách mật khẩu hiệu quả. Thay vì dùng quy tắc phức tạp, hãy dùng công cụ đánh giá mật khẩu như `zxcvbn` để người dùng thấy được mức độ an toàn theo thời gian thực.
+
+### 3. Prevent Username Enumeration
+Đừng để kẻ tấn công đoán xem tài khoản nào tồn tại trong hệ thống bằng cách hiển thị thông báo lỗi khác nhau. Luôn trả về thông báo và mã trạng thái giống nhau, bất kể người dùng nhập đúng hay sai tên tài khoản.
+
+### 4. Implement Brute-force Protection
+Cần giới hạn số lần thử đăng nhập sai dựa trên IP hoặc thiết bị. Sau một số lần thất bại, hãy yêu cầu CAPTCHA. Mục tiêu là làm cho quá trình brute-force trở nên tốn thời gian và công sức để kẻ tấn công bỏ cuộc.
+
+### 5. Audit Your Verification Logic
+Lỗi logic trong quy trình xác thực có thể dẫn đến hậu quả nghiêm trọng. Hãy kiểm tra kỹ mọi nhánh điều kiện, đảm bảo không có cách nào bỏ qua bước xác thực.
+
+### 6. Don’t Forget Supplementary Functionality
+Đừng chỉ bảo vệ trang đăng nhập chính. Các tính năng như quên mật khẩu, đổi mật khẩu, đăng ký cũng là bề mặt tấn công cần được bảo vệ nghiêm ngặt tương đương.
+
+### 7. Implement Proper Multi-factor Authentication
+MFA là cách hiệu quả để tăng bảo mật. Không nên chỉ dùng xác thực qua email. Ưu tiên sử dụng ứng dụng tạo mã (TOTP) hoặc thiết bị vật lý. Tránh dùng SMS nếu có thể do rủi ro SIM swap. Và quan trọng: logic MFA cũng phải được kiểm tra kỹ để tránh bị bypass.
+
+
+---
+Goodluck! 🍀🍀🍀 
