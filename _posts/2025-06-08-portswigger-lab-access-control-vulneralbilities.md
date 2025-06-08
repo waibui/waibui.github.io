@@ -93,7 +93,7 @@ Cookie: Admin=true; session=i61bXzmGjYejl2K5qgcEC8zl6zoRXA0o
 Admin interface only available if logged in as an administrator
 ```
 - Thực hiện chức năng `change-email`, đến **Proxy** > **HTTP History** của **Burp**, quan sát **request** và **response**
-    - Request:
+Request:
 
 ```http
 POST /my-account/change-email HTTP/2
@@ -102,7 +102,7 @@ Host: 0af900d704e013408300739300a10014.web-security-academy.net
 
 {"email":"a@gmail.com"}
 ```
-    - Response:
+Response:
 
 ```http
 HTTP/2 302 Found
