@@ -96,27 +96,27 @@ Admin interface only available if logged in as an administrator
     - Request:
 
     ```http
-    POST /my-account/change-email HTTP/2
-    Host: 0af900d704e013408300739300a10014.web-security-academy.net
-    ...
-    
-    {"email":"a@gmail.com"}
+POST /my-account/change-email HTTP/2
+Host: 0af900d704e013408300739300a10014.web-security-academy.net
+...
+
+{"email":"a@gmail.com"}
     ```
     - Response:
 
     ```http
-    HTTP/2 302 Found
-    Location: /my-account
-    Content-Type: application/json; charset=utf-8
-    X-Frame-Options: SAMEORIGIN
-    Content-Length: 115
+HTTP/2 302 Found
+Location: /my-account
+Content-Type: application/json; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Content-Length: 115
 
-    {
-    "username": "wiener",
-    "email": "a@gmail.com",
-    "apikey": "tO9vzcxnFYMqYOk95INOTnWMT5sKti5X",
-    "roleid": 1
-    }
+{
+"username": "wiener",
+"email": "a@gmail.com",
+"apikey": "tO9vzcxnFYMqYOk95INOTnWMT5sKti5X",
+"roleid": 1
+}
     ```
 
 - Quan sát file `/resources/js/changeEmail.js`
