@@ -142,7 +142,7 @@ Không nên phản chiếu **(reflect)** origin request một cách động khô
 Wildcard trong mạng nội bộ tạo lỗ hổng, vì dựa vào cấu hình mạng để bảo vệ không đủ, nếu trình duyệt nội bộ truy cập từ các domain không tin cậy bên ngoài.
 ### CORS is not a substitute for server-side security policies
 - **CORS** chỉ là rào cản do trình duyệt áp dụng. **Server** vẫn phải kiểm soát chặt authentication, phân quyền, session,...
-- Kẻ tấn công có thể gửi request giả mạo (forged request) trực tiếp tới server từ origin hợp lệ.
+- Kẻ tấn công có thể gửi request giả mạo **(forged request)** trực tiếp tới server từ origin hợp lệ.
 
 ---
 Goodluck! 🍀🍀🍀 
