@@ -279,17 +279,17 @@ Hal Pline: Do one!
 - Sử dụng chức năng `change-roles`, thao tác sẽ theo các bước:
     - Change roles
     ```http
-    POST /admin-roles HTTP/2
-    Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
-    ...
-    action=upgrade&username=wiener
+POST /admin-roles HTTP/2
+Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
+...
+action=upgrade&username=wiener
     ```
     - Confirm change roles
     ```http
-    POST /admin-roles HTTP/2
-    Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
-    ...
-    action=upgrade&confirmed=true&username=wiener
+POST /admin-roles HTTP/2
+Host: 0a09006203ca667a815848bd00ac005b.web-security-academy.net
+...
+action=upgrade&confirmed=true&username=wiener
     ```
     - Khác nhau ở param confirm
 
@@ -332,29 +332,29 @@ Referer: https://0ac600170472214b803694d8009800ab.web-security-academy.net/admin
 
 ## Prevent
 --- 
-### Never rely on obfuscation alone
+1. Never rely on obfuscation alone
 - **Vấn đề:** Việc giấu **URL** (như /admin-xyz123) hoặc không hiển thị nút bấm không ngăn người dùng truy cập.
 - **Giải pháp:** Luôn phải kiểm tra quyền truy cập ở phía **server**. Nếu user không có quyền, trả về lỗi **403** hoặc chuyển hướng phù hợp.
 
-### Deny access by default
+2. Deny access by default
 - **Vấn đề:** Nếu bạn mặc định cho phép, sẽ dễ bỏ sót quyền kiểm soát.
 - **Giải pháp:** Mặc định là từ chối tất cả truy cập, chỉ cho phép nếu rõ ràng user có quyền.
 
-### Use a centralized access control mechanism
+3. Use a centralized access control mechanism
 - **Vấn đề:** Nếu logic kiểm soát truy cập nằm rải rác, sẽ dễ sai sót.
 - **Giải pháp:** Dùng **middleware** hoặc **module** dùng chung để kiểm tra quyền
 
-### Make access rules explicit in code
+4. Make access rules explicit in code
 - **Vấn đề:** Nếu không rõ quyền nào áp dụng cho **endpoint** nào, sẽ dễ xảy ra lỗi.
 - **Giải pháp:** Bắt buộc **developer** khai báo rõ ràng quyền truy cập ở mỗi API hoặc chức năng. Nếu thiếu, báo lỗi trong quá trình **build/test**.
 
-### Audit and test access control regularly
+5. Audit and test access control regularly
 - **Vấn đề:** Các lỗi về phân quyền thường không dễ phát hiện.
 - **Giải pháp:**
-    - Rà soát code (code review)
-    - Viết test kiểm tra truy cập
-    - Dùng công cụ như **Burp Suite** để thử tấn công
-    - Thực hiện **pentest** định kỳ hoặc mở chương trình bug bounty
+        - Rà soát code (code review)
+        - Viết test kiểm tra truy cập
+        - Dùng công cụ như **Burp Suite** để thử tấn công
+        - Thực hiện **pentest** định kỳ hoặc mở chương trình bug bounty
 
 ---
 Goodluck! 🍀🍀🍀 
