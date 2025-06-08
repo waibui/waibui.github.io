@@ -104,7 +104,7 @@ Host: 0af900d704e013408300739300a10014.web-security-academy.net
 ```
     - Response:
 
-    ```http
+```http
 HTTP/2 302 Found
 Location: /my-account
 Content-Type: application/json; charset=utf-8
@@ -117,7 +117,7 @@ Content-Length: 115
 "apikey": "tO9vzcxnFYMqYOk95INOTnWMT5sKti5X",
 "roleid": 1
 }
-    ```
+```
 
 - Quan sát file `/resources/js/changeEmail.js`
 ```js
