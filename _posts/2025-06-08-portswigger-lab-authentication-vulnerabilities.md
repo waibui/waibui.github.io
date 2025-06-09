@@ -195,7 +195,39 @@ mfa-code=1234
 - Ta thử tất cả các chuỗi có độ dài cố định là 4 với **Character set** như trên
 - Start attack, quan sát response có status code là `302`, chuột phải > **Show response in browser** hoặc **Request in browser**
 
-### 
+### Lab: Brute-forcing a stay-logged-in cookie
+#### Analysis
+- Login bằng tài khoản `wiener` kết hợp **Stay logged on**
+- Tìm request `/my-account`, ta thấy trường `stay-logged-in` được set trong **cookie**
+
+```http
+GET /my-account?id=wiener HTTP/2
+Host: 0a4900e3032d6e9a8143addb009200a9.web-security-academy.net
+Cookie: stay-logged-in=d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw; session=mZrf6FaliE6NBuZcCwyFHtC6YxTqHX3z
+```
+- Xóa `session` và gửi lại request => vẫn còn đăng nhập => cookie `stay-logged-in` được lưu để sử dụng lâu dài, có thể không cần cookie `session` vẫn ở trạng thái đã đăng nhập
+- Thử logout và login lại bằng tài khoản `wiener` => cookie `stay-logged-in` vẫn như cũ => sử dụng chung 1 thuật toán tạo giá trị giống nhau
+- Bôi đen giá trị `stay-logged-in`, nhìn sang tab **Inspector** > decode Base64 ta nhận được giá trị: `wiener:51dc30ddc473d43a6011e9ebba6ca770`
+- Theo phỏng đoán thì đăng sau là password được mã hóa
+- Sử dụng [Crackstation](https://crackstation.net/) để thử giải mã nó, kết quả nó là `peter`, password của username `wiener`, ngoài ra có thể làm ngược lại bằng cách băm `peter` theo các thuật toán khác nhau rồi so sánh với chuỗi `51dc30ddc473d43a6011e9ebba6ca770`
+=> Thuật toán tạo nên `stay-logged-in`: **base64(username:md5(password))**
+
+#### Exploit
+- Gửi request đến **Burp Intruder**, thay id=`carlos`, bỏ cookie `session`
+
+```http
+GET /my-account?id=carlos HTTP/2
+Host: 0a4900e3032d6e9a8143addb009200a9.web-security-academy.net
+Cookie: stay-logged-in=stay;
+```
+- Chọn mode **Snifer attack**
+- Add tại `stay` 
+- Chọn payload type **Simple list** và paste danh sách **password** vào 
+- **Payloads** > **Payload processing** > **Add rule** theo thử tự
+    1. **Hash** > **MD5**: `md5(stay)`
+    2. **Add prefix** > **carlos:**: `carlos:md5(stay)`
+    3. **Encode** > **Base64**: `base64(username:md5(stay))`
+- Start attack, quan sát request đúng > chuột phải > **Show response in browser** hoặc **Request in browser**
 
 ## Prevent
 ---
