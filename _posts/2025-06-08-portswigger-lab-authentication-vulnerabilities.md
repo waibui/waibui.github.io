@@ -157,6 +157,45 @@ You have made too many incorrect login attempts. Please try again in 1 minute(s)
 - Thực hiện tấn công với danh sách password được cấp với mode **Snifer attack**
 - Login 
 
+### Lab: 2FA simple bypass
+- Login bằng tài khoản `wiener` => yêu cầu **code** từ email
+- Bỏ qua bước nhập code và truy cập đến `my-account` => Thành công
+- Làm tương tự như vậy đối với tài khoản `carlos`
+- Nguyên lý hoạt động: Ứng dụng cho phép truy cập tài nguyên mà không cần hoàn thành xác thực thứ hai
+
+### Lab: 2FA broken logic
+#### Analysis
+- Login bằng tài khoản `wiener`, nhập `verify-code`
+- Quan sát request, ta thấy request phụ thuộc vào trường `verify` trong header **Cookie**
+
+```http
+GET /login2 HTTP/2
+Host: 0a1000b503cdf8ae82d4037d0021007a.web-security-academy.net
+Cookie: verify=wiener; session=z1mE0Vpv9LKKQupoIHOWDdtortqphUpO
+```
+- Thay `wiener` bằng `carlos` và gửi lại request, chọn tab `render` của response để dễ quan sát, ta thấy được yêu cầu nhập mã 
+- Đây là yêu cầu nhập mã của user `carlos` tức đã có mã gửi về mail `carlos`
+- Quan sát hành vi của `verify-code`, nó giới hạn ở 4 ký tự số => ta có thể brute-force để **bypass** `verify-code`
+
+#### Exploit
+- Gửi request submit `verify-code` đến **Burp Intruder**
+
+```http
+POST /login2 HTTP/2
+Host: 0a1000b503cdf8ae82d4037d0021007a.web-security-academy.net
+Cookie: verify=carlos; session=z1mE0Vpv9LKKQupoIHOWDdtortqphUpO
+...
+mfa-code=1234
+```
+- Add tại `1234`
+- Chọn mode **Snifer attack** với type burte-force:
+    - **Character set**: `0123456789`
+    - **Min length**: `4`
+    - **Max length**: `4`
+- Ta thử tất cả các chuỗi có độ dài cố định là 4 với **Character set** như trên
+- Start attack, quan sát response có status code là `302`, chuột phải > **Show response in browser** hoặc **Request in browser**
+
+### 
 
 ## Prevent
 ---
