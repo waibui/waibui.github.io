@@ -13,6 +13,33 @@ image:
 
 ## Introduction
 ---
+### **XML (Extensible Markup Language)**
+- **XML (Extensible Markup Language)** là một ngôn ngữ đánh dấu được thiết kế để lưu trữ và truyền dữ liệu.
+- Cấu trúc của **XML** giống như **HTML**: gồm các thẻ **(tags)** và dữ liệu, tổ chức theo dạng cây.
+- Không giống **HTML**, **XML** không có sẵn các thẻ cố định — bạn có thể tự đặt tên thẻ để mô tả dữ liệu.
+- Trước kia **XML** rất phổ biến trong web (ví dụ: **AJAX** là viết tắt của **Asynchronous JavaScript And XML**), nhưng hiện tại đã được thay thế nhiều bởi **JSON**.
+
+### **XML Entities**
+**Entity** là một cách để đại diện cho dữ liệu đặc biệt trong **XML** bằng một ký hiệu thay vì dữ liệu thực tế.
+
+| Đặc điểm                 | `&entity;` (general)      | `%entity;` (parameter)       |
+| ------------------------ | ------------------------- | ---------------------------- |
+| Dùng ở đâu               | Trong body XML            | Trong phần DTD               |
+| Mục đích chính           | Chèn dữ liệu vào nội dung | Tái sử dụng / tổ chức DTD    |
+| Gọi bằng                 | `&entity;`                | `%entity;`                   |
+| Cho phép lồng nhau?      | Không dùng `%` trong `&`  | Có thể chứa định nghĩa `&`   |
+| Dùng trong XXE nâng cao? | ✔ (để gửi dữ liệu)        | ✔ (để lách luật và khai báo) |
+
+### **Document Type Definition (DTD)**
+- **DTD** định nghĩa cấu trúc hợp lệ của một tài liệu **XML**:
+    - Các phần tử (**element**)
+    - Kiểu dữ liệu
+    - Các thực thể (**entities**)
+- **DTD** được khai báo bằng thẻ `<!DOCTYPE>` đầu tài liệu **XML**.
+- Có thể là:
+    - Nội bộ (**internal**): định nghĩa ngay trong **XML**
+    - Bên ngoài (**external**): tham chiếu từ một nguồn ngoài
+
 ### **XML External Entity Injection (XXE)**
 **XML External Entity Injection (XXE)** là một lỗ hổng bảo mật trên web xảy ra khi một ứng dụng xử lý dữ liệu **XML** mà không cấu hình đúng cách trình phân tích cú pháp **XML (XML parser)**. Điều này cho phép kẻ tấn công chèn và thực thi các thực thể bên ngoài **(external entities)** độc hại vào dữ liệu **XML**.
 
@@ -174,7 +201,7 @@ http://a.com
 - Vì **SVG** file cũng thuộc định dạng `xml` nên ta có thể tạo như trên
 - Tạo ra **xxe** lấy nội dung của `file:///etc/hostname`
 - Sau đó hiển thị nó trong file **SVG** người dùng có thể thấy được thông qua `&xxe;`
-- Gửi lại request và mở file **/post/comment/avatars?filename=1.png** trong tab mới
+- Gửi lại request và mở file `/post/comment/avatars?filename=1.png` trong tab mới
 - Nội dung hiển thị trong ảnh là nội dung của `/etc/hostname`
 - Submit solution
 
