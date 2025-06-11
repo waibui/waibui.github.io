@@ -373,7 +373,9 @@ Host: 0af3000803a01dc482395db800c2009d.web-security-academy.net
 
 ## Prevent
 --- 
-
+- Không bao giờ tin tưởng đầu vào XML từ bên ngoài.
+- Tắt các tính năng không cần thiết của parser.
+- Sử dụng thư viện XML đã được "hardening" như defusedxml (Python) hoặc cấu hình chặt chẽ (Java, .NET).
 
 ---
 Goodluck! 🍀🍀🍀 
