@@ -180,7 +180,7 @@ index ee7c7c9..21d23f1 100644
 
 - Author đã xóa `ADMIN_PASSWORD=d0udappaq6625y2dwbi8` và thay bằng `ADMIN_PASSWORD=env('ADMIN_PASSWORD')`
 - Đăng nhập bằng tài khoản **admin** với **password** vừa tìm được
-- Xóa uses `carlos`
+- Xóa user `carlos`
 
 #### **Idea 2:** Using **Git Cola**
 -[**Git Cola**](https://git-cola.github.io/downloads.html) Là một ứng dụng **GUI** mã nguồn mở giúp bạn sử dụng Git mà không cần dùng dòng lệnh **(terminal)**.
