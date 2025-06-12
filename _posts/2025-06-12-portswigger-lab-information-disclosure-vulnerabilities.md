@@ -127,7 +127,7 @@ X-Custom-IP-Authorization: 127.0.0.1
 
 ### Lab: Information disclosure in version control history
 - Truy cập đến `/.git` => Lỗi cấu hình => Lộ file `.git`
-- Tài file `.git` đó về
+- Tải file `.git` đó về
 
 ```zsh
 wget -r https://0a41004e04a009548185fcda0083004e.web-security-academy.net/.git
