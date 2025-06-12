@@ -132,6 +132,8 @@ X-Custom-IP-Authorization: 127.0.0.1
 ```zsh
 wget -r https://0a41004e04a009548185fcda0083004e.web-security-academy.net/.git
 ```
+
+#### **Idea 1:** Using **git** command
 - Truy câp đến thư mục `.git` **(chưa có "git" thì lo mà tải đi nhá)**
 - Xem **log** của **repository**
 
@@ -179,6 +181,20 @@ index ee7c7c9..21d23f1 100644
 - Author đã xóa `ADMIN_PASSWORD=d0udappaq6625y2dwbi8` và thay bằng `ADMIN_PASSWORD=env('ADMIN_PASSWORD')`
 - Đăng nhập bằng tài khoản **admin** với **password** vừa tìm được
 - Xóa uses `carlos`
+
+#### **Idea 2:** Using **Git Cola**
+-[**Git Cola**](https://git-cola.github.io/downloads.html) Là một ứng dụng **GUI** mã nguồn mở giúp bạn sử dụng Git mà không cần dùng dòng lệnh **(terminal)**.
+- Khởi động **Git Cola**
+- Chọn thư mục chứa `.git` cần xem
+- Click vào `admin.conf`, chọn **Commit Tab** > **Undo Last Commit**
+- Click vào `admin.conf` để xem `password`
+
+```
+deleted file mode 100644
+@@ -1 +0,0 @@
+-ADMIN_PASSWORD=d0udappaq6625y2dwbi8
+```
+
 
 ## Prevent
 ---
