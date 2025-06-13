@@ -195,7 +195,6 @@ deleted file mode 100644
 -ADMIN_PASSWORD=d0udappaq6625y2dwbi8
 ```
 
-
 ## Prevent
 ---
 1. Xác định rõ thông tin nào là "nhạy cảm"
