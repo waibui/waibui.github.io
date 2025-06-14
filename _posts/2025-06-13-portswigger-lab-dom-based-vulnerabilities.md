@@ -7,7 +7,7 @@ tags: [portswigger, burpsuite, labs, web, vulnerability, dom based]
 pin: false
 comments: true
 image:
-    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-06-13-portswigger-lab-information-dom-based-vulnerabilities/dom-based-vulnerabilities.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-06-13-portswigger-lab-dom-based-vulnerabilities/dom-based-vulnerabilities.png
     alt: DOM Based Vulnerabilities
 ---
 
