@@ -7,7 +7,7 @@ tags: [portswigger, burpsuite, labs, web, vulnerability, jwt attack]
 pin: false
 comments: true
 image:
-    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-06-17-portswigger-lab-jwt-attacks/jwt-attacks.png
+    path: https://raw.githubusercontent.com/waibui/blog-assets/refs/heads/main/imgs/posts/2025-06-18-portswigger-lab-jwt-attacks/jwt-attacks.png
     alt: JWT Attacks
 ---
 
