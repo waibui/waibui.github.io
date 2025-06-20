@@ -882,7 +882,7 @@ Priority: u=1, i
     <storeId>1 + 1</storeId>
 </stockCheck>
 ```
-Xuất hiện số unit khác với 1 ban đầu, cho thấy cho thể thực thi.
+Xuất hiện số unit khác với 1 ban đầu, cho thấy có thể thực thi.
 
 #### Bypass WAF using XML Entities Encoding
 Request:

@@ -288,6 +288,17 @@ csrf=mhuFxodtozMxvczxCD8D1Cbmu3BLlbeF&username=carlos
 - Chuột phải > **Request in browser** > **In original session**
 - Thay đổi **password** và **login** bằng user `carlos`
 
+## Prevent
+---
+
+| Kỹ thuật                                   | Giải thích                                                                             |
+| ------------------------------------------ | -------------------------------------------------------------------------------------- |
+| **Sanitize input**                       | Chỉ cho phép ký tự hợp lệ (ví dụ: chữ, số), chặn `{`, `$`, `[`                         |
+| **Validate bằng allowlist**              | Ràng buộc key (vd: chỉ cho phép `username`, `password`, không cho key tùy ý như `$ne`) |
+| **Dùng query chuẩn hóa (parameterized)** | Không ghép trực tiếp input vào query                                                   |
+| **Không truyền JSON thô vào truy vấn**   | Luôn kiểm tra kiểu và giá trị input trước khi sử dụng                                  |
+
+
 ---
 Goodluck! 🍀🍀🍀 
 
