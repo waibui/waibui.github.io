@@ -78,7 +78,7 @@ Response
 ```
 - Không chấp nhận **event** `onerror`
 - Ứng dụng sẽ ngắt kết nối sau khi `Attack detected` => Không gửi được tin nhắn
-- Click **Reconnect** và thêm trường `X-Forwarded-For: 1.1.1.1` để theo túng **handshake** > **Connect**
+- Click **Reconnect** và thêm trường `X-Forwarded-For: 1.1.1.1` để thao túng **handshake** > **Connect**
 - **Server** chấp nhận kết nối, ta sửa **payload** và gửi lại
 
 ```json
