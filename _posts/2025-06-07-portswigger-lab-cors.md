@@ -13,21 +13,45 @@ image:
 
 ## Introduction
 ---
-**Cross-Origin Resource Sharing (CORS)** là một cơ chế bảo mật của trình duyệt, cho phép hoặc từ chối các yêu cầu từ một origin khác với origin của trang web hiện tại. Nó mở rộng **Same-Origin Policy (SOP)** — chính sách chỉ cho phép các tài nguyên được truy cập nếu chúng đến từ cùng một origin (gồm `scheme`, `hostname` và `port`).
+### **Same-Origin Policy (SOP)**
+**Same-Origin Policy** là một cơ chế bảo mật của trình duyệt được thiết kế để ngăn chặn các **website** khác nhau truy cập trái phép dữ liệu của nhau. Mục tiêu chính của nó là ngăn các cuộc tấn công **cross-site**, chẳng hạn như đánh cắp thông tin người dùng từ một **website** khác mà người dùng đang đăng nhập.
 
-| **Tiêu chí**                       | **Same-Origin Policy (SOP)**                                                      | **Cross-Origin Resource Sharing (CORS)**                                                     |
-| ---------------------------------- | --------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| **Mục tiêu chính**                 | Ngăn chặn website này truy cập dữ liệu riêng tư của website khác                  | Cho phép truy cập có kiểm soát đến tài nguyên từ origin khác                                 |
-| **Phạm vi áp dụng**                | Trình duyệt web (JavaScript không được truy cập tài nguyên khác origin)           | Trình duyệt web (mở rộng khả năng truy cập cross-origin có kiểm soát)                        |
-| **Thành phần xác định origin**     | Scheme (protocol), domain, port                                                   | Cũng dùng Origin (scheme + domain + port) để xác định ai được phép truy cập                  |
-| **Hành vi mặc định**               | **Chặn** truy cập giữa các origin khác nhau                                       | **Không cho phép** nếu không có header CORS hợp lệ từ phía server                            |
-| **Tác động đến JS**                | Không cho phép JavaScript đọc dữ liệu từ các trang khác origin                    | Cho phép nếu server gửi đúng header `Access-Control-Allow-Origin`                            |
-| **Cho phép tải tài nguyên không?** | Có thể tải hình ảnh, script, font… từ domain khác (nhưng không được đọc nội dung) | Có thể cho phép đọc nội dung, gửi cookie nếu server đồng ý bằng header                       |
-| **Kiểm soát từ phía nào?**         | Trình duyệt kiểm soát                                                             | Trình duyệt **và** server phối hợp (server phải trả header phù hợp)                          |
-| **Có hỗ trợ cookie không?**        | Cookie được gửi theo origin, nhưng JS không thể đọc cookie của origin khác        | Có, nếu server trả `Access-Control-Allow-Credentials: true` và không dùng `*`                |
-| **Tính mở rộng**                   | Không mở rộng – giới hạn nghiêm ngặt giữa các origin                              | Rất linh hoạt, nhưng dễ **cấu hình sai dẫn đến lỗ hổng bảo mật**                             |
-| **Lỗi phổ biến**                   | Không có (vì chặn mặc định)                                                       | Phản hồi `Access-Control-Allow-Origin` với bất kỳ Origin (reflect origin) → **lỗ hổng CORS** |
-| **Cách dùng phổ biến**             | Tự động, không cần cấu hình                                                       | Dùng khi website cần chia sẻ tài nguyên qua API hoặc frontend từ domain khác                 |
+```
+Origin = protocol (scheme) + domain + port
+```
+
+- **URL:** `http://normal-website.com/example/example.html`
+    - **Scheme:** http
+    - **Domain:** normal-website.com
+    - **Port:** 80 (mặc định cho HTTP)
+
+- Tại sao **SOP** là cần thiết?
+    - Khi bạn truy cập vào một trang web (ví dụ **Facebook**), trình duyệt sẽ tự động gửi **cookie** xác thực trong các **request** đến **Facebook**.
+    - Nếu không có **SOP**, một trang **web** độc hại **(malicious site)** có thể gửi yêu cầu đến **Facebook** bằng **session** của bạn, đọc nội dung trả về, ví dụ: `tin nhắn`, `email`, `v.v.`
+
+=> Điều này sẽ vi phạm nghiêm trọng quyền riêng tư và bảo mật.
+
+- **Cookies** và **SOP**
+    - **SOP** lỏng lẻo hơn với **cookies**.
+    - **Cookies** thường được chia sẻ giữa các **subdomain** (như a.example.com và b.example.com).
+    - Có thể dùng flag **HttpOnly** để bảo vệ **cookie** khỏi bị truy cập bởi **JavaScript**.
+
+### **Cross Site Resource Sharing (CORS)**
+**CORS** là một cơ chế bảo mật của trình duyệt, cho phép một **website** truy cập tài nguyên từ một **domain** khác **(cross-origin)** một cách có kiểm soát, thông qua các **HTTP header** đặc biệt do **server** trả về.
+
+**CORS** là cách mà trình duyệt nới lỏng **Same-Origin Policy (SOP)** một cách an toàn.
+
+- **Access-Control-Allow-Origin** là **header** trong phản hồi từ **server**, cho biết **origin** nào được phép truy cập nội dung phản hồi từ **server** đó.
+- **CORS** với **credentials** (**cookie**, **Authorization header**, **client certificates**)
+    - Mặc định, **CORS** không gửi **credentials** (**cookie**, **Authorization**...) theo **request**.
+    - Muốn gửi được **credentials**:
+        - Client phải dùng `fetch(..., { credentials: 'include' })`
+        - Server phải gửi thêm:
+
+```
+Access-Control-Allow-Credentials: true
+Access-Control-Allow-Origin: <specific origin>
+```
 
 ## Solve CORS Lab
 ---
